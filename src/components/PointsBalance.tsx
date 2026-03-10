@@ -37,11 +37,20 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                 <span className="text-muted-foreground">{tx.date}</span>
               </div>
               <div className="flex flex-col items-end gap-0.5">
-                <span className="text-foreground">{tx.amount.toFixed(2)}€</span>
-                <span className="text-signal-orange font-bold">+{tx.points} pts</span>
+                {tx.type === "points" ? (
+                  <>
+                    <span className="text-foreground">{tx.amount.toFixed(2)}€</span>
+                    <span className="text-signal-orange font-bold">+{tx.points} pts</span>
+                  </>
+                ) : (
+                  <span className="text-reward-blue font-bold">Refeição</span>
+                )}
               </div>
             </div>
           ))}
+          {transactions.length === 0 && (
+            <p className="text-muted-foreground py-3">Sem transações</p>
+          )}
         </div>
       </div>
     </section>

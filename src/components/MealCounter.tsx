@@ -16,7 +16,7 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
           discountAvailable ? "text-secondary-foreground" : "text-foreground"
         }`}
       >
-        {discountAvailable ? "Desconto Disponível" : "Refeições"}
+        {discountAvailable ? "Desconto 10€ Disponível" : "Refeições da Semana"}
       </h2>
 
       <div className="flex gap-4 justify-center mb-6">
@@ -39,11 +39,11 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
           onClick={onClaimDiscount}
           className="w-full py-3 font-mono text-xs uppercase tracking-[0.3em] border-2 border-secondary-foreground text-secondary-foreground hover:bg-secondary-foreground hover:text-secondary transition-colors duration-0"
         >
-          Usar Desconto
+          Usar Desconto 10€
         </button>
       ) : (
         <p className="font-mono text-xs text-muted-foreground text-center tracking-wider">
-          {4 - meals} refeição{4 - meals !== 1 ? "ões" : ""} para desconto
+          {4 - meals} refeição{4 - meals !== 1 ? "ões" : ""} para desconto de 10€
         </p>
       )}
     </section>

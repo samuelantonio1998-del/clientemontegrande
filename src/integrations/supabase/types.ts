@@ -17,8 +17,10 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          client_code: string | null
           consecutive_meals: number
           created_at: string
+          current_week_start: string | null
           discount_available: boolean
           display_name: string | null
           id: string
@@ -28,8 +30,10 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          client_code?: string | null
           consecutive_meals?: number
           created_at?: string
+          current_week_start?: string | null
           discount_available?: boolean
           display_name?: string | null
           id?: string
@@ -39,8 +43,10 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          client_code?: string | null
           consecutive_meals?: number
           created_at?: string
+          current_week_start?: string | null
           discount_available?: boolean
           display_name?: string | null
           id?: string
@@ -57,6 +63,7 @@ export type Database = {
           description: string
           id: string
           points_earned: number
+          type: string
           user_id: string
         }
         Insert: {
@@ -65,6 +72,7 @@ export type Database = {
           description?: string
           id?: string
           points_earned: number
+          type?: string
           user_id: string
         }
         Update: {
@@ -73,6 +81,25 @@ export type Database = {
           description?: string
           id?: string
           points_earned?: number
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
         Relationships: []
@@ -82,10 +109,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_client_code: { Args: never; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -212,6 +246,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const

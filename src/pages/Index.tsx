@@ -4,9 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
-import ScanButton from "@/components/ScanButton";
 import StampOverlay from "@/components/StampOverlay";
-import { LogOut } from "lucide-react";
+import { LogOut, Shield } from "lucide-react";
 
 export interface Transaction {
   id: string;
@@ -14,6 +13,7 @@ export interface Transaction {
   amount: number;
   points: number;
   description: string;
+  type: string;
 }
 
 const Index = () => {
@@ -23,10 +23,12 @@ const Index = () => {
   const [meals, setMeals] = useState(0);
   const [points, setPoints] = useState(0);
   const [discountAvailable, setDiscountAvailable] = useState(false);
+  const [clientCode, setClientCode] = useState("");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [showStamp, setShowStamp] = useState(false);
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -37,15 +39,17 @@ const Index = () => {
   const fetchData = useCallback(async () => {
     if (!user) return;
 
-    const [profileRes, txRes] = await Promise.all([
+    const [profileRes, txRes, adminRes] = await Promise.all([
       supabase.from("profiles").select("*").eq("user_id", user.id).single(),
       supabase.from("transactions").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(20),
+      supabase.rpc("has_role", { _user_id: user.id, _role: "admin" as const }),
     ]);
 
     if (profileRes.data) {
       setPoints(profileRes.data.total_points);
       setMeals(profileRes.data.consecutive_meals);
       setDiscountAvailable(profileRes.data.discount_available);
+      setClientCode(profileRes.data.client_code || "");
     }
 
     if (txRes.data) {
@@ -56,53 +60,18 @@ const Index = () => {
           amount: Number(t.amount),
           points: t.points_earned,
           description: t.description,
+          type: t.type,
         }))
       );
     }
 
+    setIsAdmin(!!adminRes.data);
     setDataLoading(false);
   }, [user]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const handleScan = async () => {
-    if (!user) return;
-
-    const newAmount = Math.floor(Math.random() * 40) + 15;
-    const newPoints = Math.round(newAmount);
-    setLastPointsGained(newPoints);
-    setShowStamp(true);
-
-    // Calculate new meal count
-    const newMeals = meals + 1;
-    const reachedDiscount = newMeals >= 4;
-
-    // Insert transaction
-    await supabase.from("transactions").insert({
-      user_id: user.id,
-      amount: newAmount,
-      points_earned: newPoints,
-      description: "Refeição",
-    });
-
-    // Update profile
-    await supabase
-      .from("profiles")
-      .update({
-        total_points: points + newPoints,
-        consecutive_meals: reachedDiscount ? 0 : newMeals,
-        discount_available: reachedDiscount,
-      })
-      .eq("user_id", user.id);
-
-    setTimeout(() => {
-      fetchData();
-    }, 600);
-
-    setTimeout(() => setShowStamp(false), 1800);
-  };
 
   const handleClaimDiscount = async () => {
     if (!user) return;
@@ -126,16 +95,34 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
-        <p className="font-mono text-xs tracking-[0.3em] uppercase text-muted-foreground">
-          programa de fidelidade
-        </p>
-        <button
-          onClick={signOut}
-          className="text-muted-foreground hover:text-foreground transition-colors duration-0"
-          aria-label="Sair"
-        >
-          <LogOut className="w-4 h-4" />
-        </button>
+        <div>
+          <p className="font-mono text-xs tracking-[0.3em] uppercase text-muted-foreground">
+            programa de fidelidade
+          </p>
+          {clientCode && (
+            <p className="font-mono text-xs text-muted-foreground mt-1">
+              Código: <span className="text-foreground tracking-[0.3em] font-bold">{clientCode}</span>
+            </p>
+          )}
+        </div>
+        <div className="flex items-center gap-3">
+          {isAdmin && (
+            <button
+              onClick={() => navigate("/admin")}
+              className="text-signal-orange hover:text-foreground transition-colors duration-0"
+              aria-label="Administração"
+            >
+              <Shield className="w-4 h-4" />
+            </button>
+          )}
+          <button
+            onClick={signOut}
+            className="text-muted-foreground hover:text-foreground transition-colors duration-0"
+            aria-label="Sair"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+        </div>
       </header>
 
       <MealCounter
@@ -143,10 +130,6 @@ const Index = () => {
         discountAvailable={discountAvailable}
         onClaimDiscount={handleClaimDiscount}
       />
-
-      <div className="relative h-0 z-20">
-        <ScanButton onScan={handleScan} />
-      </div>
 
       <PointsBalance points={points} transactions={transactions} />
 
