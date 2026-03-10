@@ -85,7 +85,7 @@ const Index = () => {
   if (authLoading || dataLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="font-mono text-xs text-muted-foreground uppercase tracking-[0.3em]">
+        <p className="text-sm text-muted-foreground tracking-wide">
           A carregar...
         </p>
       </div>
@@ -96,12 +96,12 @@ const Index = () => {
     <div className="min-h-screen bg-background relative overflow-hidden">
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
         <div>
-          <p className="font-mono text-xs tracking-[0.3em] uppercase text-muted-foreground">
+          <p className="text-xs tracking-widest uppercase text-muted-foreground">
             programa de fidelidade
           </p>
           {clientCode && (
-            <p className="font-mono text-xs text-muted-foreground mt-1">
-              Código: <span className="text-foreground tracking-[0.3em] font-bold">{clientCode}</span>
+            <p className="text-xs text-muted-foreground mt-1">
+              Código: <span className="text-foreground tracking-widest font-semibold">{clientCode}</span>
             </p>
           )}
         </div>
@@ -109,7 +109,7 @@ const Index = () => {
           {isAdmin && (
             <button
               onClick={() => navigate("/admin")}
-              className="text-signal-orange hover:text-foreground transition-colors duration-0"
+              className="text-primary hover:text-foreground transition-colors"
               aria-label="Administração"
             >
               <Shield className="w-4 h-4" />
@@ -117,7 +117,7 @@ const Index = () => {
           )}
           <button
             onClick={signOut}
-            className="text-muted-foreground hover:text-foreground transition-colors duration-0"
+            className="text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Sair"
           >
             <LogOut className="w-4 h-4" />

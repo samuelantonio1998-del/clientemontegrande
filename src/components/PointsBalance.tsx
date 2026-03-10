@@ -7,22 +7,22 @@ interface PointsBalanceProps {
 
 const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   return (
-    <section className="mx-6 mt-0 border-2 border-t-0 border-foreground p-6 bg-card">
-      <h2 className="font-display text-sm uppercase tracking-[0.2em] mb-2 text-foreground">
+    <section className="mx-6 mt-0 border border-t-0 border-border p-6 bg-card">
+      <h2 className="font-display text-lg mb-2 text-foreground">
         Pontos
       </h2>
 
       <div className="mb-8">
-        <span className="font-display text-8xl leading-none text-foreground">
+        <span className="font-display text-7xl leading-none text-foreground">
           {points}
         </span>
-        <span className="font-mono text-xs text-muted-foreground ml-2 uppercase tracking-wider">
+        <span className="text-sm text-muted-foreground ml-2 tracking-wide">
           pts
         </span>
       </div>
 
-      <div className="border-t-2 border-foreground pt-4">
-        <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">
+      <div className="border-t border-border pt-4">
+        <h3 className="text-xs uppercase tracking-widest text-muted-foreground mb-4">
           Histórico
         </h3>
 
@@ -30,26 +30,26 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
           {transactions.map((tx) => (
             <div
               key={tx.id}
-              className="flex items-center justify-between py-3 border-b border-border font-mono text-xs"
+              className="flex items-center justify-between py-3 border-b border-border text-sm"
             >
               <div className="flex flex-col gap-0.5">
                 <span className="text-foreground">{tx.description}</span>
-                <span className="text-muted-foreground">{tx.date}</span>
+                <span className="text-muted-foreground text-xs">{tx.date}</span>
               </div>
               <div className="flex flex-col items-end gap-0.5">
                 {tx.type === "points" ? (
                   <>
                     <span className="text-foreground">{tx.amount.toFixed(2)}€</span>
-                    <span className="text-signal-orange font-bold">+{tx.points} pts</span>
+                    <span className="text-primary font-semibold">+{tx.points} pts</span>
                   </>
                 ) : (
-                  <span className="text-reward-blue font-bold">Refeição</span>
+                  <span className="text-primary font-semibold">Refeição</span>
                 )}
               </div>
             </div>
           ))}
           {transactions.length === 0 && (
-            <p className="text-muted-foreground py-3">Sem transações</p>
+            <p className="text-muted-foreground py-3 text-sm">Sem transações</p>
           )}
         </div>
       </div>

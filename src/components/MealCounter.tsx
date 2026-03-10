@@ -7,13 +7,13 @@ interface MealCounterProps {
 const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterProps) => {
   return (
     <section
-      className={`mx-6 border-2 border-foreground p-6 transition-colors duration-0 ${
-        discountAvailable ? "bg-reward-blue" : "bg-card"
+      className={`mx-6 border border-border p-6 transition-colors ${
+        discountAvailable ? "bg-primary" : "bg-card"
       }`}
     >
       <h2
-        className={`font-display text-sm uppercase tracking-[0.2em] mb-6 ${
-          discountAvailable ? "text-secondary-foreground" : "text-foreground"
+        className={`font-display text-lg mb-6 ${
+          discountAvailable ? "text-primary-foreground" : "text-foreground"
         }`}
       >
         {discountAvailable ? "Desconto 10€ Disponível" : "Refeições da Semana"}
@@ -23,12 +23,12 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
-            className={`w-14 h-14 border-2 transition-colors duration-0 ${
+            className={`w-12 h-12 rounded-full border transition-colors ${
               discountAvailable
-                ? "border-secondary-foreground bg-secondary-foreground"
+                ? "border-primary-foreground/50 bg-primary-foreground"
                 : i < meals
-                ? "border-foreground bg-signal-orange"
-                : "border-foreground bg-transparent"
+                ? "border-foreground bg-primary"
+                : "border-border bg-transparent"
             }`}
           />
         ))}
@@ -37,12 +37,12 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
       {discountAvailable ? (
         <button
           onClick={onClaimDiscount}
-          className="w-full py-3 font-mono text-xs uppercase tracking-[0.3em] border-2 border-secondary-foreground text-secondary-foreground hover:bg-secondary-foreground hover:text-secondary transition-colors duration-0"
+          className="w-full py-3 text-sm uppercase tracking-widest border border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-colors"
         >
           Usar Desconto 10€
         </button>
       ) : (
-        <p className="font-mono text-xs text-muted-foreground text-center tracking-wider">
+        <p className="text-sm text-muted-foreground text-center tracking-wide">
           {4 - meals} refeição{4 - meals !== 1 ? "ões" : ""} para desconto de 10€
         </p>
       )}
