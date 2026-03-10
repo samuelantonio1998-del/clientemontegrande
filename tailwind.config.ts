@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["'Archivo Black'", "sans-serif"],
-        mono: ["'Roboto Mono'", "monospace"],
+        display: ["'Cormorant Garamond'", "serif"],
+        body: ["'DM Sans'", "sans-serif"],
+        mono: ["'DM Sans'", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
