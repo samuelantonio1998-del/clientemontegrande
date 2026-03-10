@@ -8,47 +8,43 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [checkingRecovery, setCheckingRecovery] = useState(true);
   const [isRecovery, setIsRecovery] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    if (hashParams.get("type") === "recovery") {
+    // Check hash for recovery token
+    const hash = window.location.hash.substring(1);
+    const hashParams = new URLSearchParams(hash);
+    if (hashParams.get("type") === "recovery" || hash.includes("access_token")) {
       setIsRecovery(true);
     }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY") {
         setIsRecovery(true);
+        setCheckingRecovery(false);
       }
     });
 
-    return () => subscription.unsubscribe();
+    // Give the auth state change a moment to fire before showing invalid
+    const timeout = setTimeout(() => setCheckingRecovery(false), 2000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (password !== confirmPassword) {
-      setError("As passwords não coincidem");
-      return;
-    }
-    if (password.length < 6) {
-      setError("A password deve ter pelo menos 6 caracteres");
-      return;
-    }
-
-    setLoading(true);
-    const { error } = await supabase.auth.updateUser({ password });
-    if (error) {
-      setError(error.message);
-    } else {
-      setSuccess(true);
-      setTimeout(() => navigate("/"), 2000);
-    }
-    setLoading(false);
-  };
+  if (checkingRecovery && !isRecovery) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="font-mono text-xs text-muted-foreground uppercase tracking-[0.3em]">
+          A verificar...
+        </p>
+      </div>
+    );
+  }
 
   if (!isRecovery) {
     return (
