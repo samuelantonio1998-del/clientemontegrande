@@ -64,7 +64,30 @@ const ResetPassword = () => {
     );
   }
 
-  return (
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("As passwords não coincidem");
+      return;
+    }
+    if (password.length < 6) {
+      setError("A password deve ter pelo menos 6 caracteres");
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) {
+      setError(error.message);
+    } else {
+      setSuccess(true);
+      setTimeout(() => navigate("/"), 2000);
+    }
+    setLoading(false);
+  };
+
     <div className="min-h-screen bg-background flex items-center justify-center px-6">
       <div className="w-full max-w-sm">
         <h1 className="font-display text-3xl text-foreground mb-2 uppercase">
