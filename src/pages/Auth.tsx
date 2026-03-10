@@ -14,6 +14,16 @@ const Auth = () => {
   const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
 
+  // Listen for auth state changes (handles OAuth redirect return)
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+        navigate("/");
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
