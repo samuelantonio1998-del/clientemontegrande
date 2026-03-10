@@ -122,9 +122,18 @@ const Auth = () => {
           </button>
         </form>
 
+        {isLogin && (
+          <button
+            onClick={() => { setForgotPassword(true); setError(""); }}
+            className="mt-4 font-mono text-xs text-muted-foreground underline block mx-auto"
+          >
+            Esqueci a password
+          </button>
+        )}
+
         <button
-          onClick={() => { setIsLogin(!isLogin); setError(""); }}
-          className="mt-6 font-mono text-xs text-muted-foreground underline block mx-auto"
+          onClick={() => { setIsLogin(!isLogin); setError(""); setForgotPassword(false); setResetSent(false); }}
+          className="mt-2 font-mono text-xs text-muted-foreground underline block mx-auto"
         >
           {isLogin ? "Criar conta nova" : "Já tenho conta"}
         </button>
