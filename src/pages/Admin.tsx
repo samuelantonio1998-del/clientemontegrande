@@ -92,7 +92,7 @@ const Admin = () => {
     setActionLoading(true);
 
     const today = new Date();
-    const dayOfWeek = today.getDay(); // 0=Sun, 6=Sat
+    const dayOfWeek = today.getDay();
 
     if (dayOfWeek === 0 || dayOfWeek === 6) {
       setFeedback("Refeições de desconto só contam em dias úteis");
@@ -100,7 +100,6 @@ const Admin = () => {
       return;
     }
 
-    // Get Monday of current week
     const monday = new Date(today);
     monday.setDate(today.getDate() - (dayOfWeek - 1));
     const mondayStr = monday.toISOString().split("T")[0];
@@ -108,7 +107,6 @@ const Admin = () => {
     let newMeals = clientProfile.consecutive_meals;
     const currentWeek = clientProfile.current_week_start;
 
-    // If different week, reset counter
     if (currentWeek !== mondayStr) {
       newMeals = 1;
     } else {
@@ -158,7 +156,7 @@ const Admin = () => {
   if (authLoading || checking) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="font-mono text-xs text-muted-foreground uppercase tracking-[0.3em]">
+        <p className="text-sm text-muted-foreground tracking-wide">
           A verificar...
         </p>
       </div>
@@ -171,21 +169,21 @@ const Admin = () => {
     <div className="min-h-screen bg-background">
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground transition-colors duration-0">
+          <button onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="w-4 h-4" />
           </button>
-          <p className="font-mono text-xs tracking-[0.3em] uppercase text-muted-foreground">
+          <p className="text-xs tracking-widest uppercase text-muted-foreground">
             administração
           </p>
         </div>
-        <button onClick={signOut} className="text-muted-foreground hover:text-foreground transition-colors duration-0" aria-label="Sair">
+        <button onClick={signOut} className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Sair">
           <LogOut className="w-4 h-4" />
         </button>
       </header>
 
       {/* Search */}
-      <section className="mx-6 border-2 border-foreground p-6 bg-card mb-0">
-        <h1 className="font-display text-2xl text-foreground mb-4 uppercase">
+      <section className="mx-6 border border-border p-6 bg-card mb-0">
+        <h1 className="font-display text-3xl text-foreground mb-4">
           Registar Refeição
         </h1>
         <div className="flex gap-2">
@@ -195,22 +193,21 @@ const Admin = () => {
             placeholder="Código cliente"
             value={clientCode}
             onChange={(e) => setClientCode(e.target.value.replace(/\D/g, ""))}
-            className="flex-1 bg-background border-2 border-foreground px-3 py-2 font-mono text-sm text-foreground focus:outline-none focus:border-signal-orange tracking-[0.3em] text-center"
+            className="flex-1 bg-background border border-border px-4 py-2 text-sm text-foreground focus:outline-none focus:border-foreground tracking-widest text-center transition-colors"
           />
           <button
             onClick={searchClient}
-            className="px-4 py-2 bg-foreground text-background border-2 border-foreground"
+            className="px-4 py-2 bg-foreground text-background border border-foreground hover:opacity-90 transition-opacity"
             aria-label="Pesquisar"
           >
             <Search className="w-4 h-4" />
           </button>
         </div>
         {searchError && (
-          <p className="font-mono text-xs text-destructive mt-2">{searchError}</p>
+          <p className="text-xs text-destructive mt-2">{searchError}</p>
         )}
       </section>
 
-      {/* Client info + actions */}
       {clientProfile && (
         <AdminClientCard
           profile={clientProfile}

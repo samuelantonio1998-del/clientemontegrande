@@ -9,10 +9,10 @@ const ScanButton = ({ onScan }: ScanButtonProps) => {
     <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
       <button
         onClick={onScan}
-        className="w-16 h-16 bg-signal-orange text-primary-foreground flex items-center justify-center border-2 border-foreground hover:scale-105 active:scale-95 transition-transform duration-0"
+        className="w-16 h-16 bg-primary text-primary-foreground flex items-center justify-center rounded-full hover:scale-105 active:scale-95 transition-transform shadow-lg"
         aria-label="Escanear QR Code"
       >
-        <QrCode className="w-7 h-7" strokeWidth={2.5} />
+        <QrCode className="w-7 h-7" strokeWidth={2} />
       </button>
     </div>
   );
