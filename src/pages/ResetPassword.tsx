@@ -8,23 +8,61 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [checkingRecovery, setCheckingRecovery] = useState(true);
   const [isRecovery, setIsRecovery] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    if (hashParams.get("type") === "recovery") {
+    // Check hash for recovery token
+    const hash = window.location.hash.substring(1);
+    const hashParams = new URLSearchParams(hash);
+    if (hashParams.get("type") === "recovery" || hash.includes("access_token")) {
       setIsRecovery(true);
     }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY") {
         setIsRecovery(true);
+        setCheckingRecovery(false);
       }
     });
 
-    return () => subscription.unsubscribe();
+    // Give the auth state change a moment to fire before showing invalid
+    const timeout = setTimeout(() => setCheckingRecovery(false), 2000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
   }, []);
+
+  if (checkingRecovery && !isRecovery) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="font-mono text-xs text-muted-foreground uppercase tracking-[0.3em]">
+          A verificar...
+        </p>
+      </div>
+    );
+  }
+
+  if (!isRecovery) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center px-6">
+        <div className="w-full max-w-sm text-center">
+          <p className="font-mono text-xs text-muted-foreground uppercase tracking-[0.2em]">
+            Link inválido ou expirado
+          </p>
+          <button
+            onClick={() => navigate("/auth")}
+            className="mt-4 font-mono text-xs text-muted-foreground underline"
+          >
+            Voltar ao login
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,24 +87,6 @@ const ResetPassword = () => {
     }
     setLoading(false);
   };
-
-  if (!isRecovery) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-6">
-        <div className="w-full max-w-sm text-center">
-          <p className="font-mono text-xs text-muted-foreground uppercase tracking-[0.2em]">
-            Link inválido ou expirado
-          </p>
-          <button
-            onClick={() => navigate("/auth")}
-            className="mt-4 font-mono text-xs text-muted-foreground underline"
-          >
-            Voltar ao login
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-6">
