@@ -135,6 +135,17 @@ const Index = () => {
         onClaimDiscount={handleClaimDiscount}
       />
 
+      {totalSavings > 0 && (
+        <section className="mx-6 mt-4 border border-border p-4 bg-card">
+          <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">
+            poupança total
+          </p>
+          <p className="font-display text-2xl text-primary">
+            Já economizou {totalSavings}€
+          </p>
+        </section>
+      )}
+
       <PointsBalance points={points} transactions={transactions} />
 
       {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
