@@ -77,11 +77,13 @@ const Index = () => {
 
   const handleClaimDiscount = async () => {
     if (!user) return;
+    const newSavings = totalSavings + 10;
     await supabase
       .from("profiles")
-      .update({ discount_available: false })
+      .update({ discount_available: false, total_savings: newSavings })
       .eq("user_id", user.id);
     setDiscountAvailable(false);
+    setTotalSavings(newSavings);
   };
 
   if (authLoading || dataLoading) {
