@@ -29,6 +29,7 @@ const Index = () => {
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
     if (!authLoading && !user) {
