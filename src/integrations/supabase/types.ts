@@ -25,6 +25,7 @@ export type Database = {
           display_name: string | null
           id: string
           total_points: number
+          total_savings: number
           updated_at: string
           user_id: string
         }
@@ -38,6 +39,7 @@ export type Database = {
           display_name?: string | null
           id?: string
           total_points?: number
+          total_savings?: number
           updated_at?: string
           user_id: string
         }
@@ -51,6 +53,7 @@ export type Database = {
           display_name?: string | null
           id?: string
           total_points?: number
+          total_savings?: number
           updated_at?: string
           user_id?: string
         }
