@@ -29,6 +29,7 @@ const Index = () => {
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -50,6 +51,7 @@ const Index = () => {
       setMeals(profileRes.data.consecutive_meals);
       setDiscountAvailable(profileRes.data.discount_available);
       setClientCode(profileRes.data.client_code || "");
+      setTotalSavings(Number(profileRes.data.total_savings) || 0);
     }
 
     if (txRes.data) {
@@ -75,11 +77,13 @@ const Index = () => {
 
   const handleClaimDiscount = async () => {
     if (!user) return;
+    const newSavings = totalSavings + 10;
     await supabase
       .from("profiles")
-      .update({ discount_available: false })
+      .update({ discount_available: false, total_savings: newSavings })
       .eq("user_id", user.id);
     setDiscountAvailable(false);
+    setTotalSavings(newSavings);
   };
 
   if (authLoading || dataLoading) {
@@ -130,6 +134,17 @@ const Index = () => {
         discountAvailable={discountAvailable}
         onClaimDiscount={handleClaimDiscount}
       />
+
+      {totalSavings > 0 && (
+        <section className="mx-6 mt-4 border border-border p-4 bg-card">
+          <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">
+            poupança total
+          </p>
+          <p className="font-display text-2xl text-primary">
+            Já economizou {totalSavings}€
+          </p>
+        </section>
+      )}
 
       <PointsBalance points={points} transactions={transactions} />
 
