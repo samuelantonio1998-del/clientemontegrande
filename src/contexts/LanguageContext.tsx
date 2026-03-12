@@ -98,6 +98,20 @@ const translations = {
     accountCreated: "Conta criada com sucesso!",
     checkEmailVerification: "Verifica o teu email para ativar a tua conta.",
 
+    // Confirm
+    cancel: "Cancelar",
+    confirm: "Confirmar",
+    confirmMeal: "Confirmar registo de refeição?",
+    confirmMealMsg: "Serão atribuídos 10 pontos a este cliente.",
+    confirmDiscount: "Usar desconto de 10€?",
+    confirmDiscountMsg: "Esta ação não pode ser revertida.",
+
+    // Validation
+    tooManyAttempts: "Demasiadas tentativas. Aguarda 1 minuto.",
+    invalidEmail: "Email inválido",
+    nameTooLong: "O nome deve ter menos de 100 caracteres",
+    nameRequired: "O nome é obrigatório",
+
     // NotFound
     pageNotFound: "Página não encontrada",
     returnHome: "Voltar ao início",
