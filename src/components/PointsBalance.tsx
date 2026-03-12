@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { MoreHorizontal } from "lucide-react";
 import type { Transaction } from "@/pages/Index";
 
 interface PointsBalanceProps {
@@ -6,6 +8,9 @@ interface PointsBalanceProps {
 }
 
 const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? transactions : transactions.slice(0, 4);
+
   return (
     <section className="mx-6 mt-0 border border-t-0 border-border p-6 bg-card">
       <h2 className="font-display text-lg mb-2 text-foreground">
@@ -27,7 +32,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
         </h3>
 
         <div className="space-y-0">
-          {transactions.map((tx) => (
+          {visible.map((tx) => (
             <div
               key={tx.id}
               className="flex items-center justify-between py-3 border-b border-border text-sm"
@@ -52,6 +57,16 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
             <p className="text-muted-foreground py-3 text-sm">Sem transações</p>
           )}
         </div>
+
+        {!expanded && transactions.length > 4 && (
+          <button
+            onClick={() => setExpanded(true)}
+            className="w-full flex justify-center pt-3 text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Ver mais"
+          >
+            <MoreHorizontal className="w-5 h-5" />
+          </button>
+        )}
       </div>
     </section>
   );
