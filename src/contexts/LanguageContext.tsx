@@ -67,6 +67,7 @@ const translations = {
     clientNotFound: "Cliente não encontrado",
     codeMustBe6: "O código deve ter 6 dígitos",
     weekdayOnly: "Refeições de desconto só contam em dias úteis",
+    dailyMealLimit: "Este cliente já tem uma refeição registada hoje",
     pointsAssigned: (n: number) => `+${n} pontos atribuídos`,
     discountUnlocked: "Desconto de 10€ desbloqueado!",
     mealRegistered: (n: number) => `Refeição ${n}/4 registada`,
