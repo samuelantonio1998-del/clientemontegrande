@@ -115,15 +115,6 @@ const Index = () => {
           )}
         </div>
         <div className="flex items-center gap-3">
-          {isAdmin && (
-            <button
-              onClick={() => navigate("/admin")}
-              className="text-primary hover:text-foreground transition-colors"
-              aria-label="Administração"
-            >
-              <Shield className="w-4 h-4" />
-            </button>
-          )}
           <button
             onClick={signOut}
             className="text-muted-foreground hover:text-foreground transition-colors"
