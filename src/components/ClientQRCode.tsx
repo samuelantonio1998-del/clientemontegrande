@@ -21,10 +21,12 @@ const ClientQRCode = ({ clientCode }: ClientQRCodeProps) => {
           level="H"
           bgColor="#ffffff"
           fgColor="#3d2e1f" />
-        
       </div>
-    </section>);
-
+      <p className="text-xs text-muted-foreground mt-4">
+        {t.code as string}: <span className="text-foreground tracking-widest font-semibold">{clientCode}</span>
+      </p>
+    </section>
+  );
 };
 
 export default ClientQRCode;
