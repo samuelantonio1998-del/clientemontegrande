@@ -23,11 +23,11 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
         {discountAvailable ? (t.discountAvailable as string) : (t.weekMeals as string)}
       </h2>
 
-      <div className="flex gap-3 justify-center mb-6">
+      <div className="flex gap-4 justify-center mb-6">
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
-            className={`w-10 h-10 rounded-full border transition-colors ${
+            className={`w-16 h-16 rounded-full border transition-colors ${
               discountAvailable
                 ? "border-primary-foreground/50 bg-primary-foreground"
                 : i < meals
