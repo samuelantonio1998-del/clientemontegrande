@@ -22,8 +22,8 @@ const ClientQRCode = ({ clientCode }: ClientQRCodeProps) => {
           bgColor="#ffffff"
           fgColor="#3d2e1f" />
       </div>
-      <p className="text-xs text-muted-foreground mt-4">
-        {t.code as string}: <span className="text-foreground tracking-widest font-semibold">{clientCode}</span>
+      <p className="text-foreground tracking-[0.35em] font-semibold mt-4 text-base w-[180px] text-center">
+        {clientCode}
       </p>
     </section>
   );
