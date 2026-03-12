@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
-import { LogOut, Shield } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export interface Transaction {
   id: string;
