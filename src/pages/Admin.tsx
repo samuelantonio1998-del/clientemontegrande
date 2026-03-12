@@ -180,10 +180,7 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-          </button>
+        <div>
           <p className="text-xs tracking-widest uppercase text-muted-foreground">
             administração
           </p>
