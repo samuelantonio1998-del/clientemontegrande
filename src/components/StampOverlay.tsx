@@ -1,8 +1,12 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+
 interface StampOverlayProps {
   pointsGained: number;
 }
 
 const StampOverlay = ({ pointsGained }: StampOverlayProps) => {
+  const { t } = useLanguage();
+
   return (
     <div className="fixed inset-0 z-50 bg-foreground/80 flex items-center justify-center">
       <div className="animate-stamp-down flex flex-col items-center">
@@ -11,7 +15,7 @@ const StampOverlay = ({ pointsGained }: StampOverlayProps) => {
             +{pointsGained}
           </span>
           <p className="text-xs text-muted-foreground uppercase tracking-widest mt-2 text-center">
-            pontos
+            {t.pointsLabel as string}
           </p>
         </div>
       </div>

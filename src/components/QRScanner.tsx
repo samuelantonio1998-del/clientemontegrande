@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import { X } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface QRScannerProps {
   onScan: (code: string) => void;
@@ -10,6 +11,7 @@ interface QRScannerProps {
 const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const [error, setError] = useState("");
+  const { t } = useLanguage();
 
   useEffect(() => {
     const scanner = new Html5Qrcode("qr-reader");
@@ -28,7 +30,7 @@ const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
         () => {}
       )
       .catch(() => {
-        setError("Não foi possível aceder à câmara");
+        setError(t.cameraError as string);
       });
 
     return () => {
@@ -41,7 +43,7 @@ const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
       <div className="w-full max-w-sm px-6">
         <div className="flex items-center justify-between mb-4">
           <p className="text-xs tracking-widest uppercase text-muted-foreground">
-            scanner qr
+            {t.scannerQR as string}
           </p>
           <button
             onClick={onClose}
@@ -61,7 +63,7 @@ const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
         )}
 
         <p className="text-xs text-muted-foreground mt-3 text-center">
-          Aponte a câmara para o código QR do cliente
+          {t.pointCamera as string}
         </p>
       </div>
     </div>

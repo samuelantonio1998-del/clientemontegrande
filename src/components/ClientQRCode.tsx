@@ -1,16 +1,18 @@
 import { QRCodeSVG } from "qrcode.react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ClientQRCodeProps {
   clientCode: string;
 }
 
 const ClientQRCode = ({ clientCode }: ClientQRCodeProps) => {
+  const { t } = useLanguage();
   if (!clientCode) return null;
 
   return (
     <section className="mx-6 mt-4 border border-border p-6 bg-card flex flex-col items-center">
       <p className="text-xs tracking-widest uppercase text-muted-foreground mb-4">
-        o seu código qr
+        {t.yourQRCode as string}
       </p>
       <div className="bg-white p-4 rounded-sm">
         <QRCodeSVG

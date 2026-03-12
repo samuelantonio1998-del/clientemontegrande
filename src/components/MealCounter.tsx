@@ -1,3 +1,5 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+
 interface MealCounterProps {
   meals: number;
   discountAvailable: boolean;
@@ -5,6 +7,8 @@ interface MealCounterProps {
 }
 
 const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterProps) => {
+  const { t } = useLanguage();
+
   return (
     <section
       className={`mx-6 border border-border p-6 transition-colors ${
@@ -16,7 +20,7 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
           discountAvailable ? "text-primary-foreground" : "text-foreground"
         }`}
       >
-        {discountAvailable ? "Desconto 10€ Disponível" : "Refeições da Semana"}
+        {discountAvailable ? (t.discountAvailable as string) : (t.weekMeals as string)}
       </h2>
 
       <div className="flex gap-4 justify-center mb-6">
@@ -39,11 +43,11 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
           onClick={onClaimDiscount}
           className="w-full py-3 text-sm uppercase tracking-widest border border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-colors"
         >
-          Usar Desconto 10€
+          {t.useDiscount as string}
         </button>
       ) : (
         <p className="text-sm text-muted-foreground text-center tracking-wide">
-          {4 - meals} {4 - meals !== 1 ? "refeições" : "refeição"} para desconto de 10€
+          {(t.mealsRemaining as (n: number) => string)(4 - meals)}
         </p>
       )}
     </section>

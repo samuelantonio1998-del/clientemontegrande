@@ -1,13 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Search, ArrowLeft, ScanLine } from "lucide-react";
+import { LogOut, Search, ScanLine } from "lucide-react";
 import AdminClientCard from "@/components/AdminClientCard";
 import QRScanner from "@/components/QRScanner";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Admin = () => {
   const { user, loading: authLoading, signOut } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
   const [checking, setChecking] = useState(true);
@@ -43,7 +46,6 @@ const Admin = () => {
   const handleQRScan = useCallback((code: string) => {
     setClientCode(code);
     setShowScanner(false);
-    // Auto-search
     searchClientByCode(code);
   }, []);
 
@@ -52,7 +54,7 @@ const Admin = () => {
     setClientProfile(null);
     setFeedback("");
     if (code.length !== 6) {
-      setSearchError("O código deve ter 6 dígitos");
+      setSearchError(t.codeMustBe6 as string);
       return;
     }
     const { data, error } = await supabase
@@ -62,7 +64,7 @@ const Admin = () => {
       .single();
 
     if (error || !data) {
-      setSearchError("Cliente não encontrado");
+      setSearchError(t.clientNotFound as string);
     } else {
       setClientProfile(data);
     }
@@ -84,7 +86,7 @@ const Admin = () => {
       user_id: clientProfile.user_id,
       amount,
       points_earned: pointsEarned,
-      description: "Refeição — pontos",
+      description: t.mealPointsDesc as string,
       type: "points",
     });
 
@@ -93,7 +95,7 @@ const Admin = () => {
       .update({ total_points: clientProfile.total_points + pointsEarned })
       .eq("user_id", clientProfile.user_id);
 
-    setFeedback(`+${pointsEarned} pontos atribuídos`);
+    setFeedback((t.pointsAssigned as (n: number) => string)(pointsEarned));
     setMealAmount("");
     await refreshClient();
     setActionLoading(false);
@@ -107,7 +109,7 @@ const Admin = () => {
     const dayOfWeek = today.getDay();
 
     if (dayOfWeek === 0 || dayOfWeek === 6) {
-      setFeedback("Refeições de desconto só contam em dias úteis");
+      setFeedback(t.weekdayOnly as string);
       setActionLoading(false);
       return;
     }
@@ -131,9 +133,7 @@ const Admin = () => {
       user_id: clientProfile.user_id,
       amount: 0,
       points_earned: 0,
-      description: reachedDiscount
-        ? "4ª refeição — desconto 10€ desbloqueado"
-        : `Refeição ${newMeals}/4 (semana)`,
+      description: (t.mealDescription as (reached: boolean, n: number) => string)(reachedDiscount, newMeals),
       type: "meal",
     });
 
@@ -148,8 +148,8 @@ const Admin = () => {
 
     setFeedback(
       reachedDiscount
-        ? "Desconto de 10€ desbloqueado!"
-        : `Refeição ${newMeals}/4 registada`
+        ? (t.discountUnlocked as string)
+        : (t.mealRegistered as (n: number) => string)(newMeals)
     );
     await refreshClient();
     setActionLoading(false);
@@ -169,7 +169,7 @@ const Admin = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <p className="text-sm text-muted-foreground tracking-wide">
-          A verificar...
+          {t.checking as string}
         </p>
       </div>
     );
@@ -182,26 +182,28 @@ const Admin = () => {
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
         <div>
           <p className="text-xs tracking-widest uppercase text-muted-foreground">
-            administração
+            {t.administration as string}
           </p>
         </div>
-        <button onClick={signOut} className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Sair">
-          <LogOut className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+          <button onClick={signOut} className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Sair">
+            <LogOut className="w-4 h-4" />
+          </button>
+        </div>
       </header>
 
       <div className="flex-1 flex flex-col items-center px-4 pb-8">
         <div className="w-full max-w-md">
-          {/* Search */}
           <section className="border border-border p-6 bg-card">
             <h1 className="font-display text-3xl text-foreground mb-4 text-center">
-              Registar Refeição
+              {t.registerMeal as string}
             </h1>
             <div className="flex gap-2">
               <input
                 type="text"
                 maxLength={6}
-                placeholder="Código cliente"
+                placeholder={t.clientCode as string}
                 value={clientCode}
                 onChange={(e) => setClientCode(e.target.value.replace(/\D/g, ""))}
                 className="flex-1 bg-background border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground tracking-widest text-center transition-colors"
@@ -219,7 +221,7 @@ const Admin = () => {
               className="w-full mt-3 py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
             >
               <ScanLine className="w-4 h-4" />
-              Ler Código QR
+              {t.readQR as string}
             </button>
             {searchError && (
               <p className="text-xs text-destructive mt-2 text-center">{searchError}</p>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -11,9 +13,9 @@ const ResetPassword = () => {
   const [checkingRecovery, setCheckingRecovery] = useState(true);
   const [isRecovery, setIsRecovery] = useState(false);
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   useEffect(() => {
-    // Check hash for recovery token
     const hash = window.location.hash.substring(1);
     const hashParams = new URLSearchParams(hash);
     if (hashParams.get("type") === "recovery" || hash.includes("access_token")) {
@@ -27,7 +29,6 @@ const ResetPassword = () => {
       }
     });
 
-    // Give the auth state change a moment to fire before showing invalid
     const timeout = setTimeout(() => setCheckingRecovery(false), 2000);
 
     return () => {
@@ -40,7 +41,7 @@ const ResetPassword = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <p className="font-mono text-xs text-muted-foreground uppercase tracking-[0.3em]">
-          A verificar...
+          {t.checking as string}
         </p>
       </div>
     );
@@ -51,13 +52,13 @@ const ResetPassword = () => {
       <div className="min-h-screen bg-background flex items-center justify-center px-6">
         <div className="w-full max-w-sm text-center">
           <p className="font-mono text-xs text-muted-foreground uppercase tracking-[0.2em]">
-            Link inválido ou expirado
+            {t.invalidLink as string}
           </p>
           <button
             onClick={() => navigate("/auth")}
             className="mt-4 font-mono text-xs text-muted-foreground underline"
           >
-            Voltar ao login
+            {t.backToLogin as string}
           </button>
         </div>
       </div>
@@ -69,11 +70,11 @@ const ResetPassword = () => {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("As passwords não coincidem");
+      setError(t.passwordsDontMatch as string);
       return;
     }
     if (password.length < 6) {
-      setError("A password deve ter pelo menos 6 caracteres");
+      setError(t.passwordMinLength as string);
       return;
     }
 
@@ -90,23 +91,26 @@ const ResetPassword = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-6">
+      <div className="absolute top-6 right-6">
+        <LanguageSwitcher />
+      </div>
       <div className="w-full max-w-sm">
         <h1 className="font-display text-3xl text-foreground mb-2 uppercase">
-          Nova Password
+          {t.newPassword as string}
         </h1>
         <p className="font-mono text-xs text-muted-foreground tracking-[0.2em] uppercase mb-8">
-          Define a tua nova password
+          {t.setNewPassword as string}
         </p>
 
         {success ? (
           <p className="font-mono text-xs text-foreground">
-            Password alterada com sucesso! A redirecionar...
+            {t.passwordChanged as string}
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider block mb-1">
-                Nova Password
+                {t.newPassword as string}
               </label>
               <input
                 type="password"
@@ -119,7 +123,7 @@ const ResetPassword = () => {
             </div>
             <div>
               <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider block mb-1">
-                Confirmar Password
+                {t.confirmPassword as string}
               </label>
               <input
                 type="password"
@@ -140,7 +144,7 @@ const ResetPassword = () => {
               disabled={loading}
               className="w-full py-3 bg-signal-orange text-primary-foreground font-mono text-xs uppercase tracking-[0.3em] border-2 border-foreground disabled:opacity-50"
             >
-              {loading ? "..." : "Alterar Password"}
+              {loading ? "..." : (t.changePassword as string)}
             </button>
           </form>
         )}
