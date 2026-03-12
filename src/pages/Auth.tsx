@@ -126,7 +126,7 @@ const Auth = () => {
               </div>
           }
             <div>
-              <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">
+              <label className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">
                 Email
               </label>
               <input
@@ -138,7 +138,7 @@ const Auth = () => {
             
             </div>
             <div>
-              <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">
+              <label className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">
                 Password
               </label>
               <input
@@ -169,7 +169,7 @@ const Auth = () => {
         <>
             <div className="flex items-center gap-3 my-6">
               <div className="flex-1 h-px bg-border" />
-              <span className="text-xs text-muted-foreground uppercase tracking-wider">ou</span>
+              <span className="text-xs uppercase tracking-wider text-secondary-foreground">ou</span>
               <div className="flex-1 h-px bg-border" />
             </div>
 
@@ -196,15 +196,15 @@ const Auth = () => {
         {isLogin &&
         <button
           onClick={() => {setForgotPassword(true);setError("");}}
-          className="mt-4 text-xs text-muted-foreground underline block mx-auto hover:text-foreground transition-colors">
+          className="mt-4 underline block mx-auto transition-colors text-secondary-foreground my-px text-sm">
           
-            Esqueci a password
+             Recuperar Password
           </button>
         }
 
         <button
           onClick={() => {setIsLogin(!isLogin);setError("");setForgotPassword(false);setResetSent(false);}}
-          className="mt-2 text-xs text-muted-foreground underline block mx-auto hover:text-foreground transition-colors">
+          className="mt-2 underline block mx-auto transition-colors text-sm text-secondary-foreground">
           
           {isLogin ? "Criar conta nova" : "Já tenho conta"}
         </button>
