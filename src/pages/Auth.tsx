@@ -82,7 +82,7 @@ const Auth = () => {
       </div>
       <div className="flex-1 flex items-center justify-center px-6">
       <div className="w-full max-w-sm flex flex-col items-center">
-        <p className="tracking-wide mb-8 text-base text-secondary-foreground font-mono font-light">
+        <p className="tracking-wide mb-8 text-secondary-foreground font-mono font-light text-lg">
           {forgotPassword ? "Insere o teu email" : "Programa de Fidelidade"}
         </p>
 
