@@ -100,6 +100,7 @@ const translations = {
   },
   en: {
     loyaltyProgram: "loyalty program",
+    welcome: (name: string) => `Hello, ${name}`,
     code: "Code",
     loading: "Loading...",
     totalSavings: "total savings",
