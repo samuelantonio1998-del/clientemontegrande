@@ -33,17 +33,17 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
           {t.history as string}
         </h3>
 
-        <div className="space-y-0">
+        <div className="space-y-0 overflow-hidden">
           {visible.map((tx) => (
             <div
               key={tx.id}
-              className="flex items-center justify-between py-3 border-b border-border text-sm"
+              className="flex items-center justify-between py-3 border-b border-border text-sm gap-3 min-w-0"
             >
-              <div className="flex flex-col gap-0.5">
-                <span className="text-foreground">{tx.description}</span>
+              <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                <span className="text-foreground truncate">{tx.description}</span>
                 <span className="text-muted-foreground text-xs">{tx.date}</span>
               </div>
-              <div className="flex flex-col items-end gap-0.5">
+              <div className="flex flex-col items-end gap-0.5 shrink-0">
                 {tx.type === "points" ? (
                   <>
                     <span className="text-foreground">{tx.amount.toFixed(2)}€</span>
