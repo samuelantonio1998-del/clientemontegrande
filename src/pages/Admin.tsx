@@ -7,6 +7,7 @@ import { LogOut, Search, ScanLine } from "lucide-react";
 import AdminClientCard from "@/components/AdminClientCard";
 import QRScanner from "@/components/QRScanner";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 const Admin = () => {
   const { user, loading: authLoading, signOut } = useAuth();
@@ -21,6 +22,7 @@ const Admin = () => {
   const [feedback, setFeedback] = useState("");
   const [showScanner, setShowScanner] = useState(false);
   const actionLock = useRef(false);
+  const [showConfirmMeal, setShowConfirmMeal] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -257,11 +259,22 @@ const Admin = () => {
           {clientProfile && (
             <AdminClientCard
               profile={clientProfile}
-              onRegisterWeekdayMeal={registerWeekdayMeal}
+              onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
               actionLoading={actionLoading}
               feedback={feedback}
             />
           )}
+
+          <ConfirmDialog
+            open={showConfirmMeal}
+            title={t.confirmMeal as string}
+            message={t.confirmMealMsg as string}
+            onConfirm={() => {
+              setShowConfirmMeal(false);
+              registerWeekdayMeal();
+            }}
+            onCancel={() => setShowConfirmMeal(false)}
+          />
         </div>
       </div>
     </div>

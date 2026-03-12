@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import ClientQRCode from "@/components/ClientQRCode";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { LogOut } from "lucide-react";
@@ -34,6 +35,7 @@ const Index = () => {
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
   const [totalSavings, setTotalSavings] = useState(0);
+  const [showConfirmDiscount, setShowConfirmDiscount] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -168,7 +170,7 @@ const Index = () => {
 
       <ClientQRCode clientCode={clientCode} />
 
-      <MealCounter meals={meals} discountAvailable={discountAvailable} onClaimDiscount={handleClaimDiscount} />
+      <MealCounter meals={meals} discountAvailable={discountAvailable} onClaimDiscount={() => setShowConfirmDiscount(true)} />
 
       {totalSavings > 0 && (
         <section className="mx-[100px] mt-4 border border-border p-4 bg-card">
@@ -180,6 +182,17 @@ const Index = () => {
       <PointsBalance points={points} transactions={transactions} />
 
       {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
+
+      <ConfirmDialog
+        open={showConfirmDiscount}
+        title={t.confirmDiscount as string}
+        message={t.confirmDiscountMsg as string}
+        onConfirm={() => {
+          setShowConfirmDiscount(false);
+          handleClaimDiscount();
+        }}
+        onCancel={() => setShowConfirmDiscount(false)}
+      />
     </div>
   );
 };

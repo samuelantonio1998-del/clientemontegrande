@@ -98,6 +98,20 @@ const translations = {
     accountCreated: "Conta criada com sucesso!",
     checkEmailVerification: "Verifica o teu email para ativar a tua conta.",
 
+    // Confirm
+    cancel: "Cancelar",
+    confirm: "Confirmar",
+    confirmMeal: "Confirmar registo de refeição?",
+    confirmMealMsg: "Serão atribuídos 10 pontos a este cliente.",
+    confirmDiscount: "Usar desconto de 10€?",
+    confirmDiscountMsg: "Esta ação não pode ser revertida.",
+
+    // Validation
+    tooManyAttempts: "Demasiadas tentativas. Aguarda 1 minuto.",
+    invalidEmail: "Email inválido",
+    nameTooLong: "O nome deve ter menos de 100 caracteres",
+    nameRequired: "O nome é obrigatório",
+
     // NotFound
     pageNotFound: "Página não encontrada",
     returnHome: "Voltar ao início",
@@ -187,6 +201,18 @@ const translations = {
     backToLogin: "Back to login",
     accountCreated: "Account created!",
     checkEmailVerification: "Check your email to activate your account.",
+
+    cancel: "Cancel",
+    confirm: "Confirm",
+    confirmMeal: "Confirm meal registration?",
+    confirmMealMsg: "10 points will be assigned to this client.",
+    confirmDiscount: "Use 10€ discount?",
+    confirmDiscountMsg: "This action cannot be undone.",
+
+    tooManyAttempts: "Too many attempts. Please wait 1 minute.",
+    invalidEmail: "Invalid email",
+    nameTooLong: "Name must be less than 100 characters",
+    nameRequired: "Name is required",
 
     pageNotFound: "Page not found",
     returnHome: "Return to Home",
