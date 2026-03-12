@@ -133,7 +133,7 @@ const Auth = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-card border border-border py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors px-[110px]"
+                className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors text-center"
                 required />
               
             </div>
