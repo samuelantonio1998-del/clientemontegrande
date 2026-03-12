@@ -7,6 +7,7 @@ import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import DiscountCelebration from "@/components/DiscountCelebration";
 import ClientQRCode from "@/components/ClientQRCode";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { LogOut } from "lucide-react";
@@ -36,6 +37,8 @@ const Index = () => {
   const [dataLoading, setDataLoading] = useState(true);
   const [totalSavings, setTotalSavings] = useState(0);
   const [showConfirmDiscount, setShowConfirmDiscount] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const prevDiscountRef = useRef(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -79,7 +82,12 @@ const Index = () => {
     if (profileRes.data) {
       setPoints(profileRes.data.total_points);
       setMeals(profileRes.data.consecutive_meals);
-      setDiscountAvailable(profileRes.data.discount_available);
+      const newDiscount = profileRes.data.discount_available;
+      if (newDiscount && !prevDiscountRef.current) {
+        setShowCelebration(true);
+      }
+      prevDiscountRef.current = newDiscount;
+      setDiscountAvailable(newDiscount);
       setClientCode(profileRes.data.client_code || "");
       setDisplayName(profileRes.data.display_name || "");
       setTotalSavings(Number(profileRes.data.total_savings) || 0);
@@ -192,6 +200,11 @@ const Index = () => {
           handleClaimDiscount();
         }}
         onCancel={() => setShowConfirmDiscount(false)}
+      />
+
+      <DiscountCelebration
+        show={showCelebration}
+        onClose={() => setShowCelebration(false)}
       />
     </div>
   );
