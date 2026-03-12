@@ -22,6 +22,7 @@ const Admin = () => {
   const [feedback, setFeedback] = useState("");
   const [showScanner, setShowScanner] = useState(false);
   const actionLock = useRef(false);
+  const [showConfirmMeal, setShowConfirmMeal] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
