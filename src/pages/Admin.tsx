@@ -215,10 +215,24 @@ const Admin = () => {
             <Search className="w-4 h-4" />
           </button>
         </div>
+        <button
+          onClick={() => setShowScanner(true)}
+          className="w-full mt-3 py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
+        >
+          <ScanLine className="w-4 h-4" />
+          Ler Código QR
+        </button>
         {searchError && (
           <p className="text-xs text-destructive mt-2">{searchError}</p>
         )}
       </section>
+
+      {showScanner && (
+        <QRScanner
+          onScan={handleQRScan}
+          onClose={() => setShowScanner(false)}
+        />
+      )}
 
       {clientProfile && (
         <AdminClientCard
