@@ -35,6 +35,7 @@ const Index = () => {
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
   const [totalSavings, setTotalSavings] = useState(0);
+  const [showConfirmDiscount, setShowConfirmDiscount] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
