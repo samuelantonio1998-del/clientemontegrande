@@ -122,7 +122,7 @@ const Index = () => {
             className="text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Sair"
           >
-            <LogOut className="w-10 h-4" />
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </header>
