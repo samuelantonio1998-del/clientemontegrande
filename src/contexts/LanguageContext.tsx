@@ -42,6 +42,7 @@ const translations = {
     register: "Registar",
     or: "ou",
     loginGoogle: "Entrar com Google",
+    loginApple: "Entrar com Apple",
     recoverPassword: "Recuperar Password",
     createAccount: "Criar Conta",
     haveAccount: "Já tenho conta",
