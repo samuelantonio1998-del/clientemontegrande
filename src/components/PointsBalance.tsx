@@ -14,7 +14,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   const visible = expanded ? transactions : transactions.slice(0, 4);
 
   return (
-    <section className="mx-6 mt-0 border border-t-0 border-border p-6 bg-card">
+    <section className="mx-[100px] mt-0 border border-t-0 border-border p-6 bg-card">
       <h2 className="font-display text-lg mb-2 text-foreground">
         {t.points as string}
       </h2>
