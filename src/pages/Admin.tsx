@@ -80,34 +80,6 @@ const Admin = () => {
     await searchClientByCode(clientCode.trim());
   };
 
-  const registerManualMealPoints = async () => {
-    if (!clientProfile || !mealCount || actionLock.current) return;
-    actionLock.current = true;
-    const count = parseInt(mealCount);
-    if (isNaN(count) || count <= 0) { actionLock.current = false; return; }
-
-    setActionLoading(true);
-    const pointsEarned = count * 10;
-
-    await supabase.from("transactions").insert({
-      user_id: clientProfile.user_id,
-      amount: 0,
-      points_earned: pointsEarned,
-      description: `${count} ${count > 1 ? (t.mealsLabel as string) : (t.meal as string)} — ${pointsEarned} ${t.points as string}`,
-      type: "points",
-    });
-
-    await supabase
-      .from("profiles")
-      .update({ total_points: clientProfile.total_points + pointsEarned })
-      .eq("user_id", clientProfile.user_id);
-
-    setFeedback(`+${pointsEarned} ${t.points as string} (${count} ${count > 1 ? (t.mealsLabel as string) : (t.meal as string)})`);
-    setMealCount("");
-    await refreshClient();
-    actionLock.current = false;
-    setActionLoading(false);
-  };
 
   const registerWeekdayMeal = async () => {
     if (!clientProfile || actionLock.current) return;
