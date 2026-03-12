@@ -105,6 +105,8 @@ const translations = {
     confirmMealMsg: "Serão atribuídos 10 pontos a este cliente.",
     confirmDiscount: "Usar desconto de 10€?",
     confirmDiscountMsg: "Esta ação não pode ser revertida.",
+    discountCelebrationMsg: "Completaste 4 refeições esta semana! O teu desconto de 10€ está disponível.",
+    celebrationDismiss: "Obrigado!",
 
     // Validation
     tooManyAttempts: "Demasiadas tentativas. Aguarda 1 minuto.",
