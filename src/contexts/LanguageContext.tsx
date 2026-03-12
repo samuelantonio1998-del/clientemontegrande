@@ -77,6 +77,9 @@ const translations = {
     mealCooldown: (h: number, m: number) => `Próximo registo disponível em ${h}h${m.toString().padStart(2, "0")}m`,
     pointsAssigned: (n: number) => `+${n} pontos atribuídos`,
     discountUnlocked: "Desconto de 10€ desbloqueado!",
+    discountRedeemed: "Desconto de 10€ aplicado com sucesso!",
+    confirmRedeem: "Aplicar desconto de 10€?",
+    confirmRedeemMsg: "O desconto será aplicado a este cliente. Esta ação não pode ser revertida.",
     mealRegistered: (n: number) => `Refeição ${n}/4 registada`,
     mealDescription: (reached: boolean, n: number) =>
       reached ? "4ª refeição — desconto 10€ desbloqueado" : `Refeição ${n}/4 (semana)`,
