@@ -87,6 +87,29 @@ const Index = () => {
     fetchData();
   }, [fetchData]);
 
+  // Realtime: re-fetch when admin updates profile or transactions
+  useEffect(() => {
+    if (!user) return;
+
+    const channel = supabase
+      .channel("user-updates")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "profiles", filter: `user_id=eq.${user.id}` },
+        () => fetchData()
+      )
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "transactions", filter: `user_id=eq.${user.id}` },
+        () => fetchData()
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user, fetchData]);
+
   const handleClaimDiscount = async () => {
     if (!user) return;
     const newSavings = totalSavings + 10;
