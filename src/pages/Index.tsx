@@ -40,6 +40,8 @@ const Index = () => {
     }
   }, [user, authLoading, navigate]);
 
+  const codeRotated = useRef(false);
+
   const fetchData = useCallback(async () => {
     if (!user) return;
 
@@ -47,6 +49,18 @@ const Index = () => {
     if (!!adminRes.data) {
       navigate("/admin");
       return;
+    }
+
+    // Rotate client code once per session
+    if (!codeRotated.current) {
+      codeRotated.current = true;
+      const { data: newCode } = await supabase.rpc("generate_client_code");
+      if (newCode) {
+        await supabase
+          .from("profiles")
+          .update({ client_code: newCode })
+          .eq("user_id", user.id);
+      }
     }
 
     const [profileRes, txRes] = await Promise.all([
