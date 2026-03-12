@@ -182,16 +182,6 @@ const Index = () => {
 
       {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
 
-      <ConfirmDialog
-        open={showConfirmDiscount}
-        title={t.confirmDiscount as string}
-        message={t.confirmDiscountMsg as string}
-        onConfirm={() => {
-          setShowConfirmDiscount(false);
-          handleClaimDiscount();
-        }}
-        onCancel={() => setShowConfirmDiscount(false)}
-      />
 
       <DiscountCelebration
         show={showCelebration}
