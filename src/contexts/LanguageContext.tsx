@@ -6,6 +6,7 @@ const translations = {
   pt: {
     // Index
     loyaltyProgram: "programa de fidelidade",
+    welcome: (name: string) => `Olá, ${name}`,
     code: "Código",
     loading: "A carregar...",
     totalSavings: "poupança total",
