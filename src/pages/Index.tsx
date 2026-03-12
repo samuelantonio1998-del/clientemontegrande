@@ -28,7 +28,7 @@ const Index = () => {
   const [showStamp, setShowStamp] = useState(false);
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  
   const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
