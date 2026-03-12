@@ -127,6 +127,7 @@ const translations = {
     register: "Sign Up",
     or: "or",
     loginGoogle: "Sign in with Google",
+    loginApple: "Sign in with Apple",
     recoverPassword: "Forgot Password",
     createAccount: "Create Account",
     haveAccount: "I already have an account",
