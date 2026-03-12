@@ -23,7 +23,7 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
-            className={`w-12 h-12 rounded-full border transition-colors ${
+            className={`w-14 h-14 rounded-full border transition-colors ${
               discountAvailable
                 ? "border-primary-foreground/50 bg-primary-foreground"
                 : i < meals
@@ -43,7 +43,7 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
         </button>
       ) : (
         <p className="text-sm text-muted-foreground text-center tracking-wide">
-          {4 - meals} refeição{4 - meals !== 1 ? "ões" : ""} para desconto de 10€
+          {4 - meals} {4 - meals !== 1 ? "refeições" : "refeição"} para desconto de 10€
         </p>
       )}
     </section>
