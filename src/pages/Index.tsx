@@ -170,7 +170,7 @@ const Index = () => {
 
       <ClientQRCode clientCode={clientCode} />
 
-      <MealCounter meals={meals} discountAvailable={discountAvailable} onClaimDiscount={handleClaimDiscount} />
+      <MealCounter meals={meals} discountAvailable={discountAvailable} onClaimDiscount={() => setShowConfirmDiscount(true)} />
 
       {totalSavings > 0 && (
         <section className="mx-[100px] mt-4 border border-border p-4 bg-card">
