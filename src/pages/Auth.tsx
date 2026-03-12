@@ -114,7 +114,7 @@ const Auth = () => {
             </form> :
 
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 w-full">
             {!isLogin &&
             <div>
                 <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Nome</label>
