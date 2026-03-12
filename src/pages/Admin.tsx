@@ -7,6 +7,7 @@ import { LogOut, Search, ScanLine } from "lucide-react";
 import AdminClientCard from "@/components/AdminClientCard";
 import QRScanner from "@/components/QRScanner";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 const Admin = () => {
   const { user, loading: authLoading, signOut } = useAuth();
