@@ -120,6 +120,7 @@ const Admin = () => {
 
     if (dayOfWeek === 0 || dayOfWeek === 6) {
       setFeedback(t.weekdayOnly as string);
+      actionLock.current = false;
       setActionLoading(false);
       return;
     }
@@ -136,6 +137,7 @@ const Admin = () => {
 
     if (count && count >= 1) {
       setFeedback(t.dailyMealLimit as string);
+      actionLock.current = false;
       setActionLoading(false);
       return;
     }
