@@ -161,7 +161,24 @@ const Admin = () => {
     setActionLoading(false);
   };
 
-  const refreshClient = async () => {
+  const redeemDiscount = async () => {
+    if (!clientProfile || actionLock.current) return;
+    actionLock.current = true;
+    setActionLoading(true);
+
+    const newSavings = (Number(clientProfile.total_savings) || 0) + 10;
+
+    await supabase
+      .from("profiles")
+      .update({ discount_available: false, total_savings: newSavings })
+      .eq("user_id", clientProfile.user_id);
+
+    setFeedback(t.discountRedeemed as string);
+    await refreshClient();
+    actionLock.current = false;
+    setActionLoading(false);
+  };
+
     if (!clientProfile) return;
     const { data } = await supabase
       .from("profiles")
