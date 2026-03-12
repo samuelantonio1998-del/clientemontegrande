@@ -15,6 +15,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
   const [resetSent, setResetSent] = useState(false);
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
   const navigate = useNavigate();
   const { t } = useLanguage();
 
