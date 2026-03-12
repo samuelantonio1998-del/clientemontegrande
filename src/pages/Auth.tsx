@@ -81,9 +81,9 @@ const Auth = () => {
         <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10">
           <img src={logo} alt="Monte Grande" className="w-[260px]" />
         </div>
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
-          <LanguageSwitcher />
-        </div>
+      </div>
+      <div className="flex justify-end px-4 pt-2">
+        <LanguageSwitcher />
       </div>
       <div className="flex-1 flex items-center justify-center px-6">
         <div className="w-full max-w-sm flex flex-col items-center">
