@@ -202,6 +202,18 @@ const translations = {
     accountCreated: "Account created!",
     checkEmailVerification: "Check your email to activate your account.",
 
+    cancel: "Cancel",
+    confirm: "Confirm",
+    confirmMeal: "Confirm meal registration?",
+    confirmMealMsg: "10 points will be assigned to this client.",
+    confirmDiscount: "Use 10€ discount?",
+    confirmDiscountMsg: "This action cannot be undone.",
+
+    tooManyAttempts: "Too many attempts. Please wait 1 minute.",
+    invalidEmail: "Invalid email",
+    nameTooLong: "Name must be less than 100 characters",
+    nameRequired: "Name is required",
+
     pageNotFound: "Page not found",
     returnHome: "Return to Home",
   },
