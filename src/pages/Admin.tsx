@@ -261,6 +261,7 @@ const Admin = () => {
             <AdminClientCard
               profile={clientProfile}
               onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
+              onRedeemDiscount={() => setShowConfirmRedeem(true)}
               actionLoading={actionLoading}
               feedback={feedback}
             />
@@ -275,6 +276,17 @@ const Admin = () => {
               registerWeekdayMeal();
             }}
             onCancel={() => setShowConfirmMeal(false)}
+          />
+
+          <ConfirmDialog
+            open={showConfirmRedeem}
+            title={t.confirmRedeem as string}
+            message={t.confirmRedeemMsg as string}
+            onConfirm={() => {
+              setShowConfirmRedeem(false);
+              redeemDiscount();
+            }}
+            onCancel={() => setShowConfirmRedeem(false)}
           />
         </div>
       </div>
