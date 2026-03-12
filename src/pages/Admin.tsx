@@ -191,7 +191,23 @@ const Admin = () => {
     );
   }
 
-  if (!isAdmin) return null;
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center px-6">
+        <div className="text-center">
+          <p className="text-sm text-muted-foreground tracking-wide mb-3">
+            {t.checking as string}
+          </p>
+          <button
+            onClick={() => navigate("/")}
+            className="px-4 py-2 border border-border text-xs uppercase tracking-widest text-foreground hover:bg-foreground hover:text-background transition-colors"
+          >
+            {t.returnHome as string}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
