@@ -201,6 +201,11 @@ const Index = () => {
         }}
         onCancel={() => setShowConfirmDiscount(false)}
       />
+
+      <DiscountCelebration
+        show={showCelebration}
+        onClose={() => setShowCelebration(false)}
+      />
     </div>
   );
 };
