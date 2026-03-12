@@ -43,7 +43,7 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
         </button>
       ) : (
         <p className="text-sm text-muted-foreground text-center tracking-wide">
-          {4 - meals} refeição{4 - meals !== 1 ? "ões" : ""} para desconto de 10€
+          {4 - meals} {4 - meals !== 1 ? "refeições" : "refeição"} para desconto de 10€
         </p>
       )}
     </section>
