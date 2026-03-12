@@ -17,6 +17,7 @@ const Admin = () => {
   const [clientCode, setClientCode] = useState("");
   const [clientProfile, setClientProfile] = useState<any>(null);
   const [searchError, setSearchError] = useState("");
+  const [mealCount, setMealCount] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [showScanner, setShowScanner] = useState(false);
