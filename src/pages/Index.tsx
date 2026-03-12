@@ -148,11 +148,6 @@ const Index = () => {
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
         <div>
           <p className="text-xs tracking-widest uppercase text-muted-foreground">{t.loyaltyProgram as string}</p>
-          {clientCode && (
-            <p className="text-xs text-muted-foreground mt-1">
-              {t.code as string}: <span className="text-foreground tracking-widest font-semibold">{clientCode}</span>
-            </p>
-          )}
         </div>
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
