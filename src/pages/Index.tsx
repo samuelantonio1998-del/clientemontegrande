@@ -28,6 +28,7 @@ const Index = () => {
   const [points, setPoints] = useState(0);
   const [discountAvailable, setDiscountAvailable] = useState(false);
   const [clientCode, setClientCode] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [showStamp, setShowStamp] = useState(false);
   const [lastPointsGained, setLastPointsGained] = useState(0);
@@ -78,6 +79,7 @@ const Index = () => {
       setMeals(profileRes.data.consecutive_meals);
       setDiscountAvailable(profileRes.data.discount_available);
       setClientCode(profileRes.data.client_code || "");
+      setDisplayName(profileRes.data.display_name || "");
       setTotalSavings(Number(profileRes.data.total_savings) || 0);
     }
 
@@ -148,6 +150,9 @@ const Index = () => {
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
         <div>
           <p className="text-xs tracking-widest uppercase text-muted-foreground">{t.loyaltyProgram as string}</p>
+          {displayName && (
+            <p className="font-display text-lg text-foreground mt-1">{(t.welcome as (name: string) => string)(displayName)}</p>
+          )}
         </div>
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
