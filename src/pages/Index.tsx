@@ -134,7 +134,7 @@ const Index = () => {
       <MealCounter meals={meals} discountAvailable={discountAvailable} onClaimDiscount={handleClaimDiscount} />
 
       {totalSavings > 0 && (
-        <section className="mx-6 mt-4 border border-border p-4 bg-card">
+        <section className="mx-[100px] mt-4 border border-border p-4 bg-card">
           <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">{t.totalSavings as string}</p>
           <p className="font-display text-2xl text-primary">{(t.savedAmount as (n: number) => string)(totalSavings)}</p>
         </section>
