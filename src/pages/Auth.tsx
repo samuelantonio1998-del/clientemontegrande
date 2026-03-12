@@ -206,7 +206,7 @@ const Auth = () => {
           onClick={() => {setIsLogin(!isLogin);setError("");setForgotPassword(false);setResetSent(false);}}
           className="mt-2 underline block mx-auto transition-colors text-sm text-secondary-foreground">
           
-          {isLogin ? "Criar conta nova" : "Já tenho conta"}
+          {isLogin ? "Criar Conta" : "Já tenho conta"}
         </button>
       </div>
     </div>);
