@@ -37,6 +37,8 @@ const Index = () => {
   const [dataLoading, setDataLoading] = useState(true);
   const [totalSavings, setTotalSavings] = useState(0);
   const [showConfirmDiscount, setShowConfirmDiscount] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const prevDiscountRef = useRef(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
