@@ -16,6 +16,8 @@ const translations = {
     discountAvailable: "Desconto 10€ Disponível",
     weekMeals: "Refeições desta Semana",
     useDiscount: "Usar Desconto 10€",
+    redeemDiscount: "Aplicar Desconto 10€",
+    discountRedeemHint: "Peça ao staff para aplicar o desconto",
     mealsRemaining: (n: number) => `${n} ${n !== 1 ? "refeições" : "refeição"} para desconto de 10€`,
 
     // PointsBalance
@@ -75,6 +77,9 @@ const translations = {
     mealCooldown: (h: number, m: number) => `Próximo registo disponível em ${h}h${m.toString().padStart(2, "0")}m`,
     pointsAssigned: (n: number) => `+${n} pontos atribuídos`,
     discountUnlocked: "Desconto de 10€ desbloqueado!",
+    discountRedeemed: "Desconto de 10€ aplicado com sucesso!",
+    confirmRedeem: "Aplicar desconto de 10€?",
+    confirmRedeemMsg: "O desconto será aplicado a este cliente. Esta ação não pode ser revertida.",
     mealRegistered: (n: number) => `Refeição ${n}/4 registada`,
     mealDescription: (reached: boolean, n: number) =>
       reached ? "4ª refeição — desconto 10€ desbloqueado" : `Refeição ${n}/4 (semana)`,
@@ -129,6 +134,8 @@ const translations = {
     discountAvailable: "10€ Discount Available",
     weekMeals: "Meals This Week",
     useDiscount: "Use 10€ Discount",
+    redeemDiscount: "Apply 10€ Discount",
+    discountRedeemHint: "Ask staff to apply your discount",
     mealsRemaining: (n: number) => `${n} ${n !== 1 ? "meals" : "meal"} to 10€ discount`,
 
     points: "Points",
@@ -183,6 +190,9 @@ const translations = {
     mealCooldown: (h: number, m: number) => `Next registration available in ${h}h${m.toString().padStart(2, "0")}m`,
     pointsAssigned: (n: number) => `+${n} points assigned`,
     discountUnlocked: "10€ discount unlocked!",
+    discountRedeemed: "10€ discount applied successfully!",
+    confirmRedeem: "Apply 10€ discount?",
+    confirmRedeemMsg: "The discount will be applied to this client. This action cannot be undone.",
     mealRegistered: (n: number) => `Meal ${n}/4 registered`,
     mealDescription: (reached: boolean, n: number) =>
       reached ? "4th meal — 10€ discount unlocked" : `Meal ${n}/4 (week)`,

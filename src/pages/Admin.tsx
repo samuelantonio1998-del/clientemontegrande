@@ -23,6 +23,7 @@ const Admin = () => {
   const [showScanner, setShowScanner] = useState(false);
   const actionLock = useRef(false);
   const [showConfirmMeal, setShowConfirmMeal] = useState(false);
+  const [showConfirmRedeem, setShowConfirmRedeem] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -160,6 +161,24 @@ const Admin = () => {
     setActionLoading(false);
   };
 
+  const redeemDiscount = async () => {
+    if (!clientProfile || actionLock.current) return;
+    actionLock.current = true;
+    setActionLoading(true);
+
+    const newSavings = (Number(clientProfile.total_savings) || 0) + 10;
+
+    await supabase
+      .from("profiles")
+      .update({ discount_available: false, total_savings: newSavings })
+      .eq("user_id", clientProfile.user_id);
+
+    setFeedback(t.discountRedeemed as string);
+    await refreshClient();
+    actionLock.current = false;
+    setActionLoading(false);
+  };
+
   const refreshClient = async () => {
     if (!clientProfile) return;
     const { data } = await supabase
@@ -260,6 +279,7 @@ const Admin = () => {
             <AdminClientCard
               profile={clientProfile}
               onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
+              onRedeemDiscount={() => setShowConfirmRedeem(true)}
               actionLoading={actionLoading}
               feedback={feedback}
             />
@@ -274,6 +294,17 @@ const Admin = () => {
               registerWeekdayMeal();
             }}
             onCancel={() => setShowConfirmMeal(false)}
+          />
+
+          <ConfirmDialog
+            open={showConfirmRedeem}
+            title={t.confirmRedeem as string}
+            message={t.confirmRedeemMsg as string}
+            onConfirm={() => {
+              setShowConfirmRedeem(false);
+              redeemDiscount();
+            }}
+            onCancel={() => setShowConfirmRedeem(false)}
           />
         </div>
       </div>

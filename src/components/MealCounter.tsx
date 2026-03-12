@@ -1,12 +1,12 @@
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Gift } from "lucide-react";
 
 interface MealCounterProps {
   meals: number;
   discountAvailable: boolean;
-  onClaimDiscount: () => void;
 }
 
-const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterProps) => {
+const MealCounter = ({ meals, discountAvailable }: MealCounterProps) => {
   const { t } = useLanguage();
 
   return (
@@ -35,18 +35,18 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
         </p>
       </section>
 
-      {/* Discount button - shown below when available */}
+      {/* Discount available indicator */}
       {discountAvailable && (
         <section className="mx-4 sm:mx-[100px] border border-border p-6 bg-primary">
-          <h2 className="font-display text-lg mb-4 text-primary-foreground">
-            {t.discountAvailable as string}
-          </h2>
-          <button
-            onClick={onClaimDiscount}
-            className="w-full py-3 text-sm uppercase tracking-widest border border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-colors"
-          >
-            {t.useDiscount as string}
-          </button>
+          <div className="flex items-center justify-center gap-3">
+            <Gift className="w-5 h-5 text-primary-foreground" />
+            <h2 className="font-display text-lg text-primary-foreground">
+              {t.discountAvailable as string}
+            </h2>
+          </div>
+          <p className="text-sm text-primary-foreground/70 text-center mt-2 tracking-wide">
+            {t.discountRedeemHint as string}
+          </p>
         </section>
       )}
     </div>

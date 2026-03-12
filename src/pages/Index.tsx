@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
-import ConfirmDialog from "@/components/ConfirmDialog";
+
 import DiscountCelebration from "@/components/DiscountCelebration";
 import ClientQRCode from "@/components/ClientQRCode";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -36,7 +36,7 @@ const Index = () => {
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
   const [totalSavings, setTotalSavings] = useState(0);
-  const [showConfirmDiscount, setShowConfirmDiscount] = useState(false);
+  
   const [showCelebration, setShowCelebration] = useState(false);
   const prevDiscountRef = useRef(false);
 
@@ -136,16 +136,7 @@ const Index = () => {
     };
   }, [user, fetchData]);
 
-  const handleClaimDiscount = async () => {
-    if (!user) return;
-    const newSavings = totalSavings + 10;
-    await supabase
-      .from("profiles")
-      .update({ discount_available: false, total_savings: newSavings })
-      .eq("user_id", user.id);
-    setDiscountAvailable(false);
-    setTotalSavings(newSavings);
-  };
+  // Discount is now redeemed by admin only
 
   if (authLoading || dataLoading) {
     return (
@@ -178,7 +169,7 @@ const Index = () => {
 
       <ClientQRCode clientCode={clientCode} />
 
-      <MealCounter meals={meals} discountAvailable={discountAvailable} onClaimDiscount={() => setShowConfirmDiscount(true)} />
+      <MealCounter meals={meals} discountAvailable={discountAvailable} />
 
       {totalSavings > 0 && (
         <section className="mx-4 sm:mx-[100px] mt-4 border border-border p-4 bg-card">
@@ -191,16 +182,6 @@ const Index = () => {
 
       {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
 
-      <ConfirmDialog
-        open={showConfirmDiscount}
-        title={t.confirmDiscount as string}
-        message={t.confirmDiscountMsg as string}
-        onConfirm={() => {
-          setShowConfirmDiscount(false);
-          handleClaimDiscount();
-        }}
-        onCancel={() => setShowConfirmDiscount(false)}
-      />
 
       <DiscountCelebration
         show={showCelebration}

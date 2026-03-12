@@ -1,4 +1,4 @@
-import { UtensilsCrossed } from "lucide-react";
+import { UtensilsCrossed, Gift } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AdminClientCardProps {
@@ -10,6 +10,7 @@ interface AdminClientCardProps {
     discount_available: boolean;
   };
   onRegisterWeekdayMeal: () => void;
+  onRedeemDiscount: () => void;
   actionLoading: boolean;
   feedback: string;
 }
@@ -17,6 +18,7 @@ interface AdminClientCardProps {
 const AdminClientCard = ({
   profile,
   onRegisterWeekdayMeal,
+  onRedeemDiscount,
   actionLoading,
   feedback,
 }: AdminClientCardProps) => {
@@ -48,15 +50,24 @@ const AdminClientCard = ({
               {profile.consecutive_meals}/4
             </span>
           </div>
-          {profile.discount_available && (
-            <div>
-              <span className="text-xs uppercase tracking-wider block text-primary font-semibold">
-                {t.discount10Active as string}
-              </span>
-            </div>
-          )}
         </div>
       </div>
+
+      {/* Redeem discount section */}
+      {profile.discount_available && (
+        <div className="p-6 border-b border-border bg-primary/5">
+          <h3 className="text-xs uppercase tracking-widest mb-3 flex items-center gap-2 text-primary font-semibold">
+            <Gift className="w-3 h-3" /> {t.discount10Active as string}
+          </h3>
+          <button
+            onClick={onRedeemDiscount}
+            disabled={actionLoading}
+            className="w-full py-3 bg-primary text-primary-foreground text-xs uppercase tracking-widest disabled:opacity-50 hover:opacity-90 transition-opacity"
+          >
+            {t.redeemDiscount as string}
+          </button>
+        </div>
+      )}
 
       <div className="p-6">
         <h3 className="text-xs text-muted-foreground uppercase tracking-widest mb-3 flex items-center gap-2">
