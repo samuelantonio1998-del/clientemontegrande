@@ -79,6 +79,7 @@ const Index = () => {
       setMeals(profileRes.data.consecutive_meals);
       setDiscountAvailable(profileRes.data.discount_available);
       setClientCode(profileRes.data.client_code || "");
+      setDisplayName(profileRes.data.display_name || "");
       setTotalSavings(Number(profileRes.data.total_savings) || 0);
     }
 
