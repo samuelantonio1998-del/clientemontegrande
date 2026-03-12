@@ -10,7 +10,7 @@ const ClientQRCode = ({ clientCode }: ClientQRCodeProps) => {
   if (!clientCode) return null;
 
   return (
-    <section className="mx-6 mt-4 border border-border p-6 bg-card flex flex-col items-center">
+    <section className="mt-4 border border-border p-6 bg-card flex flex-col items-center mx-[100px]">
       <p className="text-xs tracking-widest uppercase text-muted-foreground mb-4">
         {t.yourQRCode as string}
       </p>
@@ -20,11 +20,11 @@ const ClientQRCode = ({ clientCode }: ClientQRCodeProps) => {
           size={180}
           level="H"
           bgColor="#ffffff"
-          fgColor="#3d2e1f"
-        />
+          fgColor="#3d2e1f" />
+        
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default ClientQRCode;
