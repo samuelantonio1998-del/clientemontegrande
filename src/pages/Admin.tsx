@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,6 +21,7 @@ const Admin = () => {
   const [actionLoading, setActionLoading] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [showScanner, setShowScanner] = useState(false);
+  const actionLock = useRef(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -81,9 +82,10 @@ const Admin = () => {
   };
 
   const registerMealPoints = async () => {
-    if (!clientProfile || !mealAmount) return;
+    if (!clientProfile || !mealAmount || actionLock.current) return;
+    actionLock.current = true;
     const amount = parseFloat(mealAmount);
-    if (isNaN(amount) || amount <= 0) return;
+    if (isNaN(amount) || amount <= 0) { actionLock.current = false; return; }
 
     setActionLoading(true);
     const pointsEarned = Math.round(amount);
@@ -104,11 +106,13 @@ const Admin = () => {
     setFeedback((t.pointsAssigned as (n: number) => string)(pointsEarned));
     setMealAmount("");
     await refreshClient();
+    actionLock.current = false;
     setActionLoading(false);
   };
 
   const registerWeekdayMeal = async () => {
-    if (!clientProfile) return;
+    if (!clientProfile || actionLock.current) return;
+    actionLock.current = true;
     setActionLoading(true);
 
     const today = new Date();
@@ -116,6 +120,7 @@ const Admin = () => {
 
     if (dayOfWeek === 0 || dayOfWeek === 6) {
       setFeedback(t.weekdayOnly as string);
+      actionLock.current = false;
       setActionLoading(false);
       return;
     }
@@ -132,6 +137,7 @@ const Admin = () => {
 
     if (count && count >= 1) {
       setFeedback(t.dailyMealLimit as string);
+      actionLock.current = false;
       setActionLoading(false);
       return;
     }
@@ -174,6 +180,7 @@ const Admin = () => {
         : (t.mealRegistered as (n: number) => string)(newMeals)
     );
     await refreshClient();
+    actionLock.current = false;
     setActionLoading(false);
   };
 
