@@ -14,7 +14,7 @@ const translations = {
 
     // MealCounter
     discountAvailable: "Desconto 10€ Disponível",
-    weekMeals: "Refeições da Semana",
+    weekMeals: "Refeições desta Semana",
     useDiscount: "Usar Desconto 10€",
     mealsRemaining: (n: number) => `${n} ${n !== 1 ? "refeições" : "refeição"} para desconto de 10€`,
 
