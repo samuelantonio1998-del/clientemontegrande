@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
 import ClientQRCode from "@/components/ClientQRCode";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { LogOut } from "lucide-react";
 
 export interface Transaction {
@@ -19,6 +21,7 @@ export interface Transaction {
 
 const Index = () => {
   const { user, loading: authLoading, signOut } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [meals, setMeals] = useState(0);
@@ -29,7 +32,6 @@ const Index = () => {
   const [showStamp, setShowStamp] = useState(false);
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
-
   const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
@@ -41,7 +43,6 @@ const Index = () => {
   const fetchData = useCallback(async () => {
     if (!user) return;
 
-    // Check admin first
     const adminRes = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" as const });
     if (!!adminRes.data) {
       navigate("/admin");
@@ -68,13 +69,13 @@ const Index = () => {
 
     if (txRes.data) {
       setTransactions(
-        txRes.data.map((t) => ({
-          id: t.id,
-          date: t.created_at.split("T")[0],
-          amount: Number(t.amount),
-          points: t.points_earned,
-          description: t.description,
-          type: t.type,
+        txRes.data.map((tx) => ({
+          id: tx.id,
+          date: tx.created_at.split("T")[0],
+          amount: Number(tx.amount),
+          points: tx.points_earned,
+          description: tx.description,
+          type: tx.type,
         })),
       );
     }
@@ -100,7 +101,7 @@ const Index = () => {
   if (authLoading || dataLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-sm text-muted-foreground tracking-wide">A carregar...</p>
+        <p className="text-sm text-muted-foreground tracking-wide">{t.loading as string}</p>
       </div>
     );
   }
@@ -109,14 +110,15 @@ const Index = () => {
     <div className="min-h-screen bg-background relative overflow-hidden">
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
         <div>
-          <p className="text-xs tracking-widest uppercase text-muted-foreground">programa de fidelidade</p>
+          <p className="text-xs tracking-widest uppercase text-muted-foreground">{t.loyaltyProgram as string}</p>
           {clientCode && (
             <p className="text-xs text-muted-foreground mt-1">
-              Código: <span className="text-foreground tracking-widest font-semibold">{clientCode}</span>
+              {t.code as string}: <span className="text-foreground tracking-widest font-semibold">{clientCode}</span>
             </p>
           )}
         </div>
         <div className="flex items-center gap-3">
+          <LanguageSwitcher />
           <button
             onClick={signOut}
             className="text-muted-foreground hover:text-foreground transition-colors"
@@ -133,8 +135,8 @@ const Index = () => {
 
       {totalSavings > 0 && (
         <section className="mx-6 mt-4 border border-border p-4 bg-card">
-          <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">poupança total</p>
-          <p className="font-display text-2xl text-primary">Já economizou {totalSavings}€</p>
+          <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">{t.totalSavings as string}</p>
+          <p className="font-display text-2xl text-primary">{(t.savedAmount as (n: number) => string)(totalSavings)}</p>
         </section>
       )}
 
