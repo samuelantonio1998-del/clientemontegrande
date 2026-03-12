@@ -82,9 +82,10 @@ const Admin = () => {
   };
 
   const registerMealPoints = async () => {
-    if (!clientProfile || !mealAmount) return;
+    if (!clientProfile || !mealAmount || actionLock.current) return;
+    actionLock.current = true;
     const amount = parseFloat(mealAmount);
-    if (isNaN(amount) || amount <= 0) return;
+    if (isNaN(amount) || amount <= 0) { actionLock.current = false; return; }
 
     setActionLoading(true);
     const pointsEarned = Math.round(amount);
