@@ -11,7 +11,7 @@ const MealCounter = ({ meals, discountAvailable, onClaimDiscount }: MealCounterP
 
   return (
     <section
-      className={`mx-[100px] border border-border p-6 transition-colors ${
+      className={`mx-4 sm:mx-[100px] border border-border p-6 transition-colors ${
         discountAvailable ? "bg-primary" : "bg-card"
       }`}
     >
