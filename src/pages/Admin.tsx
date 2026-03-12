@@ -40,11 +40,17 @@ const Admin = () => {
     if (!data) navigate("/");
   };
 
-  const searchClient = async () => {
+  const handleQRScan = useCallback((code: string) => {
+    setClientCode(code);
+    setShowScanner(false);
+    // Auto-search
+    searchClientByCode(code);
+  }, []);
+
+  const searchClientByCode = async (code: string) => {
     setSearchError("");
     setClientProfile(null);
     setFeedback("");
-    const code = clientCode.trim();
     if (code.length !== 6) {
       setSearchError("O código deve ter 6 dígitos");
       return;
@@ -60,6 +66,10 @@ const Admin = () => {
     } else {
       setClientProfile(data);
     }
+  };
+
+  const searchClient = async () => {
+    await searchClientByCode(clientCode.trim());
   };
 
   const registerMealPoints = async () => {
