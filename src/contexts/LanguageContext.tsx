@@ -175,11 +175,8 @@ const translations = {
   },
 } as const;
 
-type Translations = {
-  [K in keyof typeof translations.pt]: (typeof translations.pt)[K];
-} & {
-  [K in keyof typeof translations.en]: (typeof translations.en)[K];
-};
+type TranslationKeys = keyof typeof translations.pt;
+type Translations = Record<TranslationKeys, string | ((...args: any[]) => string)>;
 
 interface LanguageContextType {
   language: Language;
