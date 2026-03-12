@@ -92,7 +92,7 @@ const Auth = () => {
               Email enviado! Verifica a tua caixa de correio para redefinir a password.
             </p> :
 
-          <form onSubmit={handleForgotPassword} className="space-y-4">
+          <form onSubmit={handleForgotPassword} className="space-y-4 w-full">
               <div>
                 <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Email</label>
                 <input
@@ -114,7 +114,7 @@ const Auth = () => {
             </form> :
 
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 w-full">
             {!isLogin &&
             <div>
                 <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Nome</label>
@@ -135,7 +135,6 @@ const Auth = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors text-center"
                 required />
-              
             </div>
             <div>
               <label className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">Password</label>
