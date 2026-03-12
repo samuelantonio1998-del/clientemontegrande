@@ -77,7 +77,7 @@ const Auth = () => {
       <div className="relative">
         <div className="w-full h-2 bg-primary mx-0 my-0 px-0 py-[30px]" />
         <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10">
-          <img src={logo} alt="Monte Grande" className="w-[160px]" />
+          <img src={logo} alt="Monte Grande" className="w-[260px]" />
         </div>
       </div>
       <div className="flex-1 flex items-center justify-center px-6">
