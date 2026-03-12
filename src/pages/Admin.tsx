@@ -17,6 +17,7 @@ const Admin = () => {
   const [mealAmount, setMealAmount] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const [showScanner, setShowScanner] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {

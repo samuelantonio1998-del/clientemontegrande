@@ -145,6 +145,8 @@ const Index = () => {
 
       <PointsBalance points={points} transactions={transactions} />
 
+      <ClientQRCode clientCode={clientCode} />
+
       {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
     </div>
   );
