@@ -40,10 +40,16 @@ const Index = () => {
   const fetchData = useCallback(async () => {
     if (!user) return;
 
-    const [profileRes, txRes, adminRes] = await Promise.all([
+    // Check admin first
+    const adminRes = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" as const });
+    if (!!adminRes.data) {
+      navigate("/admin");
+      return;
+    }
+
+    const [profileRes, txRes] = await Promise.all([
       supabase.from("profiles").select("*").eq("user_id", user.id).single(),
       supabase.from("transactions").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(20),
-      supabase.rpc("has_role", { _user_id: user.id, _role: "admin" as const }),
     ]);
 
     if (profileRes.data) {
@@ -67,7 +73,6 @@ const Index = () => {
       );
     }
 
-    setIsAdmin(!!adminRes.data);
     setDataLoading(false);
   }, [user]);
 
