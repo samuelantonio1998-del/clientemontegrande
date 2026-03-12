@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
+import ClientQRCode from "@/components/ClientQRCode";
 import { LogOut } from "lucide-react";
 
 export interface Transaction {
