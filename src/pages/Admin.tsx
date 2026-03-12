@@ -107,12 +107,7 @@ const Admin = () => {
       .limit(1);
 
     if (lastMeals && lastMeals.length > 0) {
-      const lastTime = new Date(lastMeals[0].created_at);
-      const nextAvailable = new Date(lastTime.getTime() + 5 * 60 * 60 * 1000);
-      const diffMs = nextAvailable.getTime() - Date.now();
-      const hoursLeft = Math.floor(diffMs / (60 * 60 * 1000));
-      const minsLeft = Math.ceil((diffMs % (60 * 60 * 1000)) / (60 * 1000));
-      setFeedback((t.mealCooldown as (h: number, m: number) => string)(hoursLeft, minsLeft));
+      setFeedback(t.dailyMealLimit as string);
       actionLock.current = false;
       setActionLoading(false);
       return;
