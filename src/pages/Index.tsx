@@ -126,6 +126,8 @@ const Index = () => {
         </div>
       </header>
 
+      <ClientQRCode clientCode={clientCode} />
+
       <MealCounter
         meals={meals}
         discountAvailable={discountAvailable}
@@ -144,8 +146,6 @@ const Index = () => {
       )}
 
       <PointsBalance points={points} transactions={transactions} />
-
-      <ClientQRCode clientCode={clientCode} />
 
       {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
     </div>
