@@ -210,14 +210,22 @@ const Auth = () => {
               </div>
               <div>
                 <label className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">{t.password as string}</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
-                  required
-                  minLength={6} />
-              
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full bg-card border border-border px-4 py-3 pr-10 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+                    required
+                    minLength={6} />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
               {error && <p className="text-xs text-destructive">{error}</p>}
