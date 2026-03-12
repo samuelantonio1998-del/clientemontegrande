@@ -96,18 +96,23 @@ const Admin = () => {
       return;
     }
 
-    // Check daily meal limit
-    const todayStr = today.toISOString().split("T")[0];
-    const { count } = await supabase
+    // Check 5-hour cooldown since last meal
+    const fiveHoursAgo = new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString();
+    const { data: lastMeals } = await supabase
       .from("transactions")
-      .select("*", { count: "exact", head: true })
+      .select("created_at")
       .eq("user_id", clientProfile.user_id)
       .eq("type", "meal")
-      .gte("created_at", `${todayStr}T00:00:00`)
-      .lt("created_at", `${todayStr}T23:59:59.999`);
+      .gte("created_at", fiveHoursAgo)
+      .limit(1);
 
-    if (count && count >= 1) {
-      setFeedback(t.dailyMealLimit as string);
+    if (lastMeals && lastMeals.length > 0) {
+      const lastTime = new Date(lastMeals[0].created_at);
+      const nextAvailable = new Date(lastTime.getTime() + 5 * 60 * 60 * 1000);
+      const diffMs = nextAvailable.getTime() - Date.now();
+      const hoursLeft = Math.floor(diffMs / (60 * 60 * 1000));
+      const minsLeft = Math.ceil((diffMs % (60 * 60 * 1000)) / (60 * 1000));
+      setFeedback((t.mealCooldown as (h: number, m: number) => string)(hoursLeft, minsLeft));
       actionLock.current = false;
       setActionLoading(false);
       return;
