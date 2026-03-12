@@ -152,6 +152,7 @@ const translations = {
     clientNotFound: "Client not found",
     codeMustBe6: "Code must be 6 digits",
     weekdayOnly: "Discount meals only count on weekdays",
+    dailyMealLimit: "This client already has a meal registered today",
     pointsAssigned: (n: number) => `+${n} points assigned`,
     discountUnlocked: "10€ discount unlocked!",
     mealRegistered: (n: number) => `Meal ${n}/4 registered`,

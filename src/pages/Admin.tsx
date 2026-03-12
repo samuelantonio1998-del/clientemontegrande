@@ -114,6 +114,22 @@ const Admin = () => {
       return;
     }
 
+    // Check daily meal limit
+    const todayStr = today.toISOString().split("T")[0];
+    const { count } = await supabase
+      .from("transactions")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", clientProfile.user_id)
+      .eq("type", "meal")
+      .gte("created_at", `${todayStr}T00:00:00`)
+      .lt("created_at", `${todayStr}T23:59:59.999`);
+
+    if (count && count >= 1) {
+      setFeedback(t.dailyMealLimit as string);
+      setActionLoading(false);
+      return;
+    }
+
     const monday = new Date(today);
     monday.setDate(today.getDate() - (dayOfWeek - 1));
     const mondayStr = monday.toISOString().split("T")[0];
