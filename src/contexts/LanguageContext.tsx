@@ -63,6 +63,8 @@ const translations = {
     value: "Valor €",
     score: "Pontuar",
     oneEuroOnePoint: "1€ = 1 ponto",
+    mealCountPlaceholder: "Nº refeições",
+    tenPointsPerMeal: "10 pontos por refeição",
     weekdayMeal: "Refeição Dia Útil",
     registerMealBtn: "Registar Refeição",
     weekdayMealRule: "Cada refeição = 10 pontos · 4 refeições na semana = 10€ desconto",
