@@ -43,11 +43,11 @@ const Admin = () => {
     if (!data) navigate("/");
   };
 
-  const handleQRScan = useCallback((code: string) => {
+  const handleQRScan = (code: string) => {
     setClientCode(code);
     setShowScanner(false);
     searchClientByCode(code);
-  }, []);
+  };
 
   const searchClientByCode = async (code: string) => {
     setSearchError("");
