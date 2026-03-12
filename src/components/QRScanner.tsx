@@ -18,28 +18,45 @@ const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
     const scanner = new Html5Qrcode("qr-reader");
     scannerRef.current = scanner;
 
+    const handleDecoded = (decodedText: string) => {
+      if (!mounted) return;
+      const match = decodedText.match(/(\d{6})/);
+      if (!match) return;
+
+      const code = match[1];
+      onScan(code);
+      mounted = false;
+      scanner.stop().catch(() => {});
+    };
+
     const startScanner = async () => {
       try {
         await scanner.start(
           { facingMode: "environment" },
           { fps: 15, qrbox: { width: 220, height: 220 }, aspectRatio: 1 },
-          (decodedText) => {
-            if (!mounted) return;
-            // Extract 6 digits from the scanned text (handles whitespace, URLs, etc.)
-            const match = decodedText.match(/(\d{6})/);
-            if (match) {
-              const code = match[1];
-              mounted = false;
-              scanner.stop().then(() => onScan(code)).catch(() => onScan(code));
-            }
-          },
+          handleDecoded,
           () => {}
         );
-      } catch (err) {
-        if (mounted) {
-          console.error("QR Scanner error:", err);
-          setError(t.cameraError as string);
+        return;
+      } catch {
+        try {
+          const cameras = await Html5Qrcode.getCameras();
+          if (cameras.length) {
+            await scanner.start(
+              cameras[0].id,
+              { fps: 15, qrbox: { width: 220, height: 220 }, aspectRatio: 1 },
+              handleDecoded,
+              () => {}
+            );
+            return;
+          }
+        } catch {
+          // handled below
         }
+      }
+
+      if (mounted) {
+        setError(t.cameraError as string);
       }
     };
 
