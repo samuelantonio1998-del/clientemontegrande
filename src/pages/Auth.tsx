@@ -221,6 +221,7 @@ const Auth = () => {
           {isLogin ? "Criar Conta" : "Já tenho conta"}
         </button>
       </div>
+      </div>
     </div>
   );
 };
