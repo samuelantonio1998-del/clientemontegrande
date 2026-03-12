@@ -75,7 +75,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="relative">
-        <div className="w-full h-2 bg-primary mx-0 my-0 px-0 py-[30px]" />
+        <div className="w-full h-2 bg-primary mx-0 my-0 px-0 py-[40px]" />
         <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10">
           <img src={logo} alt="Monte Grande" className="w-[260px]" />
         </div>
