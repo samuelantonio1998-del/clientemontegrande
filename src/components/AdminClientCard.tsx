@@ -1,4 +1,4 @@
-import { Coins, UtensilsCrossed } from "lucide-react";
+import { UtensilsCrossed } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AdminClientCardProps {
@@ -9,9 +9,6 @@ interface AdminClientCardProps {
     consecutive_meals: number;
     discount_available: boolean;
   };
-  mealAmount: string;
-  onMealAmountChange: (v: string) => void;
-  onRegisterPoints: () => void;
   onRegisterWeekdayMeal: () => void;
   actionLoading: boolean;
   feedback: string;
@@ -19,9 +16,6 @@ interface AdminClientCardProps {
 
 const AdminClientCard = ({
   profile,
-  mealAmount,
-  onMealAmountChange,
-  onRegisterPoints,
   onRegisterWeekdayMeal,
   actionLoading,
   feedback,
@@ -64,36 +58,9 @@ const AdminClientCard = ({
         </div>
       </div>
 
-      <div className="p-6 border-b border-border">
-        <h3 className="text-xs text-muted-foreground uppercase tracking-widest mb-3 flex items-center gap-2">
-          <Coins className="w-3 h-3" /> {t.assignPoints as string}
-        </h3>
-        <div className="flex gap-2">
-          <input
-            type="number"
-            step="0.01"
-            min="0"
-            placeholder={t.value as string}
-            value={mealAmount}
-            onChange={(e) => onMealAmountChange(e.target.value)}
-            className="flex-1 bg-background border border-border px-4 py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
-          />
-          <button
-            onClick={onRegisterPoints}
-            disabled={actionLoading || !mealAmount}
-            className="px-4 py-2 bg-primary text-primary-foreground text-xs uppercase tracking-wider disabled:opacity-50 hover:opacity-90 transition-opacity"
-          >
-            {actionLoading ? "..." : (t.score as string)}
-          </button>
-        </div>
-        <p className="text-xs text-muted-foreground mt-1">
-          {t.oneEuroOnePoint as string}
-        </p>
-      </div>
-
       <div className="p-6">
         <h3 className="text-xs text-muted-foreground uppercase tracking-widest mb-3 flex items-center gap-2">
-          <UtensilsCrossed className="w-3 h-3" /> {t.weekdayMeal as string}
+          <UtensilsCrossed className="w-3 h-3" /> {t.registerMealBtn as string}
         </h3>
         <button
           onClick={onRegisterWeekdayMeal}

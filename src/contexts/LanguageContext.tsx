@@ -150,7 +150,7 @@ const translations = {
     oneEuroOnePoint: "1€ = 1 point",
     weekdayMeal: "Weekday Meal",
     registerMealBtn: "Register Meal",
-    weekdayMealRule: "4 weekday meals in the same week = 10€ discount",
+    weekdayMealRule: "Each meal = 10 points · 4 meals in the same week = 10€ discount",
     clientNotFound: "Client not found",
     codeMustBe6: "Code must be 6 digits",
     weekdayOnly: "Discount meals only count on weekdays",
