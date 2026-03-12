@@ -63,7 +63,7 @@ const translations = {
     oneEuroOnePoint: "1€ = 1 ponto",
     weekdayMeal: "Refeição Dia Útil",
     registerMealBtn: "Registar Refeição",
-    weekdayMealRule: "4 refeições em dias úteis na mesma semana = 10€ desconto",
+    weekdayMealRule: "Cada refeição = 10 pontos · 4 refeições na semana = 10€ desconto",
     clientNotFound: "Cliente não encontrado",
     codeMustBe6: "O código deve ter 6 dígitos",
     weekdayOnly: "Refeições de desconto só contam em dias úteis",
