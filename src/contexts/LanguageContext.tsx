@@ -175,6 +175,8 @@ const translations = {
     passwordMinLength: "Password must be at least 6 characters",
     invalidLink: "Invalid or expired link",
     backToLogin: "Back to login",
+    accountCreated: "Account created!",
+    checkEmailVerification: "Check your email to activate your account.",
 
     pageNotFound: "Page not found",
     returnHome: "Return to Home",

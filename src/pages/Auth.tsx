@@ -249,6 +249,8 @@ const Auth = () => {
             
             {isLogin ? t.createAccount as string : t.haveAccount as string}
           </button>
+          </>
+          )}
         </div>
       </div>
     </div>);
