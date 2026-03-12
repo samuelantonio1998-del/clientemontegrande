@@ -82,7 +82,12 @@ const Index = () => {
     if (profileRes.data) {
       setPoints(profileRes.data.total_points);
       setMeals(profileRes.data.consecutive_meals);
-      setDiscountAvailable(profileRes.data.discount_available);
+      const newDiscount = profileRes.data.discount_available;
+      if (newDiscount && !prevDiscountRef.current) {
+        setShowCelebration(true);
+      }
+      prevDiscountRef.current = newDiscount;
+      setDiscountAvailable(newDiscount);
       setClientCode(profileRes.data.client_code || "");
       setDisplayName(profileRes.data.display_name || "");
       setTotalSavings(Number(profileRes.data.total_savings) || 0);
