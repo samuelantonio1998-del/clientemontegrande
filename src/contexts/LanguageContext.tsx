@@ -72,6 +72,7 @@ const translations = {
     codeMustBe6: "O código deve ter 6 dígitos",
     weekdayOnly: "Refeições de desconto só contam em dias úteis",
     dailyMealLimit: "Este cliente já tem uma refeição registada hoje",
+    mealCooldown: (h: number, m: number) => `Próximo registo disponível em ${h}h${m.toString().padStart(2, "0")}m`,
     pointsAssigned: (n: number) => `+${n} pontos atribuídos`,
     discountUnlocked: "Desconto de 10€ desbloqueado!",
     mealRegistered: (n: number) => `Refeição ${n}/4 registada`,
