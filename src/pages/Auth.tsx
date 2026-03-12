@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useNavigate } from "react-router-dom";
-import logo from "@/assets/logo-monte-grande.svg";
+
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
