@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
-import { LogOut, Shield } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export interface Transaction {
   id: string;
@@ -28,7 +28,7 @@ const Index = () => {
   const [showStamp, setShowStamp] = useState(false);
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  
   const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
@@ -40,10 +40,16 @@ const Index = () => {
   const fetchData = useCallback(async () => {
     if (!user) return;
 
-    const [profileRes, txRes, adminRes] = await Promise.all([
+    // Check admin first
+    const adminRes = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" as const });
+    if (!!adminRes.data) {
+      navigate("/admin");
+      return;
+    }
+
+    const [profileRes, txRes] = await Promise.all([
       supabase.from("profiles").select("*").eq("user_id", user.id).single(),
       supabase.from("transactions").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(20),
-      supabase.rpc("has_role", { _user_id: user.id, _role: "admin" as const }),
     ]);
 
     if (profileRes.data) {
@@ -67,7 +73,6 @@ const Index = () => {
       );
     }
 
-    setIsAdmin(!!adminRes.data);
     setDataLoading(false);
   }, [user]);
 
@@ -110,15 +115,6 @@ const Index = () => {
           )}
         </div>
         <div className="flex items-center gap-3">
-          {isAdmin && (
-            <button
-              onClick={() => navigate("/admin")}
-              className="text-primary hover:text-foreground transition-colors"
-              aria-label="Administração"
-            >
-              <Shield className="w-4 h-4" />
-            </button>
-          )}
           <button
             onClick={signOut}
             className="text-muted-foreground hover:text-foreground transition-colors"
