@@ -23,6 +23,7 @@ const translations = {
     pts: "pts",
     history: "Histórico",
     meal: "Refeição",
+    mealsLabel: "refeições",
     noTransactions: "Sem transações",
 
     // ClientQRCode
