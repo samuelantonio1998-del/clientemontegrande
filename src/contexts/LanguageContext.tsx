@@ -190,6 +190,9 @@ const translations = {
     mealCooldown: (h: number, m: number) => `Next registration available in ${h}h${m.toString().padStart(2, "0")}m`,
     pointsAssigned: (n: number) => `+${n} points assigned`,
     discountUnlocked: "10€ discount unlocked!",
+    discountRedeemed: "10€ discount applied successfully!",
+    confirmRedeem: "Apply 10€ discount?",
+    confirmRedeemMsg: "The discount will be applied to this client. This action cannot be undone.",
     mealRegistered: (n: number) => `Meal ${n}/4 registered`,
     mealDescription: (reached: boolean, n: number) =>
       reached ? "4th meal — 10€ discount unlocked" : `Meal ${n}/4 (week)`,
