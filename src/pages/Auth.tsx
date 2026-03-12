@@ -6,6 +6,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import logo from "@/assets/logo-mg-horizontal-bege.svg";
 
+const MAX_ATTEMPTS = 5;
+const LOCKOUT_MS = 60_000;
+
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -16,6 +19,8 @@ const Auth = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [lockedUntil, setLockedUntil] = useState(0);
   const navigate = useNavigate();
   const { t } = useLanguage();
 
@@ -30,11 +35,34 @@ const Auth = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
+  const validateInputs = (): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      setError(t.invalidEmail as string);
+      return false;
+    }
+    if (password.length < 6) {
+      setError(t.passwordMinLength as string);
+      return false;
+    }
+    if (!isLogin) {
+      if (!displayName.trim()) {
+        setError(t.nameRequired as string);
+        return false;
+      }
+      if (displayName.trim().length > 100) {
+        setError(t.nameTooLong as string);
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
       redirectTo: `${window.location.origin}/reset-password`
     });
     if (error) {
@@ -48,21 +76,38 @@ const Auth = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (Date.now() < lockedUntil) {
+      setError(t.tooManyAttempts as string);
+      return;
+    }
+
+    if (!validateInputs()) return;
+
     setLoading(true);
 
     if (isLogin) {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
       if (error) {
-        setError(error.message);
+        const newAttempts = attempts + 1;
+        setAttempts(newAttempts);
+        if (newAttempts >= MAX_ATTEMPTS) {
+          setLockedUntil(Date.now() + LOCKOUT_MS);
+          setAttempts(0);
+          setError(t.tooManyAttempts as string);
+        } else {
+          setError(error.message);
+        }
       } else {
+        setAttempts(0);
         navigate("/");
       }
     } else {
       const { error } = await supabase.auth.signUp({
-        email,
+        email: email.trim(),
         password,
         options: {
-          data: { display_name: displayName },
+          data: { display_name: displayName.trim() },
           emailRedirectTo: window.location.origin
         }
       });
