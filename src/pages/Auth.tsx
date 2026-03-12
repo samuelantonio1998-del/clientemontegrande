@@ -68,7 +68,7 @@ const Auth = () => {
       if (error) {
         setError(error.message);
       } else {
-        navigate("/");
+        setSignUpSuccess(true);
       }
     }
     setLoading(false);
