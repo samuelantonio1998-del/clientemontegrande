@@ -26,7 +26,7 @@ const AdminClientCard = ({
   feedback,
 }: AdminClientCardProps) => {
   return (
-    <section className="mx-6 border border-t-0 border-border bg-card">
+    <section className="border border-t-0 border-border bg-card">
       {/* Client info */}
       <div className="p-6 border-b border-border">
         <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
