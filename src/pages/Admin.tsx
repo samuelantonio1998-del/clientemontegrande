@@ -17,7 +17,6 @@ const Admin = () => {
   const [clientCode, setClientCode] = useState("");
   const [clientProfile, setClientProfile] = useState<any>(null);
   const [searchError, setSearchError] = useState("");
-  const [mealAmount, setMealAmount] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [showScanner, setShowScanner] = useState(false);
@@ -81,35 +80,6 @@ const Admin = () => {
     await searchClientByCode(clientCode.trim());
   };
 
-  const registerMealPoints = async () => {
-    if (!clientProfile || !mealAmount || actionLock.current) return;
-    actionLock.current = true;
-    const amount = parseFloat(mealAmount);
-    if (isNaN(amount) || amount <= 0) { actionLock.current = false; return; }
-
-    setActionLoading(true);
-    const pointsEarned = Math.round(amount);
-
-    await supabase.from("transactions").insert({
-      user_id: clientProfile.user_id,
-      amount,
-      points_earned: pointsEarned,
-      description: t.mealPointsDesc as string,
-      type: "points",
-    });
-
-    await supabase
-      .from("profiles")
-      .update({ total_points: clientProfile.total_points + pointsEarned })
-      .eq("user_id", clientProfile.user_id);
-
-    setFeedback((t.pointsAssigned as (n: number) => string)(pointsEarned));
-    setMealAmount("");
-    await refreshClient();
-    actionLock.current = false;
-    setActionLoading(false);
-  };
-
   const registerWeekdayMeal = async () => {
     if (!clientProfile || actionLock.current) return;
     actionLock.current = true;
@@ -157,10 +127,12 @@ const Admin = () => {
 
     const reachedDiscount = newMeals >= 4;
 
+    const pointsEarned = 10;
+
     await supabase.from("transactions").insert({
       user_id: clientProfile.user_id,
       amount: 0,
-      points_earned: 0,
+      points_earned: pointsEarned,
       description: (t.mealDescription as (reached: boolean, n: number) => string)(reachedDiscount, newMeals),
       type: "meal",
     });
@@ -171,13 +143,14 @@ const Admin = () => {
         consecutive_meals: reachedDiscount ? 0 : newMeals,
         current_week_start: mondayStr,
         discount_available: reachedDiscount,
+        total_points: clientProfile.total_points + pointsEarned,
       })
       .eq("user_id", clientProfile.user_id);
 
     setFeedback(
       reachedDiscount
-        ? (t.discountUnlocked as string)
-        : (t.mealRegistered as (n: number) => string)(newMeals)
+        ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
+        : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(newMeals)}`
     );
     await refreshClient();
     actionLock.current = false;
@@ -283,9 +256,6 @@ const Admin = () => {
           {clientProfile && (
             <AdminClientCard
               profile={clientProfile}
-              mealAmount={mealAmount}
-              onMealAmountChange={setMealAmount}
-              onRegisterPoints={registerMealPoints}
               onRegisterWeekdayMeal={registerWeekdayMeal}
               actionLoading={actionLoading}
               feedback={feedback}
