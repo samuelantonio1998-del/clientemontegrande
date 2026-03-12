@@ -15,7 +15,7 @@ const ClientQRCode = ({ clientCode }: ClientQRCodeProps) => {
       <div className="bg-white p-4 rounded-sm">
         <QRCodeSVG value={clientCode} size={180} level="H" bgColor="#ffffff" fgColor="#3d2e1f" />
       </div>
-      <p className="text-foreground tracking-[0.35em] font-semibold mt-4 text-base w-[180px] text-center">
+      <p className="text-foreground tracking-[0.35em] font-semibold mt-4 text-xl w-[180px] text-center">
         {clientCode}
       </p>
     </section>
