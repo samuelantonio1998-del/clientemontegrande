@@ -210,6 +210,8 @@ const translations = {
     confirmMealMsg: "10 points will be assigned to this client.",
     confirmDiscount: "Use 10€ discount?",
     confirmDiscountMsg: "This action cannot be undone.",
+    discountCelebrationMsg: "You completed 4 meals this week! Your 10€ discount is available.",
+    celebrationDismiss: "Thank you!",
 
     tooManyAttempts: "Too many attempts. Please wait 1 minute.",
     invalidEmail: "Invalid email",
