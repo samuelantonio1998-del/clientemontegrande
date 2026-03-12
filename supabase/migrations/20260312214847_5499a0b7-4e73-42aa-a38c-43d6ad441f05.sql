@@ -1,0 +1,1 @@
+UPDATE profiles SET consecutive_meals = 0, discount_available = false, current_week_start = NULL, total_points = 0, total_savings = 0;
