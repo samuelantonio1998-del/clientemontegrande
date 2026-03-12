@@ -43,31 +43,37 @@ const Admin = () => {
     if (!data) navigate("/");
   };
 
-  const handleQRScan = (code: string) => {
-    setClientCode(code);
-    setShowScanner(false);
-    searchClientByCode(code);
-  };
+  const searchClientByCode = useCallback(async (code: string) => {
+    const normalizedCode = code.replace(/\D/g, "").slice(0, 6);
 
-  const searchClientByCode = async (code: string) => {
     setSearchError("");
     setClientProfile(null);
     setFeedback("");
-    if (code.length !== 6) {
+
+    if (normalizedCode.length !== 6) {
       setSearchError(t.codeMustBe6 as string);
-      return;
+      return false;
     }
+
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("client_code", code)
-      .single();
+      .eq("client_code", normalizedCode)
+      .maybeSingle();
 
     if (error || !data) {
       setSearchError(t.clientNotFound as string);
-    } else {
-      setClientProfile(data);
+      return false;
     }
+
+    setClientProfile(data);
+    return true;
+  }, [t]);
+
+  const handleQRScan = async (code: string) => {
+    setClientCode(code);
+    setShowScanner(false);
+    await searchClientByCode(code);
   };
 
   const searchClient = async () => {
