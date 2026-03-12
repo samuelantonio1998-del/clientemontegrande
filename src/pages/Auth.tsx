@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useNavigate } from "react-router-dom";
+import logo from "@/assets/logo-monte-grande.svg";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -71,10 +72,8 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-6">
-      <div className="w-full max-w-sm">
-        <h1 className="font-display text-4xl text-foreground mb-1">
-          {forgotPassword ? "Recuperar" : isLogin ? "Entrar" : "Criar Conta"}
-        </h1>
+      <div className="w-full max-w-sm flex flex-col items-center">
+        <img src={logo} alt="Monte Grande" className="w-48 mb-8" />
         <p className="font-body text-sm text-muted-foreground tracking-wide mb-8">
           {forgotPassword ? "Insere o teu email" : "Programa de Fidelidade"}
         </p>
