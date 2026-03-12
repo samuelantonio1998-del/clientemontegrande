@@ -7,6 +7,7 @@ import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import DiscountCelebration from "@/components/DiscountCelebration";
 import ClientQRCode from "@/components/ClientQRCode";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { LogOut } from "lucide-react";
