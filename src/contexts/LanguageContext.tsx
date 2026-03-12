@@ -23,6 +23,7 @@ const translations = {
     pts: "pts",
     history: "Histórico",
     meal: "Refeição",
+    mealsLabel: "refeições",
     noTransactions: "Sem transações",
 
     // ClientQRCode
@@ -62,6 +63,8 @@ const translations = {
     value: "Valor €",
     score: "Pontuar",
     oneEuroOnePoint: "1€ = 1 ponto",
+    mealCountPlaceholder: "Nº refeições",
+    tenPointsPerMeal: "10 pontos por refeição",
     weekdayMeal: "Refeição Dia Útil",
     registerMealBtn: "Registar Refeição",
     weekdayMealRule: "Cada refeição = 10 pontos · 4 refeições na semana = 10€ desconto",
@@ -115,6 +118,7 @@ const translations = {
     pts: "pts",
     history: "History",
     meal: "Meal",
+    mealsLabel: "meals",
     noTransactions: "No transactions",
 
     yourQRCode: "your qr code",
@@ -150,6 +154,8 @@ const translations = {
     value: "Amount €",
     score: "Score",
     oneEuroOnePoint: "1€ = 1 point",
+    mealCountPlaceholder: "No. of meals",
+    tenPointsPerMeal: "10 points per meal",
     weekdayMeal: "Weekday Meal",
     registerMealBtn: "Register Meal",
     weekdayMealRule: "Each meal = 10 points · 4 meals in the same week = 10€ discount",
