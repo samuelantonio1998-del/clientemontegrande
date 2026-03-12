@@ -116,6 +116,7 @@ const translations = {
     pts: "pts",
     history: "History",
     meal: "Meal",
+    mealsLabel: "meals",
     noTransactions: "No transactions",
 
     yourQRCode: "your qr code",
