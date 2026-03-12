@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Search, ArrowLeft } from "lucide-react";
+import { LogOut, Search, ArrowLeft, ScanLine } from "lucide-react";
 import AdminClientCard from "@/components/AdminClientCard";
+import QRScanner from "@/components/QRScanner";
 
 const Admin = () => {
   const { user, loading: authLoading, signOut } = useAuth();
