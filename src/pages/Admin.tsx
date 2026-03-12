@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Search, ArrowLeft } from "lucide-react";
+import { LogOut, Search, ArrowLeft, ScanLine } from "lucide-react";
 import AdminClientCard from "@/components/AdminClientCard";
+import QRScanner from "@/components/QRScanner";
 
 const Admin = () => {
   const { user, loading: authLoading, signOut } = useAuth();
@@ -16,6 +17,7 @@ const Admin = () => {
   const [mealAmount, setMealAmount] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const [showScanner, setShowScanner] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -38,11 +40,17 @@ const Admin = () => {
     if (!data) navigate("/");
   };
 
-  const searchClient = async () => {
+  const handleQRScan = useCallback((code: string) => {
+    setClientCode(code);
+    setShowScanner(false);
+    // Auto-search
+    searchClientByCode(code);
+  }, []);
+
+  const searchClientByCode = async (code: string) => {
     setSearchError("");
     setClientProfile(null);
     setFeedback("");
-    const code = clientCode.trim();
     if (code.length !== 6) {
       setSearchError("O código deve ter 6 dígitos");
       return;
@@ -58,6 +66,10 @@ const Admin = () => {
     } else {
       setClientProfile(data);
     }
+  };
+
+  const searchClient = async () => {
+    await searchClientByCode(clientCode.trim());
   };
 
   const registerMealPoints = async () => {
@@ -203,10 +215,24 @@ const Admin = () => {
             <Search className="w-4 h-4" />
           </button>
         </div>
+        <button
+          onClick={() => setShowScanner(true)}
+          className="w-full mt-3 py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
+        >
+          <ScanLine className="w-4 h-4" />
+          Ler Código QR
+        </button>
         {searchError && (
           <p className="text-xs text-destructive mt-2">{searchError}</p>
         )}
       </section>
+
+      {showScanner && (
+        <QRScanner
+          onScan={handleQRScan}
+          onClose={() => setShowScanner(false)}
+        />
+      )}
 
       {clientProfile && (
         <AdminClientCard
