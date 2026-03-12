@@ -179,6 +179,7 @@ const Admin = () => {
     setActionLoading(false);
   };
 
+  const refreshClient = async () => {
     if (!clientProfile) return;
     const { data } = await supabase
       .from("profiles")
