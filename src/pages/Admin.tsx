@@ -257,9 +257,6 @@ const Admin = () => {
           {clientProfile && (
             <AdminClientCard
               profile={clientProfile}
-              mealCount={mealCount}
-              onMealCountChange={setMealCount}
-              onRegisterManualMealPoints={registerManualMealPoints}
               onRegisterWeekdayMeal={registerWeekdayMeal}
               actionLoading={actionLoading}
               feedback={feedback}
