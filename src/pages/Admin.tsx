@@ -106,11 +106,13 @@ const Admin = () => {
     setFeedback((t.pointsAssigned as (n: number) => string)(pointsEarned));
     setMealAmount("");
     await refreshClient();
+    actionLock.current = false;
     setActionLoading(false);
   };
 
   const registerWeekdayMeal = async () => {
-    if (!clientProfile) return;
+    if (!clientProfile || actionLock.current) return;
+    actionLock.current = true;
     setActionLoading(true);
 
     const today = new Date();
