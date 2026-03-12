@@ -175,7 +175,11 @@ const translations = {
   },
 } as const;
 
-type Translations = typeof translations.pt;
+type Translations = {
+  [K in keyof typeof translations.pt]: (typeof translations.pt)[K];
+} & {
+  [K in keyof typeof translations.en]: (typeof translations.en)[K];
+};
 
 interface LanguageContextType {
   language: Language;
