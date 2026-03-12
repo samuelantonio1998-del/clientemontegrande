@@ -17,7 +17,6 @@ const Admin = () => {
   const [clientCode, setClientCode] = useState("");
   const [clientProfile, setClientProfile] = useState<any>(null);
   const [searchError, setSearchError] = useState("");
-  const [mealCount, setMealCount] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [showScanner, setShowScanner] = useState(false);
@@ -81,34 +80,6 @@ const Admin = () => {
     await searchClientByCode(clientCode.trim());
   };
 
-  const registerManualMealPoints = async () => {
-    if (!clientProfile || !mealCount || actionLock.current) return;
-    actionLock.current = true;
-    const count = parseInt(mealCount);
-    if (isNaN(count) || count <= 0) { actionLock.current = false; return; }
-
-    setActionLoading(true);
-    const pointsEarned = count * 10;
-
-    await supabase.from("transactions").insert({
-      user_id: clientProfile.user_id,
-      amount: 0,
-      points_earned: pointsEarned,
-      description: `${count} ${count > 1 ? (t.mealsLabel as string) : (t.meal as string)} — ${pointsEarned} ${t.points as string}`,
-      type: "points",
-    });
-
-    await supabase
-      .from("profiles")
-      .update({ total_points: clientProfile.total_points + pointsEarned })
-      .eq("user_id", clientProfile.user_id);
-
-    setFeedback(`+${pointsEarned} ${t.points as string} (${count} ${count > 1 ? (t.mealsLabel as string) : (t.meal as string)})`);
-    setMealCount("");
-    await refreshClient();
-    actionLock.current = false;
-    setActionLoading(false);
-  };
 
   const registerWeekdayMeal = async () => {
     if (!clientProfile || actionLock.current) return;
@@ -286,9 +257,6 @@ const Admin = () => {
           {clientProfile && (
             <AdminClientCard
               profile={clientProfile}
-              mealCount={mealCount}
-              onMealCountChange={setMealCount}
-              onRegisterManualMealPoints={registerManualMealPoints}
               onRegisterWeekdayMeal={registerWeekdayMeal}
               actionLoading={actionLoading}
               feedback={feedback}
