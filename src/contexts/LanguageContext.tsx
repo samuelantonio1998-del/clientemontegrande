@@ -90,6 +90,8 @@ const translations = {
     passwordMinLength: "A password deve ter pelo menos 6 caracteres",
     invalidLink: "Link inválido ou expirado",
     backToLogin: "Voltar ao login",
+    accountCreated: "Conta criada com sucesso!",
+    checkEmailVerification: "Verifica o teu email para ativar a tua conta.",
 
     // NotFound
     pageNotFound: "Página não encontrada",
