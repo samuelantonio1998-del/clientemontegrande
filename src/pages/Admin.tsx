@@ -149,8 +149,8 @@ const Admin = () => {
 
     setFeedback(
       reachedDiscount
-        ? (t.discountUnlocked as string)
-        : (t.mealRegistered as (n: number) => string)(newMeals)
+        ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
+        : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(newMeals)}`
     );
     await refreshClient();
     actionLock.current = false;
