@@ -77,7 +77,7 @@ const Auth = () => {
       <div className="w-full h-2 bg-primary mx-0 my-0 px-0 py-[30px]" />
       <div className="flex-1 flex items-center justify-center px-6">
       <div className="w-full max-w-sm flex flex-col items-center">
-        <img src={logo} alt="Monte Grande" className="w[110px] mb-8" />
+        
         <p className="tracking-wide mb-8 text-base text-secondary-foreground font-mono font-light">
           {forgotPassword ? "Insere o teu email" : "Programa de Fidelidade"}
         </p>
