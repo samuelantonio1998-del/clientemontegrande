@@ -92,7 +92,7 @@ const Auth = () => {
               Email enviado! Verifica a tua caixa de correio para redefinir a password.
             </p> :
 
-          <form onSubmit={handleForgotPassword} className="space-y-4">
+          <form onSubmit={handleForgotPassword} className="space-y-4 w-full">
               <div>
                 <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Email</label>
                 <input
