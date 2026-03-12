@@ -178,7 +178,7 @@ const Admin = () => {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground transition-colors">
@@ -193,58 +193,62 @@ const Admin = () => {
         </button>
       </header>
 
-      {/* Search */}
-      <section className="mx-6 border border-border p-6 bg-card mb-0">
-        <h1 className="font-display text-3xl text-foreground mb-4">
-          Registar Refeição
-        </h1>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            maxLength={6}
-            placeholder="Código cliente"
-            value={clientCode}
-            onChange={(e) => setClientCode(e.target.value.replace(/\D/g, ""))}
-            className="flex-1 bg-background border border-border px-4 py-2 text-sm text-foreground focus:outline-none focus:border-foreground tracking-widest text-center transition-colors"
-          />
-          <button
-            onClick={searchClient}
-            className="px-4 py-2 bg-foreground text-background border border-foreground hover:opacity-90 transition-opacity"
-            aria-label="Pesquisar"
-          >
-            <Search className="w-4 h-4" />
-          </button>
+      <div className="flex-1 flex flex-col items-center px-4 pb-8">
+        <div className="w-full max-w-md">
+          {/* Search */}
+          <section className="border border-border p-6 bg-card">
+            <h1 className="font-display text-3xl text-foreground mb-4 text-center">
+              Registar Refeição
+            </h1>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                maxLength={6}
+                placeholder="Código cliente"
+                value={clientCode}
+                onChange={(e) => setClientCode(e.target.value.replace(/\D/g, ""))}
+                className="flex-1 bg-background border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground tracking-widest text-center transition-colors"
+              />
+              <button
+                onClick={searchClient}
+                className="px-4 py-3 bg-foreground text-background border border-foreground hover:opacity-90 transition-opacity"
+                aria-label="Pesquisar"
+              >
+                <Search className="w-4 h-4" />
+              </button>
+            </div>
+            <button
+              onClick={() => setShowScanner(true)}
+              className="w-full mt-3 py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
+            >
+              <ScanLine className="w-4 h-4" />
+              Ler Código QR
+            </button>
+            {searchError && (
+              <p className="text-xs text-destructive mt-2 text-center">{searchError}</p>
+            )}
+          </section>
+
+          {showScanner && (
+            <QRScanner
+              onScan={handleQRScan}
+              onClose={() => setShowScanner(false)}
+            />
+          )}
+
+          {clientProfile && (
+            <AdminClientCard
+              profile={clientProfile}
+              mealAmount={mealAmount}
+              onMealAmountChange={setMealAmount}
+              onRegisterPoints={registerMealPoints}
+              onRegisterWeekdayMeal={registerWeekdayMeal}
+              actionLoading={actionLoading}
+              feedback={feedback}
+            />
+          )}
         </div>
-        <button
-          onClick={() => setShowScanner(true)}
-          className="w-full mt-3 py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
-        >
-          <ScanLine className="w-4 h-4" />
-          Ler Código QR
-        </button>
-        {searchError && (
-          <p className="text-xs text-destructive mt-2">{searchError}</p>
-        )}
-      </section>
-
-      {showScanner && (
-        <QRScanner
-          onScan={handleQRScan}
-          onClose={() => setShowScanner(false)}
-        />
-      )}
-
-      {clientProfile && (
-        <AdminClientCard
-          profile={clientProfile}
-          mealAmount={mealAmount}
-          onMealAmountChange={setMealAmount}
-          onRegisterPoints={registerMealPoints}
-          onRegisterWeekdayMeal={registerWeekdayMeal}
-          actionLoading={actionLoading}
-          feedback={feedback}
-        />
-      )}
+      </div>
     </div>
   );
 };
