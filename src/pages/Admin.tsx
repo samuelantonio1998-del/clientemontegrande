@@ -180,6 +180,7 @@ const Admin = () => {
         : (t.mealRegistered as (n: number) => string)(newMeals)
     );
     await refreshClient();
+    actionLock.current = false;
     setActionLoading(false);
   };
 
