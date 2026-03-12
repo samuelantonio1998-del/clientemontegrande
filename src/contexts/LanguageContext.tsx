@@ -154,6 +154,8 @@ const translations = {
     value: "Amount €",
     score: "Score",
     oneEuroOnePoint: "1€ = 1 point",
+    mealCountPlaceholder: "No. of meals",
+    tenPointsPerMeal: "10 points per meal",
     weekdayMeal: "Weekday Meal",
     registerMealBtn: "Register Meal",
     weekdayMealRule: "Each meal = 10 points · 4 meals in the same week = 10€ discount",
