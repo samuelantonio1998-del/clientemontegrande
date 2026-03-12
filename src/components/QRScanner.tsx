@@ -10,30 +10,42 @@ interface QRScannerProps {
 
 const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
   const scannerRef = useRef<Html5Qrcode | null>(null);
+  const onScanRef = useRef(onScan);
   const [error, setError] = useState("");
   const { t } = useLanguage();
+
+  useEffect(() => {
+    onScanRef.current = onScan;
+  }, [onScan]);
 
   useEffect(() => {
     let mounted = true;
     const scanner = new Html5Qrcode("qr-reader");
     scannerRef.current = scanner;
 
+    const scanConfig = {
+      fps: 12,
+      qrbox: { width: 240, height: 240 },
+      aspectRatio: 1,
+    };
+
     const handleDecoded = (decodedText: string) => {
       if (!mounted) return;
       const match = decodedText.match(/(\d{6})/);
       if (!match) return;
 
-      const code = match[1];
-      onScan(code);
       mounted = false;
-      scanner.stop().catch(() => {});
+      onScanRef.current(match[1]);
+      if (scanner.isScanning) {
+        scanner.stop().catch(() => {});
+      }
     };
 
     const startScanner = async () => {
       try {
         await scanner.start(
-          { facingMode: "environment" },
-          { fps: 15, qrbox: { width: 220, height: 220 }, aspectRatio: 1 },
+          { facingMode: { ideal: "environment" } },
+          scanConfig,
           handleDecoded,
           () => {}
         );
@@ -41,10 +53,15 @@ const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
       } catch {
         try {
           const cameras = await Html5Qrcode.getCameras();
-          if (cameras.length) {
+          const backCamera = cameras.find((camera) =>
+            /back|rear|environment|traseira|tras|posterior/i.test(camera.label)
+          );
+          const selectedCamera = backCamera ?? cameras[0];
+
+          if (selectedCamera) {
             await scanner.start(
-              cameras[0].id,
-              { fps: 15, qrbox: { width: 220, height: 220 }, aspectRatio: 1 },
+              selectedCamera.id,
+              scanConfig,
               handleDecoded,
               () => {}
             );
@@ -64,9 +81,11 @@ const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
 
     return () => {
       mounted = false;
-      scanner.stop().catch(() => {});
+      if (scanner.isScanning) {
+        scanner.stop().catch(() => {});
+      }
     };
-  }, [onScan]);
+  }, [t.cameraError]);
 
   return (
     <div className="fixed inset-0 z-50 bg-background/95 flex flex-col items-center justify-center">
