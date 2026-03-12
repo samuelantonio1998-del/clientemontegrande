@@ -259,11 +259,22 @@ const Admin = () => {
           {clientProfile && (
             <AdminClientCard
               profile={clientProfile}
-              onRegisterWeekdayMeal={registerWeekdayMeal}
+              onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
               actionLoading={actionLoading}
               feedback={feedback}
             />
           )}
+
+          <ConfirmDialog
+            open={showConfirmMeal}
+            title={t.confirmMeal as string}
+            message={t.confirmMealMsg as string}
+            onConfirm={() => {
+              setShowConfirmMeal(false);
+              registerWeekdayMeal();
+            }}
+            onCancel={() => setShowConfirmMeal(false)}
+          />
         </div>
       </div>
     </div>
