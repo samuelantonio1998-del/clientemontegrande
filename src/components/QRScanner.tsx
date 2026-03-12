@@ -14,26 +14,39 @@ const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
   const { t } = useLanguage();
 
   useEffect(() => {
+    let mounted = true;
     const scanner = new Html5Qrcode("qr-reader");
     scannerRef.current = scanner;
 
-    scanner
-      .start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: { width: 250, height: 250 } },
-        (decodedText) => {
-          const code = decodedText.trim();
-          if (/^\d{6}$/.test(code)) {
-            scanner.stop().then(() => onScan(code)).catch(() => onScan(code));
-          }
-        },
-        () => {}
-      )
-      .catch(() => {
-        setError(t.cameraError as string);
-      });
+    const startScanner = async () => {
+      try {
+        await scanner.start(
+          { facingMode: "environment" },
+          { fps: 15, qrbox: { width: 220, height: 220 }, aspectRatio: 1 },
+          (decodedText) => {
+            if (!mounted) return;
+            // Extract 6 digits from the scanned text (handles whitespace, URLs, etc.)
+            const match = decodedText.match(/(\d{6})/);
+            if (match) {
+              const code = match[1];
+              mounted = false;
+              scanner.stop().then(() => onScan(code)).catch(() => onScan(code));
+            }
+          },
+          () => {}
+        );
+      } catch (err) {
+        if (mounted) {
+          console.error("QR Scanner error:", err);
+          setError(t.cameraError as string);
+        }
+      }
+    };
+
+    startScanner();
 
     return () => {
+      mounted = false;
       scanner.stop().catch(() => {});
     };
   }, [onScan]);
