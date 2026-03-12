@@ -29,7 +29,7 @@ const Index = () => {
   const [showStamp, setShowStamp] = useState(false);
   const [lastPointsGained, setLastPointsGained] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
-  
+
   const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
@@ -50,7 +50,12 @@ const Index = () => {
 
     const [profileRes, txRes] = await Promise.all([
       supabase.from("profiles").select("*").eq("user_id", user.id).single(),
-      supabase.from("transactions").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(20),
+      supabase
+        .from("transactions")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(20),
     ]);
 
     if (profileRes.data) {
@@ -70,7 +75,7 @@ const Index = () => {
           points: t.points_earned,
           description: t.description,
           type: t.type,
-        }))
+        })),
       );
     }
 
@@ -95,9 +100,7 @@ const Index = () => {
   if (authLoading || dataLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-sm text-muted-foreground tracking-wide">
-          A carregar...
-        </p>
+        <p className="text-sm text-muted-foreground tracking-wide">A carregar...</p>
       </div>
     );
   }
@@ -106,9 +109,7 @@ const Index = () => {
     <div className="min-h-screen bg-background relative overflow-hidden">
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
         <div>
-          <p className="text-xs tracking-widest uppercase text-muted-foreground">
-            programa de fidelidade
-          </p>
+          <p className="text-xs tracking-widest uppercase text-muted-foreground">programa de fidelidade</p>
           {clientCode && (
             <p className="text-xs text-muted-foreground mt-1">
               Código: <span className="text-foreground tracking-widest font-semibold">{clientCode}</span>
@@ -121,27 +122,19 @@ const Index = () => {
             className="text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Sair"
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-10 h-4" />
           </button>
         </div>
       </header>
 
       <ClientQRCode clientCode={clientCode} />
 
-      <MealCounter
-        meals={meals}
-        discountAvailable={discountAvailable}
-        onClaimDiscount={handleClaimDiscount}
-      />
+      <MealCounter meals={meals} discountAvailable={discountAvailable} onClaimDiscount={handleClaimDiscount} />
 
       {totalSavings > 0 && (
         <section className="mx-6 mt-4 border border-border p-4 bg-card">
-          <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">
-            poupança total
-          </p>
-          <p className="font-display text-2xl text-primary">
-            Já economizou {totalSavings}€
-          </p>
+          <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">poupança total</p>
+          <p className="font-display text-2xl text-primary">Já economizou {totalSavings}€</p>
         </section>
       )}
 
