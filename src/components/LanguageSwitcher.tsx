@@ -6,12 +6,12 @@ const LanguageSwitcher = () => {
   return (
     <button
       onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
-      className="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors font-mono"
-      aria-label="Change language"
-    >
+      className="tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors font-mono text-sm"
+      aria-label="Change language">
+      
       {language === "pt" ? "EN" : "PT"}
-    </button>
-  );
+    </button>);
+
 };
 
 export default LanguageSwitcher;
