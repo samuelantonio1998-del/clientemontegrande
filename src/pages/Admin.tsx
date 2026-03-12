@@ -21,6 +21,8 @@ const Admin = () => {
   const [actionLoading, setActionLoading] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [showScanner, setShowScanner] = useState(false);
+  const actionLock = useRef(false);
+  const [showScanner, setShowScanner] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
