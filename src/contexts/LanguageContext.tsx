@@ -164,6 +164,7 @@ const translations = {
     codeMustBe6: "Code must be 6 digits",
     weekdayOnly: "Discount meals only count on weekdays",
     dailyMealLimit: "This client already has a meal registered today",
+    mealCooldown: (h: number, m: number) => `Next registration available in ${h}h${m.toString().padStart(2, "0")}m`,
     pointsAssigned: (n: number) => `+${n} points assigned`,
     discountUnlocked: "10€ discount unlocked!",
     mealRegistered: (n: number) => `Meal ${n}/4 registered`,
