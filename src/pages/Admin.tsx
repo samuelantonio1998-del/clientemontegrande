@@ -23,6 +23,7 @@ const Admin = () => {
   const [showScanner, setShowScanner] = useState(false);
   const actionLock = useRef(false);
   const [showConfirmMeal, setShowConfirmMeal] = useState(false);
+  const [showConfirmRedeem, setShowConfirmRedeem] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
