@@ -120,7 +120,7 @@ const translations = {
     nameRequired: "O nome é obrigatório",
 
     // Referral
-    inviteFriends: "Convidar Amigos",
+    inviteFriends: "Convida amigos e ganha pontos",
     referralTitle: "O teu link de convite",
     referralDescription: "Partilha este link com amigos. Ganhas 2.5 pontos por cada refeição que eles registarem (até 10 refeições por amigo).",
     linkCopied: "Link copiado!",
