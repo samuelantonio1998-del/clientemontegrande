@@ -105,7 +105,7 @@ const ReviewDialog = ({ open, onClose, transactionId, onReviewSubmitted }: Revie
     <Dialog open={open} onOpenChange={(o) => !o && handleClose()}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>{t.reviewTitle as string}</DialogTitle>
+          <DialogTitle className="sr-only">{t.reviewTitle as string}</DialogTitle>
           <DialogDescription>{t.reviewSubtitle as string}</DialogDescription>
         </DialogHeader>
 
