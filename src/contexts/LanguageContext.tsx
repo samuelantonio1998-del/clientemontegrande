@@ -119,6 +119,17 @@ const translations = {
     nameTooLong: "O nome deve ter menos de 100 caracteres",
     nameRequired: "O nome é obrigatório",
 
+    // Reviews
+    reviewTitle: "Avalia a tua experiência",
+    reviewSubtitle: "A tua opinião ajuda-nos a melhorar",
+    reviewPlaceholder: "Escreve a tua crítica ou sugestão (opcional)...",
+    reviewPointsHint: "Avaliação = 1.5 pts · Com crítica credível = 5 pts",
+    confirmReview: "Confirmar Avaliação",
+    reviewSubmitted: "Avaliação submetida!",
+    reviewError: "Erro ao submeter avaliação",
+    rate: "Avaliar",
+    reviewed: "Avaliado",
+
     // Referral
     inviteFriends: "Convida amigos e ganha pontos",
     referralTitle: "O teu link de convite",
