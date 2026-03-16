@@ -112,7 +112,10 @@ const Auth = () => {
         email: email.trim(),
         password,
         options: {
-          data: { display_name: displayName.trim() },
+          data: {
+            display_name: displayName.trim(),
+            ...(refCode ? { referral_code: refCode } : {}),
+          },
           emailRedirectTo: window.location.origin
         }
       });

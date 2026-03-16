@@ -169,6 +169,8 @@ const Index = () => {
         </div>
       </header>
 
+      <ReferralButton referralCode={referralCode} />
+
       <ClientQRCode clientCode={clientCode} />
 
       <MealCounter meals={meals} discountAvailable={discountAvailable} />
