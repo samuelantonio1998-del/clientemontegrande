@@ -83,7 +83,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                     </span>
                   </button>
                 )}
-                <div className="flex flex-col items-end gap-0.5 shrink-0">
+                <div className="flex flex-col items-end gap-0.5 shrink-0 ml-auto">
                     {tx.type === "points" ? (
                       <>
                         <span className="text-foreground">{tx.amount.toFixed(2)}€</span>
