@@ -12,9 +12,9 @@ const MAX_ATTEMPTS = 5;
 const LOCKOUT_MS = 60_000;
 
 const Auth = () => {
-  const [searchParamsInit] = useSearchParams();
-  const hasRef = !!searchParamsInit.get("ref");
-  const [isLogin, setIsLogin] = useState(!hasRef);
+  const [searchParams] = useSearchParams();
+  const refCode = searchParams.get("ref");
+  const [isLogin, setIsLogin] = useState(!refCode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -27,8 +27,6 @@ const Auth = () => {
   const [attempts, setAttempts] = useState(0);
   const [lockedUntil, setLockedUntil] = useState(0);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const refCode = searchParams.get("ref");
   const { t } = useLanguage();
 
   useEffect(() => {
