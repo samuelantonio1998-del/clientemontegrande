@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MoreHorizontal, CheckCircle } from "lucide-react";
+import { MoreHorizontal, CheckCircle, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import ReviewDialog from "@/components/ReviewDialog";
@@ -75,9 +75,12 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                 ) : (
                   <button
                     onClick={() => setReviewTxId(tx.id)}
-                    className="text-xs text-muted-foreground hover:text-primary transition-colors shrink-0 underline underline-offset-2 whitespace-nowrap"
+                    className="border border-border px-3 py-2 bg-card flex items-center gap-2 hover:bg-muted transition-colors shrink-0 whitespace-nowrap"
                   >
-                    {t.rate as string} <span className="text-primary font-semibold">+5 {t.pts as string}</span>
+                    <Star className="w-4 h-4 text-primary shrink-0" />
+                    <span className="text-xs uppercase tracking-widest text-foreground">
+                      {t.rate as string} <span className="text-primary font-semibold">+5 {t.pts as string}</span>
+                    </span>
                   </button>
                 )}
                 <div className="flex flex-col items-end gap-0.5 shrink-0">
