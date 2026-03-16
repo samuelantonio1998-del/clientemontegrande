@@ -12,7 +12,9 @@ const MAX_ATTEMPTS = 5;
 const LOCKOUT_MS = 60_000;
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [searchParamsInit] = useSearchParams();
+  const hasRef = !!searchParamsInit.get("ref");
+  const [isLogin, setIsLogin] = useState(!hasRef);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
