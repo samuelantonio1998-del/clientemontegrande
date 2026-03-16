@@ -10,6 +10,16 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Verify the request is from the cron scheduler
+  const authHeader = req.headers.get("Authorization");
+  const expectedToken = Deno.env.get("CRON_SECRET");
+  if (!expectedToken || !authHeader || authHeader !== `Bearer ${expectedToken}`) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
@@ -21,7 +31,8 @@ Deno.serve(async (req) => {
   const { data: users, error: listError } = await supabase.auth.admin.listUsers();
 
   if (listError) {
-    return new Response(JSON.stringify({ error: listError.message }), {
+    console.error("cleanup-unconfirmed error:", listError);
+    return new Response(JSON.stringify({ error: "Failed to list users" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
