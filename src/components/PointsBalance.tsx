@@ -86,11 +86,9 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                   ) : (
                     <button
                       onClick={() => setReviewTxId(tx.id)}
-                      className="p-1.5 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition-colors shrink-0"
-                      aria-label={t.rate as string}
-                      title={t.rate as string}
+                      className="text-xs text-muted-foreground hover:text-primary transition-colors shrink-0 underline underline-offset-2"
                     >
-                      <Star className="w-3.5 h-3.5" />
+                      {t.rate as string}
                     </button>
                   )}
                 </div>
