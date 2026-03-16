@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +12,9 @@ const MAX_ATTEMPTS = 5;
 const LOCKOUT_MS = 60_000;
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [searchParams] = useSearchParams();
+  const refCode = searchParams.get("ref");
+  const [isLogin, setIsLogin] = useState(!refCode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -109,7 +112,10 @@ const Auth = () => {
         email: email.trim(),
         password,
         options: {
-          data: { display_name: displayName.trim() },
+          data: {
+            display_name: displayName.trim(),
+            ...(refCode ? { referral_code: refCode } : {}),
+          },
           emailRedirectTo: window.location.origin
         }
       });

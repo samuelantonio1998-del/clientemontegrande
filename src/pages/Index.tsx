@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
-
 import DiscountCelebration from "@/components/DiscountCelebration";
 import ClientQRCode from "@/components/ClientQRCode";
+import ReferralButton from "@/components/ReferralButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { LogOut } from "lucide-react";
 
@@ -31,6 +31,7 @@ const Index = () => {
   const [discountAvailable, setDiscountAvailable] = useState(false);
   const [clientCode, setClientCode] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [referralCode, setReferralCode] = useState("");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [showStamp, setShowStamp] = useState(false);
   const [lastPointsGained, setLastPointsGained] = useState(0);
@@ -90,6 +91,7 @@ const Index = () => {
       setDiscountAvailable(newDiscount);
       setClientCode(profileRes.data.client_code || "");
       setDisplayName(profileRes.data.display_name || "");
+      setReferralCode(profileRes.data.referral_code || "");
       setTotalSavings(Number(profileRes.data.total_savings) || 0);
     }
 
@@ -166,6 +168,8 @@ const Index = () => {
           </button>
         </div>
       </header>
+
+      <ReferralButton referralCode={referralCode} />
 
       <ClientQRCode clientCode={clientCode} />
 

@@ -24,6 +24,7 @@ export type Database = {
           discount_available: boolean
           display_name: string | null
           id: string
+          referral_code: string | null
           total_points: number
           total_savings: number
           updated_at: string
@@ -38,6 +39,7 @@ export type Database = {
           discount_available?: boolean
           display_name?: string | null
           id?: string
+          referral_code?: string | null
           total_points?: number
           total_savings?: number
           updated_at?: string
@@ -52,10 +54,35 @@ export type Database = {
           discount_available?: boolean
           display_name?: string | null
           id?: string
+          referral_code?: string | null
           total_points?: number
           total_savings?: number
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          meals_counted: number
+          referred_id: string
+          referrer_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          meals_counted?: number
+          referred_id: string
+          referrer_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          meals_counted?: number
+          referred_id?: string
+          referrer_id?: string
         }
         Relationships: []
       }
@@ -113,6 +140,7 @@ export type Database = {
     }
     Functions: {
       generate_client_code: { Args: never; Returns: string }
+      generate_referral_code: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

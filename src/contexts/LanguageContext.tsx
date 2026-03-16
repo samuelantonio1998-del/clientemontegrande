@@ -119,6 +119,14 @@ const translations = {
     nameTooLong: "O nome deve ter menos de 100 caracteres",
     nameRequired: "O nome é obrigatório",
 
+    // Referral
+    inviteFriends: "Convidar Amigos",
+    referralTitle: "O teu link de convite",
+    referralDescription: "Partilha este link com amigos. Ganhas 3 pontos por cada refeição que eles registarem (até 10 refeições por amigo).",
+    linkCopied: "Link copiado!",
+    copyLink: "Copiar Link",
+    referralPoints: "Pontos de referência",
+
     // NotFound
     pageNotFound: "Página não encontrada",
     returnHome: "Voltar ao início",
@@ -227,6 +235,13 @@ const translations = {
     invalidEmail: "Invalid email",
     nameTooLong: "Name must be less than 100 characters",
     nameRequired: "Name is required",
+
+    inviteFriends: "Invite Friends",
+    referralTitle: "Your invite link",
+    referralDescription: "Share this link with friends. You earn 3 points for each meal they register (up to 10 meals per friend).",
+    linkCopied: "Link copied!",
+    copyLink: "Copy Link",
+    referralPoints: "Referral points",
 
     pageNotFound: "Page not found",
     returnHome: "Return to Home",
