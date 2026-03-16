@@ -238,7 +238,7 @@ const translations = {
 
     inviteFriends: "Invite Friends",
     referralTitle: "Your invite link",
-    referralDescription: "Share this link with friends. You earn 3 points for each meal they register (up to 10 meals per friend).",
+    referralDescription: "Share this link with friends. You earn 2.5 points for each meal they register (up to 10 meals per friend).",
     linkCopied: "Link copied!",
     copyLink: "Copy Link",
     referralPoints: "Referral points",
