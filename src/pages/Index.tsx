@@ -91,6 +91,7 @@ const Index = () => {
       setDiscountAvailable(newDiscount);
       setClientCode(profileRes.data.client_code || "");
       setDisplayName(profileRes.data.display_name || "");
+      setReferralCode(profileRes.data.referral_code || "");
       setTotalSavings(Number(profileRes.data.total_savings) || 0);
     }
 
