@@ -119,6 +119,14 @@ const translations = {
     nameTooLong: "O nome deve ter menos de 100 caracteres",
     nameRequired: "O nome é obrigatório",
 
+    // Referral
+    inviteFriends: "Convidar Amigos",
+    referralTitle: "O teu link de convite",
+    referralDescription: "Partilha este link com amigos. Ganhas 3 pontos por cada refeição que eles registarem (até 10 refeições por amigo).",
+    linkCopied: "Link copiado!",
+    copyLink: "Copiar Link",
+    referralPoints: "Pontos de referência",
+
     // NotFound
     pageNotFound: "Página não encontrada",
     returnHome: "Voltar ao início",
