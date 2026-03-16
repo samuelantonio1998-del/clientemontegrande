@@ -120,7 +120,7 @@ const translations = {
     nameRequired: "O nome é obrigatório",
 
     // Referral
-    inviteFriends: "Convidar Amigos",
+    inviteFriends: "Convida amigos e ganha pontos",
     referralTitle: "O teu link de convite",
     referralDescription: "Partilha este link com amigos. Ganhas 2.5 pontos por cada refeição que eles registarem (até 10 refeições por amigo).",
     linkCopied: "Link copiado!",
@@ -236,7 +236,7 @@ const translations = {
     nameTooLong: "Name must be less than 100 characters",
     nameRequired: "Name is required",
 
-    inviteFriends: "Invite Friends",
+    inviteFriends: "Invite friends and earn points",
     referralTitle: "Your invite link",
     referralDescription: "Share this link with friends. You earn 2.5 points for each meal they register (up to 10 meals per friend).",
     linkCopied: "Link copied!",
