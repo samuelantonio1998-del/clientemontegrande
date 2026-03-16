@@ -127,7 +127,7 @@ const translations = {
     confirmReview: "Confirmar Avaliação",
     reviewSubmitted: "Avaliação submetida!",
     reviewError: "Erro ao submeter avaliação",
-    rate: "Avaliações",
+    rate: "Avaliar",
     reviewed: "Avaliado",
 
     // Referral

@@ -86,9 +86,9 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                   ) : (
                     <button
                       onClick={() => setReviewTxId(tx.id)}
-                      className="text-xs text-muted-foreground hover:text-primary transition-colors shrink-0 underline underline-offset-2"
+                      className="text-xs text-muted-foreground hover:text-primary transition-colors shrink-0 underline underline-offset-2 whitespace-nowrap"
                     >
-                      {t.rate as string}
+                      {t.rate as string} <span className="text-primary font-semibold">+5 {t.pts as string}</span>
                     </button>
                   )}
                 </div>
