@@ -103,24 +103,24 @@ const ReviewDialog = ({ open, onClose, transactionId, onReviewSubmitted }: Revie
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && handleClose()}>
-      <DialogContent className="max-w-sm">
+      <DialogContent className="max-w-xs p-4">
         <DialogHeader>
           <DialogTitle className="sr-only">{t.reviewTitle as string}</DialogTitle>
-          <DialogDescription>{t.reviewSubtitle as string}</DialogDescription>
+          <DialogDescription className="text-sm">{t.reviewSubtitle as string}</DialogDescription>
         </DialogHeader>
 
-        <div className="flex justify-center gap-3 py-4">
+        <div className="flex justify-center gap-2 py-3">
           {faces.map((face) => (
             <button
               key={face.rating}
               onClick={() => setRating(face.rating)}
-              className={`rounded-full border-2 p-1 transition-all ${
+              className={`rounded-full border-2 p-0.5 transition-all ${
                 rating === face.rating
                   ? `${face.selectedBorder} ${face.selectedBg} scale-110 shadow-md`
                   : "border-transparent hover:scale-105"
               }`}
             >
-              <FaceSvg rating={face.rating} size={44} />
+              <FaceSvg rating={face.rating} size={36} />
             </button>
           ))}
         </div>
@@ -129,17 +129,18 @@ const ReviewDialog = ({ open, onClose, transactionId, onReviewSubmitted }: Revie
           placeholder={t.reviewPlaceholder as string}
           value={comment}
           onChange={(e) => setComment(e.target.value.substring(0, 500))}
-          rows={3}
-          className="resize-none"
+          rows={2}
+          className="resize-none text-sm"
         />
-        <p className="text-xs text-muted-foreground">
+        <p className="text-[10px] text-muted-foreground">
           {t.reviewPointsHint as string}
         </p>
 
         <Button
           onClick={handleSubmit}
           disabled={!rating || submitting}
-          className="w-full"
+          className="w-full text-sm py-2"
+          size="sm"
         >
           {submitting ? (t.loading as string) : (t.confirmReview as string)}
         </Button>
