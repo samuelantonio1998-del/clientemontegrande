@@ -13,12 +13,51 @@ interface ReviewDialogProps {
   onReviewSubmitted: () => void;
 }
 
+const FaceSvg = ({ rating, size = 48 }: { rating: number; size?: number }) => {
+  const colors: Record<number, string> = {
+    1: "#c0392b",
+    2: "#e67e22",
+    3: "#f1c40f",
+    4: "#a8d648",
+    5: "#27ae60",
+  };
+  const fill = colors[rating] || "#ccc";
+
+  // Mouth paths for each rating
+  const mouths: Record<number, JSX.Element> = {
+    1: (
+      <>
+        <path d="M16 34 C16 30, 32 30, 32 34" stroke="#333" strokeWidth="1.5" fill="none" />
+        <rect x="18" y="34" width="12" height="4" rx="1" fill="#333" opacity="0.5" />
+      </>
+    ),
+    2: <path d="M16 34 C20 30, 28 30, 32 34" stroke="#333" strokeWidth="1.5" fill="none" />,
+    3: <line x1="16" y1="33" x2="32" y2="33" stroke="#333" strokeWidth="1.5" />,
+    4: <path d="M16 31 C20 35, 28 35, 32 31" stroke="#333" strokeWidth="1.5" fill="none" />,
+    5: (
+      <>
+        <path d="M16 31 C20 37, 28 37, 32 31" stroke="#333" strokeWidth="1.5" fill="none" />
+        <rect x="19" y="32" width="10" height="3" rx="1" fill="#333" opacity="0.4" />
+      </>
+    ),
+  };
+
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="22" fill={fill} />
+      <circle cx="17" cy="21" r="2.5" fill="#333" />
+      <circle cx="31" cy="21" r="2.5" fill="#333" />
+      {mouths[rating]}
+    </svg>
+  );
+};
+
 const faces = [
-  { rating: 1, emoji: "😡", color: "bg-red-500/20 border-red-500 text-red-500" },
-  { rating: 2, emoji: "😠", color: "bg-orange-500/20 border-orange-500 text-orange-500" },
-  { rating: 3, emoji: "😐", color: "bg-yellow-500/20 border-yellow-500 text-yellow-500" },
-  { rating: 4, emoji: "😊", color: "bg-lime-500/20 border-lime-500 text-lime-500" },
-  { rating: 5, emoji: "😍", color: "bg-green-500/20 border-green-500 text-green-500" },
+  { rating: 1, selectedBorder: "border-[#c0392b]", selectedBg: "bg-[#c0392b]/10" },
+  { rating: 2, selectedBorder: "border-[#e67e22]", selectedBg: "bg-[#e67e22]/10" },
+  { rating: 3, selectedBorder: "border-[#f1c40f]", selectedBg: "bg-[#f1c40f]/10" },
+  { rating: 4, selectedBorder: "border-[#a8d648]", selectedBg: "bg-[#a8d648]/10" },
+  { rating: 5, selectedBorder: "border-[#27ae60]", selectedBg: "bg-[#27ae60]/10" },
 ];
 
 const ReviewDialog = ({ open, onClose, transactionId, onReviewSubmitted }: ReviewDialogProps) => {
@@ -70,18 +109,18 @@ const ReviewDialog = ({ open, onClose, transactionId, onReviewSubmitted }: Revie
           <DialogDescription>{t.reviewSubtitle as string}</DialogDescription>
         </DialogHeader>
 
-        <div className="flex justify-center gap-2 py-4">
+        <div className="flex justify-center gap-3 py-4">
           {faces.map((face) => (
             <button
               key={face.rating}
               onClick={() => setRating(face.rating)}
-              className={`w-12 h-12 rounded-full border-2 flex items-center justify-center text-2xl transition-all ${
+              className={`rounded-full border-2 p-1 transition-all ${
                 rating === face.rating
-                  ? face.color + " scale-110 shadow-md"
-                  : "border-border bg-card hover:scale-105"
+                  ? `${face.selectedBorder} ${face.selectedBg} scale-110 shadow-md`
+                  : "border-transparent hover:scale-105"
               }`}
             >
-              {face.emoji}
+              <FaceSvg rating={face.rating} size={44} />
             </button>
           ))}
         </div>
