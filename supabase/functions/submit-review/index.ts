@@ -125,13 +125,6 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    await serviceClient.rpc("sql", {
-      query: `UPDATE public.profiles SET total_points = total_points + ${pointsAwarded} WHERE user_id = '${user.id}'`,
-    }).catch(() => {
-      // Fallback: direct update
-    });
-
-    // Direct update as fallback
     const { data: profile } = await serviceClient
       .from("profiles")
       .select("total_points")
