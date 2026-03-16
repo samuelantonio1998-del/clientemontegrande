@@ -64,7 +64,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
             return (
               <div
                 key={tx.id}
-                className="flex items-center justify-between py-3 border-b border-border text-sm gap-3 min-w-0"
+                className="flex items-center py-3 border-b border-border text-sm gap-3 min-w-0"
               >
                 <div className="flex flex-col gap-0.5 min-w-0 flex-1">
                   <span className="text-foreground truncate">{tx.description}</span>
