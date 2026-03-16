@@ -80,7 +80,7 @@ const AdminClientCard = ({
         >
           {actionLoading ? "..." : (t.registerMealBtn as string)}
         </button>
-        <p className="text-xs text-muted-foreground mt-1">
+        <p className="text-sm text-muted-foreground mt-1">
           {t.weekdayMealRule as string}
         </p>
       </div>
