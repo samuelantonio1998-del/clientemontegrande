@@ -119,6 +119,17 @@ const translations = {
     nameTooLong: "O nome deve ter menos de 100 caracteres",
     nameRequired: "O nome é obrigatório",
 
+    // Reviews
+    reviewTitle: "Avalia a tua experiência",
+    reviewSubtitle: "A tua opinião ajuda-nos a melhorar",
+    reviewPlaceholder: "Escreve a tua crítica ou sugestão (opcional)...",
+    reviewPointsHint: "Avaliação = 1.5 pts · Com crítica credível = 5 pts",
+    confirmReview: "Confirmar Avaliação",
+    reviewSubmitted: "Avaliação submetida!",
+    reviewError: "Erro ao submeter avaliação",
+    rate: "Avaliar",
+    reviewed: "Avaliado",
+
     // Referral
     inviteFriends: "Convida amigos e ganha pontos",
     referralTitle: "O teu link de convite",
@@ -235,6 +246,16 @@ const translations = {
     invalidEmail: "Invalid email",
     nameTooLong: "Name must be less than 100 characters",
     nameRequired: "Name is required",
+
+    reviewTitle: "Rate your experience",
+    reviewSubtitle: "Your feedback helps us improve",
+    reviewPlaceholder: "Write your review or suggestion (optional)...",
+    reviewPointsHint: "Rating = 1.5 pts · With credible review = 5 pts",
+    confirmReview: "Confirm Review",
+    reviewSubmitted: "Review submitted!",
+    reviewError: "Error submitting review",
+    rate: "Rate",
+    reviewed: "Reviewed",
 
     inviteFriends: "Invite friends and earn points",
     referralTitle: "Your invite link",
