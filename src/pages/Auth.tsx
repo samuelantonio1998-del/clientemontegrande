@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useNavigate } from "react-router-dom";
