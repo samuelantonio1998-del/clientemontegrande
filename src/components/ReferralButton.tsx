@@ -63,13 +63,13 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="mt-2 flex items-center gap-2">
-            <div className="flex-1 min-w-0 bg-muted border border-border px-3 py-2 text-xs text-foreground font-mono truncate rounded-sm">
+          <div className="mt-2 flex flex-col gap-3">
+            <div className="bg-muted border border-border px-3 py-2 text-xs text-foreground font-mono break-all rounded-sm">
               {referralLink}
             </div>
             <button
               onClick={handleCopy}
-              className="shrink-0 px-3 py-2 bg-primary text-primary-foreground text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-1.5"
+              className="w-full py-2.5 bg-primary text-primary-foreground text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center justify-center gap-1.5"
             >
               {copied ? (
                 <>
