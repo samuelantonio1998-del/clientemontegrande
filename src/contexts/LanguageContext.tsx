@@ -236,6 +236,13 @@ const translations = {
     nameTooLong: "Name must be less than 100 characters",
     nameRequired: "Name is required",
 
+    inviteFriends: "Invite Friends",
+    referralTitle: "Your invite link",
+    referralDescription: "Share this link with friends. You earn 3 points for each meal they register (up to 10 meals per friend).",
+    linkCopied: "Link copied!",
+    copyLink: "Copy Link",
+    referralPoints: "Referral points",
+
     pageNotFound: "Page not found",
     returnHome: "Return to Home",
   },
