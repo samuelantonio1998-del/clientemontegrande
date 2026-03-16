@@ -42,15 +42,17 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="mx-4 sm:mx-[100px] mt-4 w-[calc(100%-2rem)] sm:w-auto border border-border p-4 bg-card flex items-center gap-3 hover:bg-muted transition-colors"
-      >
-        <Users className="w-5 h-5 text-primary shrink-0" />
-        <span className="text-sm uppercase tracking-widest text-foreground">
-          {t.inviteFriends as string}
-        </span>
-      </button>
+      <div className="mx-4 sm:mx-[100px] mt-4 flex justify-center">
+        <button
+          onClick={() => setOpen(true)}
+          className="border border-border px-6 py-4 bg-card flex items-center gap-3 hover:bg-muted transition-colors"
+        >
+          <Users className="w-5 h-5 text-primary shrink-0" />
+          <span className="text-sm uppercase tracking-widest text-foreground">
+            {t.inviteFriends as string}
+          </span>
+        </button>
+      </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-sm">
