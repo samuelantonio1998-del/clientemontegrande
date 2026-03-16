@@ -70,6 +70,16 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                   <span className="text-foreground truncate">{tx.description}</span>
                   <span className="text-muted-foreground text-xs">{tx.date}</span>
                 </div>
+                {isReviewed ? (
+                  <CheckCircle className="w-4 h-4 text-primary shrink-0" />
+                ) : (
+                  <button
+                    onClick={() => setReviewTxId(tx.id)}
+                    className="text-xs text-muted-foreground hover:text-primary transition-colors shrink-0 underline underline-offset-2 whitespace-nowrap"
+                  >
+                    {t.rate as string} <span className="text-primary font-semibold">+5 {t.pts as string}</span>
+                  </button>
+                )}
                 <div className="flex flex-col items-end gap-0.5 shrink-0">
                     {tx.type === "points" ? (
                       <>
@@ -78,16 +88,6 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                       </>
                     ) : (
                       <span className="text-primary font-semibold">{t.meal as string}</span>
-                    )}
-                    {isReviewed ? (
-                      <CheckCircle className="w-4 h-4 text-primary" />
-                    ) : (
-                      <button
-                        onClick={() => setReviewTxId(tx.id)}
-                        className="text-xs text-muted-foreground hover:text-primary transition-colors underline underline-offset-2 whitespace-nowrap"
-                      >
-                        {t.rate as string} <span className="text-primary font-semibold">+5 {t.pts as string}</span>
-                      </button>
                     )}
                   </div>
               </div>
