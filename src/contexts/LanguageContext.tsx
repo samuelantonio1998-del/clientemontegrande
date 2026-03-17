@@ -375,6 +375,17 @@ const translations = {
 
     pageNotFound: "Page not found",
     returnHome: "Return to Home",
+
+    // GDPR / Privacy
+    privacyPolicyTitle: "Privacy Policy",
+    privacyConsent: "I have read and accept the",
+    privacyPolicyLink: "Privacy Policy",
+    privacyRequired: "You must accept the privacy policy",
+    deleteAccount: "Delete Account",
+    deleteAccountTitle: "Delete your account?",
+    deleteAccountMsg: "All your data will be permanently deleted. This action cannot be undone.",
+    accountDeleted: "Account deleted successfully",
+    deleteAccountError: "Error deleting account",
   },
 } as const;
 
