@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
-import { MoreHorizontal, Undo2, Clock, Loader2 } from "lucide-react";
+import { MoreHorizontal, Clock, Loader2 } from "lucide-react";
 import ConfirmDialog from "@/components/ConfirmDialog";
 
 interface AdminAction {
