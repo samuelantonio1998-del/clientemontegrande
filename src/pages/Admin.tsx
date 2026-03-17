@@ -282,9 +282,6 @@ const Admin = () => {
                 <Search className="w-4 h-4" />
               </button>
             </div>
-              <ScanLine className="w-4 h-4" />
-              {t.readQR as string}
-            </button>
             {searchError && (
               <p className="text-xs text-destructive mt-2 text-center">{searchError}</p>
             )}
