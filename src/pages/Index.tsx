@@ -174,6 +174,8 @@ const Index = () => {
 
       <ReferralButton referralCode={referralCode} />
 
+      <BirthdayBanner birthDate={birthDate} />
+
       <ClientQRCode clientCode={clientCode} />
 
       <MealCounter meals={meals} discountAvailable={discountAvailable} />
