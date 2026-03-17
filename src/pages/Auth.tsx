@@ -337,9 +337,9 @@ const Auth = () => {
                     onChange={(e) => setPrivacyAccepted(e.target.checked)}
                     className="mt-1 accent-primary"
                   />
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-sm text-secondary-foreground">
                     {t.privacyConsent as string}{" "}
-                    <Link to="/privacy" className="underline text-secondary-foreground hover:text-foreground transition-colors" target="_blank">
+                    <Link to="/privacy" className="underline text-sm text-secondary-foreground hover:text-foreground transition-colors">
                       {t.privacyPolicyLink as string}
                     </Link>
                   </span>
