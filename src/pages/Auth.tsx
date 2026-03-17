@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import logo from "@/assets/logo-mg-horizontal-bege.svg";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 const MAX_ATTEMPTS = 5;
 
