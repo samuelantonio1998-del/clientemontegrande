@@ -17,6 +17,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          birth_date: string | null
           client_code: string | null
           consecutive_meals: number
           created_at: string
@@ -32,6 +33,7 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          birth_date?: string | null
           client_code?: string | null
           consecutive_meals?: number
           created_at?: string
@@ -47,6 +49,7 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          birth_date?: string | null
           client_code?: string | null
           consecutive_meals?: number
           created_at?: string
