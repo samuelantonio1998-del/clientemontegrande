@@ -11,10 +11,10 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Verify CRON_SECRET
+  // Verify authorization (accept anon key for cron or CRON_SECRET)
   const authHeader = req.headers.get("authorization");
-  const cronSecret = Deno.env.get("CRON_SECRET");
-  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+  const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+  if (authHeader !== `Bearer ${anonKey}`) {
     return new Response("Unauthorized", { status: 401 });
   }
 
