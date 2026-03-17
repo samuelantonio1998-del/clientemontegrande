@@ -191,6 +191,17 @@ const translations = {
     // NotFound
     pageNotFound: "Página não encontrada",
     returnHome: "Voltar ao início",
+
+    // GDPR / Privacy
+    privacyPolicyTitle: "Política de Privacidade",
+    privacyConsent: "Li e aceito a",
+    privacyPolicyLink: "Política de Privacidade",
+    privacyRequired: "Deve aceitar a política de privacidade",
+    deleteAccount: "Eliminar Conta",
+    deleteAccountTitle: "Eliminar a sua conta?",
+    deleteAccountMsg: "Todos os seus dados serão permanentemente eliminados. Esta ação não pode ser revertida.",
+    accountDeleted: "Conta eliminada com sucesso",
+    deleteAccountError: "Erro ao eliminar conta",
   },
   en: {
     loyaltyProgram: "loyalty program",
@@ -364,6 +375,17 @@ const translations = {
 
     pageNotFound: "Page not found",
     returnHome: "Return to Home",
+
+    // GDPR / Privacy
+    privacyPolicyTitle: "Privacy Policy",
+    privacyConsent: "I have read and accept the",
+    privacyPolicyLink: "Privacy Policy",
+    privacyRequired: "You must accept the privacy policy",
+    deleteAccount: "Delete Account",
+    deleteAccountTitle: "Delete your account?",
+    deleteAccountMsg: "All your data will be permanently deleted. This action cannot be undone.",
+    accountDeleted: "Account deleted successfully",
+    deleteAccountError: "Error deleting account",
   },
 } as const;
 

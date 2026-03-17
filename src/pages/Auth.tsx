@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useNavigate } from "react-router-dom";
@@ -83,6 +83,7 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [attempts, setAttempts] = useState(0);
   const [lockedUntil, setLockedUntil] = useState(0);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const navigate = useNavigate();
   const { t } = useLanguage();
 
@@ -118,6 +119,10 @@ const Auth = () => {
       }
       if (!birthDate) {
         setError(t.birthdayRequired as string);
+        return false;
+      }
+      if (!privacyAccepted) {
+        setError(t.privacyRequired as string);
         return false;
       }
     }
@@ -323,6 +328,23 @@ const Auth = () => {
                   </button>
                 </div>
               </div>
+
+              {!isLogin && (
+                <label className="flex items-start gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={privacyAccepted}
+                    onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                    className="mt-1 accent-primary"
+                  />
+                  <span className="text-xs text-muted-foreground">
+                    {t.privacyConsent as string}{" "}
+                    <Link to="/privacy" className="underline text-foreground hover:text-primary transition-colors" target="_blank">
+                      {t.privacyPolicyLink as string}
+                    </Link>
+                  </span>
+                </label>
+              )}
 
               {error && <p className="text-xs text-destructive">{error}</p>}
 
