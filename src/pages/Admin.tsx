@@ -307,7 +307,7 @@ const Admin = () => {
             />
           )}
 
-          <ConfirmDialog
+          <AdminFollowClaims />
             open={showConfirmMeal}
             title={t.confirmMeal as string}
             message={t.confirmMealMsg as string}

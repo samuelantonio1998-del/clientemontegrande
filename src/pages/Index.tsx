@@ -197,6 +197,8 @@ const Index = () => {
         </section>
       )}
 
+      <FollowUsCard />
+
       <PointsBalance points={points} transactions={transactions} />
 
       {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
