@@ -68,6 +68,20 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
           </p>
         </section>
       )}
+
+      {buffetAvailable && (
+        <section className="mx-4 sm:mx-[100px] border border-border p-6 bg-primary">
+          <div className="flex items-center justify-center gap-3">
+            <Gift className="w-5 h-5 text-primary-foreground" />
+            <h2 className="font-display text-lg text-primary-foreground">
+              {t.buffetAvailable as string}
+            </h2>
+          </div>
+          <p className="text-sm text-primary-foreground/70 text-center mt-2 tracking-wide">
+            {t.buffetRedeemHint as string}
+          </p>
+        </section>
+      )}
     </div>
   );
 };
