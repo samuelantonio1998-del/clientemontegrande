@@ -105,6 +105,7 @@ export type Database = {
         Row: {
           avatar_url: string | null
           birth_date: string | null
+          buffet_available: boolean
           client_code: string | null
           consecutive_meals: number
           created_at: string
@@ -121,6 +122,7 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           birth_date?: string | null
+          buffet_available?: boolean
           client_code?: string | null
           consecutive_meals?: number
           created_at?: string
@@ -137,6 +139,7 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           birth_date?: string | null
+          buffet_available?: boolean
           client_code?: string | null
           consecutive_meals?: number
           created_at?: string
