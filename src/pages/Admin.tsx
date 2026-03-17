@@ -8,6 +8,7 @@ import AdminClientCard from "@/components/AdminClientCard";
 import QRScanner from "@/components/QRScanner";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import AdminFollowClaims from "@/components/AdminFollowClaims";
 
 const Admin = () => {
   const { user, loading: authLoading, signOut } = useAuth();
