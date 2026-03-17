@@ -138,26 +138,19 @@ const FollowUsCard = () => {
 
   // If approved, show minimal "used" state
   if (status === "approved") {
-    const handleInstagramClick = (e: React.MouseEvent) => {
-      e.preventDefault();
-      const w = window.open(INSTAGRAM_URL, "_blank", "noopener,noreferrer");
-      if (!w) {
-        // Fallback: try direct navigation
-        window.location.href = INSTAGRAM_URL;
-      }
-    };
-
     return (
       <section className="mx-4 sm:mx-[100px] mt-4 border border-border p-4 bg-card">
-        <button
-          onClick={handleInstagramClick}
-          className="flex items-center gap-3 group w-full text-left"
+        <a
+          href={INSTAGRAM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 group"
         >
           <Instagram className="w-6 h-6 text-primary" />
           <span className="text-sm text-foreground group-hover:text-primary transition-colors">
             @restaurante_monte_grande
           </span>
-        </button>
+        </a>
       </section>
     );
   }
