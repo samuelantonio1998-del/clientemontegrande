@@ -29,7 +29,7 @@ const MealCounter = ({ meals, discountAvailable }: MealCounterProps) => {
                 <Info className="w-4 h-4 text-muted-foreground cursor-help" />
               </TooltipTrigger>
               <TooltipContent side="top" className="max-w-[220px] text-center">
-                <p className="text-xs">Para obter os 10€, tem que completar as 4 refeições na mesma semana.</p>
+                <p className="text-xs">Para obter o desconto, tem que completar as 4 refeições na mesma semana.</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
