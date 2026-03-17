@@ -29,7 +29,7 @@ const translations = {
     noTransactions: "Sem transações",
 
     // ClientQRCode
-    yourQRCode: "o seu código qr",
+    yourQRCode: "O Seu Código QR",
 
     // StampOverlay
     pointsLabel: "pontos",
@@ -181,7 +181,7 @@ const translations = {
     mealsLabel: "meals",
     noTransactions: "No transactions",
 
-    yourQRCode: "your qr code",
+    yourQRCode: "Your QR Code",
 
     pointsLabel: "points",
 
