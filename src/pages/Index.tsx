@@ -198,6 +198,8 @@ const Index = () => {
 
       <MealCounter meals={meals} discountAvailable={discountAvailable} buffetAvailable={buffetAvailable} />
 
+      <AdBanner />
+
       {totalSavings > 0 && (
         <section className="mx-4 sm:mx-[100px] mt-4 border border-border p-4 bg-card">
           <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">{t.totalSavings as string}</p>
