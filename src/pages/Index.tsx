@@ -3,7 +3,7 @@ import logo from "@/assets/logo-mg-horizontal-bege.svg";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import MealCounter from "@/components/MealCounter";
 import PointsBalance from "@/components/PointsBalance";
 import StampOverlay from "@/components/StampOverlay";
@@ -13,7 +13,9 @@ import ReferralButton from "@/components/ReferralButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import BirthdayBanner from "@/components/BirthdayBanner";
 import FollowUsCard from "@/components/FollowUsCard";
-import { LogOut } from "lucide-react";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import { LogOut, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 export interface Transaction {
   id: string;
