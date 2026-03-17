@@ -117,44 +117,50 @@ const AdminFollowClaims = () => {
         {t.followClaimsTitle as string} ({claims.length})
       </p>
 
-      <div className="space-y-3">
-        {claims.map((claim) => (
-          <div key={claim.id} className="border border-border p-3">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-medium text-foreground">
-                {claim.display_name || t.noName as string}
-              </p>
-              <a
-                href={getScreenshotUrl(claim)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-primary flex items-center gap-1 hover:underline"
-              >
-                {t.followViewScreenshot as string}
-                <ExternalLink className="w-3 h-3" />
-              </a>
+      {claims.length === 0 ? (
+        <p className="text-xs text-muted-foreground text-center py-3">
+          {t.noFollowClaims as string || "Sem pedidos pendentes"}
+        </p>
+      ) : (
+        <div className="space-y-3">
+          {claims.map((claim) => (
+            <div key={claim.id} className="border border-border p-3">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-medium text-foreground">
+                  {claim.display_name || t.noName as string}
+                </p>
+                <a
+                  href={getScreenshotUrl(claim)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-primary flex items-center gap-1 hover:underline"
+                >
+                  {t.followViewScreenshot as string}
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleDecision(claim, true)}
+                  disabled={actionLoading === claim.id}
+                  className="flex-1 py-2 flex items-center justify-center gap-1 text-xs uppercase tracking-widest border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50"
+                >
+                  <CheckCircle className="w-3 h-3" />
+                  {t.followApproveBtn as string}
+                </button>
+                <button
+                  onClick={() => handleDecision(claim, false)}
+                  disabled={actionLoading === claim.id}
+                  className="flex-1 py-2 flex items-center justify-center gap-1 text-xs uppercase tracking-widest border border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground transition-colors disabled:opacity-50"
+                >
+                  <XCircle className="w-3 h-3" />
+                  {t.followRejectBtn as string}
+                </button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleDecision(claim, true)}
-                disabled={actionLoading === claim.id}
-                className="flex-1 py-2 flex items-center justify-center gap-1 text-xs uppercase tracking-widest border border-green-600 text-green-600 hover:bg-green-600 hover:text-white transition-colors disabled:opacity-50"
-              >
-                <CheckCircle className="w-3 h-3" />
-                {t.followApproveBtn as string}
-              </button>
-              <button
-                onClick={() => handleDecision(claim, false)}
-                disabled={actionLoading === claim.id}
-                className="flex-1 py-2 flex items-center justify-center gap-1 text-xs uppercase tracking-widest border border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground transition-colors disabled:opacity-50"
-              >
-                <XCircle className="w-3 h-3" />
-                {t.followRejectBtn as string}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 };
