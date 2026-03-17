@@ -49,6 +49,9 @@ const translations = {
     loginApple: "Entrar com Apple",
     recoverPassword: "Recuperar Password",
     createAccount: "Criar Conta",
+    welcomeBack: "Bem-vindo!",
+    loginSubtitle: "Inicie sessão ou crie uma conta",
+    signupSubtitle: "Crie a sua conta para começar",
     haveAccount: "Já tenho conta",
 
     // Admin
