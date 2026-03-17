@@ -10,6 +10,7 @@ import {
 interface MealCounterProps {
   meals: number;
   discountAvailable: boolean;
+  buffetAvailable: boolean;
 }
 
 const MealCounter = ({ meals, discountAvailable }: MealCounterProps) => {
