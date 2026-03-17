@@ -349,6 +349,8 @@ const Admin = () => {
 
           <AdminActionHistory refreshKey={historyRefreshKey} />
 
+          <AdminAds />
+
           
 
           <ConfirmDialog
