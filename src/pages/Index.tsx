@@ -106,13 +106,15 @@ const Index = () => {
 
     if (txRes.data) {
       setTransactions(
-        txRes.data.map((tx) => ({
+        txRes.data.map((tx: any) => ({
           id: tx.id,
           date: tx.created_at.split("T")[0],
           amount: Number(tx.amount),
           points: tx.points_earned,
           description: tx.description,
           type: tx.type,
+          expires_at: tx.expires_at,
+          expired: tx.expired,
         })),
       );
     }
