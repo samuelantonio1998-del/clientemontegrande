@@ -129,7 +129,8 @@ const FollowUsCard = () => {
     rejected: <XCircle className="w-4 h-4 text-destructive" />,
   };
 
-  const statusText = {
+  const statusText: Record<string, string> = {
+    verifying: (t.followVerifying as string) || "A verificar...",
     pending: t.followPending as string,
     approved: t.followApproved as string,
     rejected: t.followRejected as string,
