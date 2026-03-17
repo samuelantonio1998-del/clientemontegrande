@@ -61,6 +61,9 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
             <DialogTitle className="text-base uppercase tracking-widest">
               {t.referralTitle as string}
             </DialogTitle>
+            <DialogDescription className="text-xs text-muted-foreground">
+              {t.referralDescription as string}
+            </DialogDescription>
           </DialogHeader>
 
           <div className="mt-2 flex flex-col gap-3">

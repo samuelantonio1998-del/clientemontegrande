@@ -154,7 +154,7 @@ const translations = {
     // Referral
     inviteFriends: "Convida amigos e ganha pontos",
     referralTitle: "O teu link de convite",
-    referralDescription: "Partilha este link com amigos. Ganhas 2.5 pontos por cada refeição que eles registarem (até 10 refeições por amigo).",
+    referralDescription: "Partilha este link com amigos.",
     linkCopied: "Link copiado!",
     copyLink: "Copiar Link",
     referralPoints: "Pontos de referência",
@@ -329,7 +329,7 @@ const translations = {
 
     inviteFriends: "Invite friends and earn points",
     referralTitle: "Your invite link",
-    referralDescription: "Share this link with friends. You earn 2.5 points for each meal they register (up to 10 meals per friend).",
+    referralDescription: "Share this link with friends.",
     linkCopied: "Link copied!",
     copyLink: "Copy Link",
     referralPoints: "Referral points",
