@@ -143,7 +143,7 @@ serve(async (req) => {
     const newStatus = following ? "approved" : "rejected";
     const pointsToAward = following ? 10 : 0;
 
-    // Update claim
+    // Update claim - clear screenshot_url after verification
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     await supabase
       .from("follow_claims")
@@ -151,9 +151,21 @@ serve(async (req) => {
         status: newStatus,
         points_awarded: pointsToAward,
         reviewed_at: new Date().toISOString(),
+        screenshot_url: "verified",
       })
       .eq("id", claim_id)
       .eq("user_id", user.id);
+
+    // Delete the screenshot from storage
+    const filePath = `${user.id}/instagram-follow`;
+    const { data: files } = await supabase.storage
+      .from("follow-screenshots")
+      .list(user.id);
+    
+    if (files && files.length > 0) {
+      const paths = files.map((f: { name: string }) => `${user.id}/${f.name}`);
+      await supabase.storage.from("follow-screenshots").remove(paths);
+    }
 
     if (following) {
       // Award points
