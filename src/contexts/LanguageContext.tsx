@@ -69,7 +69,7 @@ const translations = {
     tenPointsPerMeal: "10 pontos por refeição",
     weekdayMeal: "Refeição Dia Útil",
     registerMealBtn: "Registar Refeição",
-    weekdayMealRule: "Cada refeição = 10 pontos · 4 refeições na semana = 10€ desconto",
+    weekdayMealRule: "Cada refeição = 10 pontos · 4 refeições na semana = 10€ desconto · 200 pontos = 15€ desconto",
     discountRedeemInfo: "Quando o cliente tiver elegível para descontar, irá aparecer uma box para confirmar o desconto. Confirme o desconto e aplique na tecla desconto no ecrã do computador de faturação.",
     clientNotFound: "Cliente não encontrado",
     codeMustBe6: "O código deve ter 6 dígitos",
