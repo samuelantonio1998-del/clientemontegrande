@@ -24,6 +24,7 @@ const Admin = () => {
   const actionLock = useRef(false);
   const [showConfirmMeal, setShowConfirmMeal] = useState(false);
   const [showConfirmRedeem, setShowConfirmRedeem] = useState(false);
+  const [showConfirmBuffet, setShowConfirmBuffet] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
