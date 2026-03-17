@@ -86,8 +86,6 @@ const Admin = () => {
   const searchClient = async () => {
     await searchClientByCode(clientCode.trim());
   };
-
-
   const registerWeekdayMeal = async () => {
     if (!clientProfile || actionLock.current) return;
     actionLock.current = true;
