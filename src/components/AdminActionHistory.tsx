@@ -186,13 +186,12 @@ const AdminActionHistory = ({ refreshKey }: AdminActionHistoryProps) => {
                 <button
                   onClick={() => setConfirmUndo(action)}
                   disabled={!!undoingId}
-                  className="p-2 text-muted-foreground hover:text-destructive transition-colors disabled:opacity-50"
-                  aria-label={t.undoAction as string}
+                  className="px-3 py-1.5 text-xs uppercase tracking-widest text-destructive border border-destructive/30 hover:bg-destructive hover:text-destructive-foreground transition-colors disabled:opacity-50"
                 >
                   {undoingId === action.id ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
-                    <Undo2 className="w-4 h-4" />
+                    t.undoAction as string
                   )}
                 </button>
               )}
