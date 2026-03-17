@@ -130,7 +130,7 @@ const FollowUsCard = () => {
   };
 
   const statusText: Record<string, string> = {
-    verifying: (t.followVerifying as string) || "A verificar...",
+    verifying: "A verificar...",
     pending: t.followPending as string,
     approved: t.followApproved as string,
     rejected: t.followRejected as string,
