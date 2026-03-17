@@ -27,6 +27,7 @@ const Admin = () => {
   const [showConfirmMeal, setShowConfirmMeal] = useState(false);
   const [showConfirmRedeem, setShowConfirmRedeem] = useState(false);
   const [showConfirmBuffet, setShowConfirmBuffet] = useState(false);
+  const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
 
   useEffect(() => {
     if (!authLoading && !user) {
