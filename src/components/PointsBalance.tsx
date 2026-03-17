@@ -81,7 +81,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
         <div className="flex items-center gap-1.5 mb-4 text-xs text-muted-foreground">
           <Clock className="w-3 h-3" />
           <span>
-            {nextExpiry.points} {t.pts as string} {t.expiresOn as string || "expiram a"} {nextExpiry.formatted}
+            {nextExpiry.points} {t.pts as string} expiram a {nextExpiry.formatted}
           </span>
         </div>
       )}
