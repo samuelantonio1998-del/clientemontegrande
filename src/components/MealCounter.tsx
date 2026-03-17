@@ -1,5 +1,11 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Gift } from "lucide-react";
+import { Gift, Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface MealCounterProps {
   meals: number;
@@ -13,9 +19,21 @@ const MealCounter = ({ meals, discountAvailable }: MealCounterProps) => {
     <div className="space-y-4">
       {/* Meal counter - always visible */}
       <section className="mx-4 sm:mx-[100px] border border-border p-6 bg-card">
-        <h2 className="font-display text-lg mb-6 text-foreground">
-          {t.weekMeals as string}
-        </h2>
+        <div className="flex items-center gap-2 mb-6">
+          <h2 className="font-display text-lg text-foreground">
+            {t.weekMeals as string}
+          </h2>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[220px] text-center">
+                <p className="text-xs">Para obter os 10€, tem que completar as 4 refeições na mesma semana.</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
 
         <div className="flex gap-4 justify-center mb-6">
           {[0, 1, 2, 3].map((i) => (
