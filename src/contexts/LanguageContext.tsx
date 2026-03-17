@@ -181,7 +181,7 @@ const translations = {
     mealsLabel: "meals",
     noTransactions: "No transactions",
 
-    yourQRCode: "your qr code",
+    yourQRCode: "Your QR Code",
 
     pointsLabel: "points",
 
