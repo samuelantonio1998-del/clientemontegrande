@@ -339,7 +339,7 @@ const Auth = () => {
                   />
                   <span className="text-xs text-muted-foreground">
                     {t.privacyConsent as string}{" "}
-                    <Link to="/privacy" className="underline text-foreground hover:text-primary transition-colors" target="_blank">
+                    <Link to="/privacy" className="underline text-secondary-foreground hover:text-foreground transition-colors" target="_blank">
                       {t.privacyPolicyLink as string}
                     </Link>
                   </span>
