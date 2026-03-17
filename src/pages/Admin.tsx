@@ -27,7 +27,7 @@ const Admin = () => {
 
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate("/auth");
+      navigate("/login");
       return;
     }
     if (user) {
