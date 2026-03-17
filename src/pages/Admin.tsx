@@ -326,6 +326,17 @@ const Admin = () => {
             }}
             onCancel={() => setShowConfirmRedeem(false)}
           />
+
+          <ConfirmDialog
+            open={showConfirmBuffet}
+            title={t.confirmBuffet as string}
+            message={t.confirmBuffetMsg as string}
+            onConfirm={() => {
+              setShowConfirmBuffet(false);
+              redeemBuffet();
+            }}
+            onCancel={() => setShowConfirmBuffet(false)}
+          />
         </div>
       </div>
     </div>
