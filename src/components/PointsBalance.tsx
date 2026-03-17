@@ -44,12 +44,19 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
         {t.points as string}
       </h2>
 
-      <div className="mb-8">
+      <div className="mb-4">
         <span className="font-display text-7xl leading-none text-foreground">
           {points}
         </span>
         <span className="text-sm text-muted-foreground ml-2 tracking-wide">
           {t.pts as string}
+        </span>
+      </div>
+
+      <div className="border border-border px-4 py-3 bg-card flex items-center gap-2 mb-8">
+        <Star className="w-4 h-4 text-primary shrink-0" />
+        <span className="text-xs uppercase tracking-widest text-foreground">
+          Acumula 200 pontos e ganha <span className="text-primary font-semibold">1 buffet</span>
         </span>
       </div>
 
