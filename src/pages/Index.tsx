@@ -94,6 +94,7 @@ const Index = () => {
       setClientCode(profileRes.data.client_code || "");
       setDisplayName(profileRes.data.display_name || "");
       setReferralCode(profileRes.data.referral_code || "");
+      setBirthDate(profileRes.data.birth_date || null);
       setTotalSavings(Number(profileRes.data.total_savings) || 0);
     }
 
