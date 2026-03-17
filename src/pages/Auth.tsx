@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import logo from "@/assets/logo-mg-horizontal-bege.svg";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 const MAX_ATTEMPTS = 5;
 
@@ -127,6 +128,14 @@ const Auth = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    const rateCheck = await checkRateLimit("reset", email.trim().toLowerCase());
+    if (!rateCheck.allowed) {
+      setError(t.tooManyAttempts as string);
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
       redirectTo: `${window.location.origin}/reset-password`
     });
@@ -150,6 +159,15 @@ const Auth = () => {
     if (!validateInputs()) return;
 
     setLoading(true);
+
+    // Server-side rate limit check
+    const action = isLogin ? "login" : "signup";
+    const rateCheck = await checkRateLimit(action, email.trim().toLowerCase());
+    if (!rateCheck.allowed) {
+      setError(t.tooManyAttempts as string);
+      setLoading(false);
+      return;
+    }
 
     if (isLogin) {
       const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
