@@ -101,6 +101,9 @@ const AdminClientCard = ({
         <p className="text-sm text-muted-foreground mt-1">
           {t.weekdayMealRule as string}
         </p>
+        <p className="text-xs text-muted-foreground/70 mt-2 italic">
+          {t.discountRedeemInfo as string}
+        </p>
       </div>
 
       {feedback && (
