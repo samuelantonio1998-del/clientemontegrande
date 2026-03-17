@@ -128,9 +128,9 @@ const translations = {
     birthdayBannerText10: "Traga mais de 10 pessoas e oferecemos espumante para celebrar!",
 
     // Reviews
-    reviewTitle: "Avalia a tua experiência",
-    reviewSubtitle: "A tua opinião ajuda-nos a melhorar",
-    reviewPlaceholder: "Escreve a tua crítica ou sugestão (opcional)...",
+    reviewTitle: "Avalie a sua experiência",
+    reviewSubtitle: "A sua opinião ajuda-nos a melhorar",
+    reviewPlaceholder: "Escreva a sua crítica ou sugestão (opcional)...",
     reviewPointsHint: "Avaliação = 1.5 pts · Com crítica credível = 5 pts",
     confirmReview: "Confirmar Avaliação",
     reviewSubmitted: "Avaliação submetida!",
