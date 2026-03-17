@@ -21,6 +21,7 @@ const AdminClientCard = ({
   profile,
   onRegisterWeekdayMeal,
   onRedeemDiscount,
+  onRedeemBuffet,
   actionLoading,
   feedback,
 }: AdminClientCardProps) => {
