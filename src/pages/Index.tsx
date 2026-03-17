@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import logo from "@/assets/logo-mg-horizontal-bege.svg";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -153,12 +154,18 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <header className="px-6 pt-8 pb-4 flex items-center justify-between">
-        <div>
-          
-          {displayName && (
-            <p className="font-display text-lg text-foreground mt-1">{(t.welcome as (name: string) => string)(displayName)}</p>
-          )}
+      <header className="relative mb-2">
+        <div className="w-full py-[40px] bg-primary relative">
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10">
+            <img src={logo} alt="Monte Grande" className="w-[260px]" width={260} height={137} />
+          </div>
+        </div>
+        <div className="px-6 pt-4 pb-2 flex items-center justify-between">
+          <div>
+            {displayName && (
+              <p className="font-display text-lg text-foreground">{(t.welcome as (name: string) => string)(displayName)}</p>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
