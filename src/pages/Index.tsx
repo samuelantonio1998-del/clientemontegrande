@@ -22,6 +22,8 @@ export interface Transaction {
   points: number;
   description: string;
   type: string;
+  expires_at?: string | null;
+  expired?: boolean;
 }
 
 const Index = () => {
