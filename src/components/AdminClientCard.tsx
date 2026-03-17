@@ -8,9 +8,11 @@ interface AdminClientCardProps {
     total_points: number;
     consecutive_meals: number;
     discount_available: boolean;
+    buffet_available: boolean;
   };
   onRegisterWeekdayMeal: () => void;
   onRedeemDiscount: () => void;
+  onRedeemBuffet: () => void;
   actionLoading: boolean;
   feedback: string;
 }
