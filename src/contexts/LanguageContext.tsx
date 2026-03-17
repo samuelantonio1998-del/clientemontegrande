@@ -35,9 +35,9 @@ const translations = {
     pointsLabel: "pontos",
 
     // Auth
-    enterEmail: "Insere o teu email",
+    enterEmail: "Insira o seu email",
     loyaltyProgramTitle: "Programa de Fidelidade",
-    emailSent: "Email enviado! Verifica a tua caixa de correio para redefinir a password.",
+    emailSent: "Email enviado! Verifique a sua caixa de correio para redefinir a password.",
     email: "Email",
     sendEmail: "Enviar email",
     name: "Nome",
