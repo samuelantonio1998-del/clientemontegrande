@@ -72,6 +72,21 @@ const AdminClientCard = ({
         </div>
       )}
 
+      {profile.buffet_available && (
+        <div className="p-6 border-b border-border bg-primary/5">
+          <h3 className="text-xs uppercase tracking-widest mb-3 flex items-center gap-2 text-primary font-semibold">
+            <Gift className="w-3 h-3" /> {t.buffet200Active as string}
+          </h3>
+          <button
+            onClick={onRedeemBuffet}
+            disabled={actionLoading}
+            className="w-full py-3 bg-primary text-primary-foreground text-xs uppercase tracking-widest disabled:opacity-50 hover:opacity-90 transition-opacity"
+          >
+            {t.redeemBuffet as string}
+          </button>
+        </div>
+      )}
+
       <div className="p-6">
         <h3 className="text-xs text-muted-foreground uppercase tracking-widest mb-3 flex items-center gap-2">
           <UtensilsCrossed className="w-3 h-3" /> {t.registerMealBtn as string}
