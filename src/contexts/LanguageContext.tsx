@@ -132,6 +132,7 @@ const translations = {
     reviewSubtitle: "A sua opinião ajuda-nos a melhorar",
     reviewPlaceholder: "Escreva a sua crítica ou sugestão (opcional)...",
     reviewPointsHint: "Avaliação = 1.5 pts · Com crítica credível = 5 pts",
+    credibleReviewHint: "Uma crítica credível fornece feedback específico e genuíno sobre comida, serviço, ambiente ou experiência.",
     confirmReview: "Confirmar Avaliação",
     reviewSubmitted: "Avaliação submetida!",
     reviewError: "Erro ao submeter avaliação",
