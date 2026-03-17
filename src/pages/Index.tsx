@@ -93,6 +93,7 @@ const Index = () => {
       }
       prevDiscountRef.current = newDiscount;
       setDiscountAvailable(newDiscount);
+      setBuffetAvailable(profileRes.data.buffet_available);
       setClientCode(profileRes.data.client_code || "");
       setDisplayName(profileRes.data.display_name || "");
       setReferralCode(profileRes.data.referral_code || "");
