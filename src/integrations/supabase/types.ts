@@ -306,6 +306,8 @@ export type Database = {
           amount: number
           created_at: string
           description: string
+          expired: boolean
+          expires_at: string | null
           id: string
           points_earned: number
           type: string
@@ -315,6 +317,8 @@ export type Database = {
           amount: number
           created_at?: string
           description?: string
+          expired?: boolean
+          expires_at?: string | null
           id?: string
           points_earned: number
           type?: string
@@ -324,6 +328,8 @@ export type Database = {
           amount?: number
           created_at?: string
           description?: string
+          expired?: boolean
+          expires_at?: string | null
           id?: string
           points_earned?: number
           type?: string
@@ -379,6 +385,7 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      expire_points: { Args: never; Returns: undefined }
       generate_client_code: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       has_role: {
