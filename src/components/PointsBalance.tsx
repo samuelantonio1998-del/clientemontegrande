@@ -60,7 +60,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
       </div>
 
       <div className="border-t border-border pt-4">
-        <h3 className="text-xs uppercase tracking-widest text-muted-foreground mb-4">
+        <h3 className="font-display text-lg text-foreground mb-4">
           {t.history as string}
         </h3>
 
