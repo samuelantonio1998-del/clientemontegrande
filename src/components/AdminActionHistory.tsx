@@ -131,7 +131,7 @@ const AdminActionHistory = ({ refreshKey }: AdminActionHistoryProps) => {
     const diffMin = Math.floor(diffMs / 60000);
     const diffH = Math.floor(diffMin / 60);
 
-    if (diffMin < 1) return t.language === "pt" ? "agora" : "now";
+    if (diffMin < 1) return "agora";
     if (diffMin < 60) return `${diffMin}m`;
     if (diffH < 24) return `${diffH}h`;
     return `${Math.floor(diffH / 24)}d`;
