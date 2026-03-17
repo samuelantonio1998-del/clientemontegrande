@@ -31,6 +31,7 @@ const Index = () => {
   const [meals, setMeals] = useState(0);
   const [points, setPoints] = useState(0);
   const [discountAvailable, setDiscountAvailable] = useState(false);
+  const [buffetAvailable, setBuffetAvailable] = useState(false);
   const [clientCode, setClientCode] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [referralCode, setReferralCode] = useState("");
