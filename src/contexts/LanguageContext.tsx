@@ -180,6 +180,14 @@ const translations = {
     followClaimApproved: (name: string) => `Follow de ${name} aprovado — +10 pontos`,
     followClaimRejected: (name: string) => `Follow de ${name} rejeitado`,
 
+    // Admin Action History
+    actionHistory: "Histórico de Ações",
+    undoAction: "Anular ação",
+    undone: "anulado",
+    confirmUndoTitle: "Anular esta ação?",
+    confirmUndoMsg: "Os pontos atribuídos serão revertidos. Esta operação não pode ser desfeita.",
+    actionUndone: "Ação anulada com sucesso",
+
     // NotFound
     pageNotFound: "Página não encontrada",
     returnHome: "Voltar ao início",
