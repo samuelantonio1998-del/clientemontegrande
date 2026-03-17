@@ -339,9 +339,9 @@ const Auth = () => {
                   />
                   <span className="text-sm text-secondary-foreground">
                     {t.privacyConsent as string}{" "}
-                    <Link to="/privacy" className="underline text-sm text-secondary-foreground hover:text-foreground transition-colors">
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline text-sm text-secondary-foreground hover:text-foreground transition-colors">
                       {t.privacyPolicyLink as string}
-                    </Link>
+                    </a>
                   </span>
                 </label>
               )}
