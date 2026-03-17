@@ -110,7 +110,6 @@ const AdminFollowClaims = () => {
   };
 
   if (loading) return null;
-  if (claims.length === 0) return null;
 
   return (
     <section className="border border-border p-4 bg-card mt-4">
