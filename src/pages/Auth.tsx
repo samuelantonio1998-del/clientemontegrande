@@ -199,6 +199,7 @@ const Auth = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4 w-full">
               {!isLogin &&
+              <>
               <div>
                   <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">{t.name as string}</label>
                   <input
@@ -207,8 +208,18 @@ const Auth = () => {
                   onChange={(e) => setDisplayName(e.target.value)}
                   className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
                   required />
-              
                 </div>
+              <div>
+                  <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">{t.birthday as string}</label>
+                  <input
+                  type="date"
+                  value={birthDate}
+                  onChange={(e) => setBirthDate(e.target.value)}
+                  max={new Date().toISOString().split("T")[0]}
+                  className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+                  required />
+                </div>
+              </>
               }
               <div>
                 <label className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">{t.email as string}</label>
