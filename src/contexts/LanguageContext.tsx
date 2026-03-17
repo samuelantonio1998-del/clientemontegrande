@@ -202,6 +202,16 @@ const translations = {
     deleteAccountMsg: "Todos os seus dados serão permanentemente eliminados. Esta ação não pode ser revertida.",
     accountDeleted: "Conta eliminada com sucesso",
     deleteAccountError: "Erro ao eliminar conta",
+
+    // Ads
+    adsManage: "Anúncios",
+    adsTitle: "Título (opcional)",
+    adsLinkPlaceholder: "Link externo (opcional)",
+    adsUploadImage: "Carregar Imagem",
+    adsAdded: "Anúncio adicionado",
+    adsDeleted: "Anúncio eliminado",
+    adsUploadError: "Erro ao carregar imagem",
+    adsEmpty: "Sem anúncios",
   },
   en: {
     loyaltyProgram: "loyalty program",
