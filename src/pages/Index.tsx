@@ -12,6 +12,7 @@ import ClientQRCode from "@/components/ClientQRCode";
 import ReferralButton from "@/components/ReferralButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import BirthdayBanner from "@/components/BirthdayBanner";
+import FollowUsCard from "@/components/FollowUsCard";
 import { LogOut } from "lucide-react";
 
 export interface Transaction {
@@ -195,6 +196,8 @@ const Index = () => {
           <p className="font-display text-2xl text-primary">{(t.savedAmount as (n: number) => string)(totalSavings)}</p>
         </section>
       )}
+
+      <FollowUsCard />
 
       <PointsBalance points={points} transactions={transactions} />
 
