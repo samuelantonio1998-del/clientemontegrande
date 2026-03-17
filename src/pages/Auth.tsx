@@ -18,6 +18,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -57,6 +58,10 @@ const Auth = () => {
       }
       if (displayName.trim().length > 100) {
         setError(t.nameTooLong as string);
+        return false;
+      }
+      if (!birthDate) {
+        setError(t.birthdayRequired as string);
         return false;
       }
     }
@@ -114,6 +119,7 @@ const Auth = () => {
         options: {
           data: {
             display_name: displayName.trim(),
+            birth_date: birthDate,
             ...(refCode ? { referral_code: refCode } : {}),
           },
           emailRedirectTo: window.location.origin
@@ -193,6 +199,7 @@ const Auth = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4 w-full">
               {!isLogin &&
+              <>
               <div>
                   <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">{t.name as string}</label>
                   <input
@@ -201,8 +208,18 @@ const Auth = () => {
                   onChange={(e) => setDisplayName(e.target.value)}
                   className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
                   required />
-              
                 </div>
+              <div>
+                  <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">{t.birthday as string}</label>
+                  <input
+                  type="date"
+                  value={birthDate}
+                  onChange={(e) => setBirthDate(e.target.value)}
+                  max={new Date().toISOString().split("T")[0]}
+                  className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+                  required />
+                </div>
+              </>
               }
               <div>
                 <label className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">{t.email as string}</label>

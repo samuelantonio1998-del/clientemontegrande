@@ -10,6 +10,7 @@ import DiscountCelebration from "@/components/DiscountCelebration";
 import ClientQRCode from "@/components/ClientQRCode";
 import ReferralButton from "@/components/ReferralButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import BirthdayBanner from "@/components/BirthdayBanner";
 import { LogOut } from "lucide-react";
 
 export interface Transaction {
@@ -32,6 +33,7 @@ const Index = () => {
   const [clientCode, setClientCode] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [referralCode, setReferralCode] = useState("");
+  const [birthDate, setBirthDate] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [showStamp, setShowStamp] = useState(false);
   const [lastPointsGained, setLastPointsGained] = useState(0);
@@ -92,6 +94,7 @@ const Index = () => {
       setClientCode(profileRes.data.client_code || "");
       setDisplayName(profileRes.data.display_name || "");
       setReferralCode(profileRes.data.referral_code || "");
+      setBirthDate(profileRes.data.birth_date || null);
       setTotalSavings(Number(profileRes.data.total_savings) || 0);
     }
 
@@ -170,6 +173,8 @@ const Index = () => {
       </header>
 
       <ReferralButton referralCode={referralCode} />
+
+      <BirthdayBanner birthDate={birthDate} />
 
       <ClientQRCode clientCode={clientCode} />
 

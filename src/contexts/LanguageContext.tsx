@@ -119,6 +119,14 @@ const translations = {
     nameTooLong: "O nome deve ter menos de 100 caracteres",
     nameRequired: "O nome é obrigatório",
 
+    // Birthday
+    birthday: "Data de Nascimento",
+    birthdayRequired: "A data de nascimento é obrigatória",
+    birthdayPlaceholder: "DD/MM/AAAA",
+    birthdayBannerTitle: "🎂 Feliz Aniversário!",
+    birthdayBannerText18: "Celebra o teu aniversário connosco! Traz mais de 18 pessoas e a tua refeição é por nossa conta.",
+    birthdayBannerText10: "Traz mais de 10 pessoas e oferecemos espumante para celebrar!",
+
     // Reviews
     reviewTitle: "Avalia a tua experiência",
     reviewSubtitle: "A tua opinião ajuda-nos a melhorar",
@@ -246,6 +254,13 @@ const translations = {
     invalidEmail: "Invalid email",
     nameTooLong: "Name must be less than 100 characters",
     nameRequired: "Name is required",
+
+    birthday: "Date of Birth",
+    birthdayRequired: "Date of birth is required",
+    birthdayPlaceholder: "DD/MM/YYYY",
+    birthdayBannerTitle: "🎂 Happy Birthday!",
+    birthdayBannerText18: "Celebrate your birthday with us! Bring more than 18 people and your meal is on us.",
+    birthdayBannerText10: "Bring more than 10 people and we offer sparkling wine to celebrate!",
 
     reviewTitle: "Rate your experience",
     reviewSubtitle: "Your feedback helps us improve",
