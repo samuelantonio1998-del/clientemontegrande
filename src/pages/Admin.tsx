@@ -155,12 +155,25 @@ const Admin = () => {
       })
       .eq("user_id", clientProfile.user_id);
 
+    // Log admin action
+    await supabase.from("admin_actions").insert({
+      admin_id: user!.id,
+      client_user_id: clientProfile.user_id,
+      client_name: clientProfile.display_name,
+      client_code: clientProfile.client_code,
+      action_type: "meal",
+      description: (t.mealDescription as (reached: boolean, n: number) => string)(reachedDiscount, newMeals),
+      points_changed: pointsEarned,
+      transaction_id: txData?.id || null,
+    } as any);
+
     setFeedback(
       reachedDiscount
         ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
         : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(newMeals)}`
     );
     await refreshClient();
+    setHistoryRefreshKey((k) => k + 1);
     actionLock.current = false;
     setActionLoading(false);
   };
