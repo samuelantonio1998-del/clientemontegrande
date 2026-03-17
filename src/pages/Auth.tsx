@@ -329,6 +329,23 @@ const Auth = () => {
                 </div>
               </div>
 
+              {!isLogin && (
+                <label className="flex items-start gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={privacyAccepted}
+                    onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                    className="mt-1 accent-primary"
+                  />
+                  <span className="text-xs text-muted-foreground">
+                    {t.privacyConsent as string}{" "}
+                    <Link to="/privacy" className="underline text-foreground hover:text-primary transition-colors" target="_blank">
+                      {t.privacyPolicyLink as string}
+                    </Link>
+                  </span>
+                </label>
+              )}
+
               {error && <p className="text-xs text-destructive">{error}</p>}
 
               <button

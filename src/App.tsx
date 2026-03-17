@@ -28,6 +28,7 @@ const App = () => (
               <Route path="/login" element={<Auth />} />
               <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/privacy" element={<Privacy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>
