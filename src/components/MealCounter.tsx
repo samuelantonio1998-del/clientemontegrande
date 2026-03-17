@@ -48,7 +48,7 @@ const MealCounter = ({ meals, discountAvailable }: MealCounterProps) => {
           ))}
         </div>
 
-        <p className="text-xs uppercase tracking-widest text-muted-foreground text-center">
+        <p className="text-xs uppercase tracking-widest text-foreground text-center">
           {(t.mealsRemaining as (n: number) => string)(4 - meals)}
         </p>
       </section>
