@@ -20,7 +20,7 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
 
   if (!referralCode) return null;
 
-  const referralLink = `${window.location.origin}/auth?ref=${referralCode}`;
+  const referralLink = `${window.location.origin}/login?ref=${referralCode}`;
 
   const handleCopy = async () => {
     try {

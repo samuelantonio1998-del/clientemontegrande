@@ -55,7 +55,7 @@ const ResetPassword = () => {
             {t.invalidLink as string}
           </p>
           <button
-            onClick={() => navigate("/auth")}
+            onClick={() => navigate("/login")}
             className="mt-4 font-mono text-xs text-muted-foreground underline"
           >
             {t.backToLogin as string}
