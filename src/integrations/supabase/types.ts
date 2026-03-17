@@ -14,6 +14,56 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_actions: {
+        Row: {
+          action_type: string
+          admin_id: string
+          client_code: string | null
+          client_name: string | null
+          client_user_id: string
+          created_at: string
+          description: string
+          id: string
+          points_changed: number
+          transaction_id: string | null
+          undone: boolean
+        }
+        Insert: {
+          action_type: string
+          admin_id: string
+          client_code?: string | null
+          client_name?: string | null
+          client_user_id: string
+          created_at?: string
+          description: string
+          id?: string
+          points_changed?: number
+          transaction_id?: string | null
+          undone?: boolean
+        }
+        Update: {
+          action_type?: string
+          admin_id?: string
+          client_code?: string | null
+          client_name?: string | null
+          client_user_id?: string
+          created_at?: string
+          description?: string
+          id?: string
+          points_changed?: number
+          transaction_id?: string | null
+          undone?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_actions_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       email_send_log: {
         Row: {
           created_at: string
