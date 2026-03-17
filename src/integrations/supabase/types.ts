@@ -291,6 +291,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_safe_profile_update: {
+        Args: {
+          new_row: Database["public"]["Tables"]["profiles"]["Row"]
+          profile_row: Database["public"]["Tables"]["profiles"]["Row"]
+        }
+        Returns: boolean
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
