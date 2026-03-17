@@ -92,7 +92,7 @@ const translations = {
 
     // ResetPassword
     newPassword: "Nova Password",
-    setNewPassword: "Define a tua nova password",
+    setNewPassword: "Defina a sua nova password",
     passwordChanged: "Password alterada com sucesso! A redirecionar...",
     confirmPassword: "Confirmar Password",
     changePassword: "Alterar Password",
