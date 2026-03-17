@@ -60,6 +60,10 @@ const Auth = () => {
         setError(t.nameTooLong as string);
         return false;
       }
+      if (!birthDate) {
+        setError(t.birthdayRequired as string);
+        return false;
+      }
     }
     return true;
   };
