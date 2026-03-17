@@ -128,6 +128,14 @@ const Auth = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    const rateCheck = await checkRateLimit("reset", email.trim().toLowerCase());
+    if (!rateCheck.allowed) {
+      setError(t.tooManyAttempts as string);
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
       redirectTo: `${window.location.origin}/reset-password`
     });
