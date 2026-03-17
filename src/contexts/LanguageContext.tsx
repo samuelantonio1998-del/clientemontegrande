@@ -255,6 +255,13 @@ const translations = {
     nameTooLong: "Name must be less than 100 characters",
     nameRequired: "Name is required",
 
+    birthday: "Date of Birth",
+    birthdayRequired: "Date of birth is required",
+    birthdayPlaceholder: "DD/MM/YYYY",
+    birthdayBannerTitle: "🎂 Happy Birthday!",
+    birthdayBannerText18: "Celebrate your birthday with us! Bring more than 18 people and your meal is on us.",
+    birthdayBannerText10: "Bring more than 10 people and we offer sparkling wine to celebrate!",
+
     reviewTitle: "Rate your experience",
     reviewSubtitle: "Your feedback helps us improve",
     reviewPlaceholder: "Write your review or suggestion (optional)...",
