@@ -5,7 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-const INSTAGRAM_URL = "https://www.instagram.com/restaurante_monte_grande/";
+const INSTAGRAM_URL = "https://www.instagram.com/restaurante_monte_grande";
 
 type ClaimStatus = "none" | "pending" | "approved" | "rejected" | "verifying";
 
