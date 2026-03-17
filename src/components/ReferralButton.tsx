@@ -20,8 +20,8 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
 
   if (!referralCode) return null;
 
-  const publishedOrigin = "https://clientemontegrande.lovable.app";
-  const referralLink = `${publishedOrigin}/login?ref=${referralCode}`;
+  const referralLink = `${window.location.origin}/login?ref=${referralCode}`;
+  const displayLink = `clientemontegrande.lovable.app/login?ref=${referralCode}`;
 
   const handleCopy = async () => {
     try {
@@ -68,7 +68,7 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
 
           <div className="mt-2 flex flex-col gap-3">
             <div className="bg-muted border border-border px-3 py-2 text-xs text-foreground font-mono break-all rounded-sm">
-              {referralLink}
+              {displayLink}
             </div>
             <button
               onClick={handleCopy}
