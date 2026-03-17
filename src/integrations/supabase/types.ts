@@ -101,6 +101,42 @@ export type Database = {
         }
         Relationships: []
       }
+      follow_claims: {
+        Row: {
+          created_at: string
+          id: string
+          platform: string
+          points_awarded: number
+          reviewed_at: string | null
+          reviewed_by: string | null
+          screenshot_url: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          platform?: string
+          points_awarded?: number
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          screenshot_url: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          platform?: string
+          points_awarded?: number
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          screenshot_url?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
