@@ -21,7 +21,7 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
   if (!referralCode) return null;
 
   const referralLink = `${window.location.origin}/login?ref=${referralCode}`;
-  const displayLink = `clientemontegrande.lovable.app/login?ref=${referralCode}`;
+  const displayLink = `clientequintamontegrande.com/login?ref=${referralCode}`;
 
   const handleCopy = async () => {
     try {
