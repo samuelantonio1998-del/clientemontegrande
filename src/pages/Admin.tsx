@@ -10,6 +10,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ConfirmDialog from "@/components/ConfirmDialog";
 
 import AdminActionHistory from "@/components/AdminActionHistory";
+import AdminAds from "@/components/AdminAds";
 
 const Admin = () => {
   const { user, loading: authLoading, signOut } = useAuth();
