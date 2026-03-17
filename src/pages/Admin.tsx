@@ -268,6 +268,13 @@ const Admin = () => {
                 className="flex-1 bg-background border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground tracking-widest text-center transition-colors"
               />
               <button
+                onClick={() => setShowScanner(true)}
+                className="px-4 py-3 border border-border text-foreground hover:bg-foreground hover:text-background transition-colors"
+                aria-label="Ler QR Code"
+              >
+                <ScanLine className="w-4 h-4" />
+              </button>
+              <button
                 onClick={searchClient}
                 className="px-4 py-3 bg-foreground text-background border border-foreground hover:opacity-90 transition-opacity"
                 aria-label="Pesquisar"
@@ -275,10 +282,6 @@ const Admin = () => {
                 <Search className="w-4 h-4" />
               </button>
             </div>
-            <button
-              onClick={() => setShowScanner(true)}
-              className="w-full mt-3 py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors aspect-[1/1] max-h-[52px]"
-            >
               <ScanLine className="w-4 h-4" />
               {t.readQR as string}
             </button>
