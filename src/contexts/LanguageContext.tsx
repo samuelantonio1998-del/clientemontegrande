@@ -101,7 +101,7 @@ const translations = {
     invalidLink: "Link inválido ou expirado",
     backToLogin: "Voltar ao login",
     accountCreated: "Conta criada com sucesso!",
-    checkEmailVerification: "Verifica o teu email para ativar a tua conta.",
+    checkEmailVerification: "Verifique o seu email para ativar a sua conta.",
 
     // Confirm
     cancel: "Cancelar",
