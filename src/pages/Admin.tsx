@@ -9,6 +9,7 @@ import QRScanner from "@/components/QRScanner";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import AdminFollowClaims from "@/components/AdminFollowClaims";
+import AdminActionHistory from "@/components/AdminActionHistory";
 
 const Admin = () => {
   const { user, loading: authLoading, signOut } = useAuth();
@@ -26,6 +27,7 @@ const Admin = () => {
   const [showConfirmMeal, setShowConfirmMeal] = useState(false);
   const [showConfirmRedeem, setShowConfirmRedeem] = useState(false);
   const [showConfirmBuffet, setShowConfirmBuffet] = useState(false);
+  const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -135,13 +137,13 @@ const Admin = () => {
 
     const pointsEarned = 10;
 
-    await supabase.from("transactions").insert({
+    const { data: txData } = await supabase.from("transactions").insert({
       user_id: clientProfile.user_id,
       amount: 0,
       points_earned: pointsEarned,
       description: (t.mealDescription as (reached: boolean, n: number) => string)(reachedDiscount, newMeals),
       type: "meal",
-    });
+    }).select("id").single();
 
     await supabase
       .from("profiles")
@@ -153,12 +155,25 @@ const Admin = () => {
       })
       .eq("user_id", clientProfile.user_id);
 
+    // Log admin action
+    await supabase.from("admin_actions").insert({
+      admin_id: user!.id,
+      client_user_id: clientProfile.user_id,
+      client_name: clientProfile.display_name,
+      client_code: clientProfile.client_code,
+      action_type: "meal",
+      description: (t.mealDescription as (reached: boolean, n: number) => string)(reachedDiscount, newMeals),
+      points_changed: pointsEarned,
+      transaction_id: txData?.id || null,
+    } as any);
+
     setFeedback(
       reachedDiscount
         ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
         : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(newMeals)}`
     );
     await refreshClient();
+    setHistoryRefreshKey((k) => k + 1);
     actionLock.current = false;
     setActionLoading(false);
   };
@@ -176,7 +191,20 @@ const Admin = () => {
       .eq("user_id", clientProfile.user_id);
 
     setFeedback(t.discountRedeemed as string);
+
+    // Log admin action
+    await supabase.from("admin_actions").insert({
+      admin_id: user!.id,
+      client_user_id: clientProfile.user_id,
+      client_name: clientProfile.display_name,
+      client_code: clientProfile.client_code,
+      action_type: "redeem_discount",
+      description: t.discountRedeemed as string,
+      points_changed: 0,
+    } as any);
+
     await refreshClient();
+    setHistoryRefreshKey((k) => k + 1);
     actionLock.current = false;
     setActionLoading(false);
   };
@@ -194,7 +222,20 @@ const Admin = () => {
       .eq("user_id", clientProfile.user_id);
 
     setFeedback(t.buffetRedeemed as string);
+
+    // Log admin action
+    await supabase.from("admin_actions").insert({
+      admin_id: user!.id,
+      client_user_id: clientProfile.user_id,
+      client_name: clientProfile.display_name,
+      client_code: clientProfile.client_code,
+      action_type: "redeem_buffet",
+      description: t.buffetRedeemed as string,
+      points_changed: -200,
+    } as any);
+
     await refreshClient();
+    setHistoryRefreshKey((k) => k + 1);
     actionLock.current = false;
     setActionLoading(false);
   };
@@ -306,6 +347,8 @@ const Admin = () => {
               feedback={feedback}
             />
           )}
+
+          <AdminActionHistory refreshKey={historyRefreshKey} />
 
           <AdminFollowClaims />
 

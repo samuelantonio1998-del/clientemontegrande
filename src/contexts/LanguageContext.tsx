@@ -180,6 +180,14 @@ const translations = {
     followClaimApproved: (name: string) => `Follow de ${name} aprovado — +10 pontos`,
     followClaimRejected: (name: string) => `Follow de ${name} rejeitado`,
 
+    // Admin Action History
+    actionHistory: "Histórico de Ações",
+    undoAction: "Anular ação",
+    undone: "anulado",
+    confirmUndoTitle: "Anular esta ação?",
+    confirmUndoMsg: "Os pontos atribuídos serão revertidos. Esta operação não pode ser desfeita.",
+    actionUndone: "Ação anulada com sucesso",
+
     // NotFound
     pageNotFound: "Página não encontrada",
     returnHome: "Voltar ao início",
@@ -345,6 +353,14 @@ const translations = {
     followRejectBtn: "Reject",
     followClaimApproved: (name: string) => `${name}'s follow approved — +10 points`,
     followClaimRejected: (name: string) => `${name}'s follow rejected`,
+
+    // Admin Action History
+    actionHistory: "Action History",
+    undoAction: "Undo action",
+    undone: "undone",
+    confirmUndoTitle: "Undo this action?",
+    confirmUndoMsg: "The assigned points will be reversed. This operation cannot be undone.",
+    actionUndone: "Action undone successfully",
 
     pageNotFound: "Page not found",
     returnHome: "Return to Home",
