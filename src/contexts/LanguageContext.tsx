@@ -35,9 +35,9 @@ const translations = {
     pointsLabel: "pontos",
 
     // Auth
-    enterEmail: "Insere o teu email",
+    enterEmail: "Insira o seu email",
     loyaltyProgramTitle: "Programa de Fidelidade",
-    emailSent: "Email enviado! Verifica a tua caixa de correio para redefinir a password.",
+    emailSent: "Email enviado! Verifique a sua caixa de correio para redefinir a password.",
     email: "Email",
     sendEmail: "Enviar email",
     name: "Nome",
@@ -92,7 +92,7 @@ const translations = {
 
     // ResetPassword
     newPassword: "Nova Password",
-    setNewPassword: "Define a tua nova password",
+    setNewPassword: "Defina a sua nova password",
     passwordChanged: "Password alterada com sucesso! A redirecionar...",
     confirmPassword: "Confirmar Password",
     changePassword: "Alterar Password",
@@ -101,7 +101,7 @@ const translations = {
     invalidLink: "Link inválido ou expirado",
     backToLogin: "Voltar ao login",
     accountCreated: "Conta criada com sucesso!",
-    checkEmailVerification: "Verifica o teu email para ativar a tua conta.",
+    checkEmailVerification: "Verifique o seu email para ativar a sua conta.",
 
     // Confirm
     cancel: "Cancelar",
@@ -110,7 +110,7 @@ const translations = {
     confirmMealMsg: "Serão atribuídos 10 pontos a este cliente.",
     confirmDiscount: "Usar desconto de 10€?",
     confirmDiscountMsg: "Esta ação não pode ser revertida.",
-    discountCelebrationMsg: "Completaste 4 refeições esta semana! O teu desconto de 10€ está disponível.",
+    discountCelebrationMsg: "Completou 4 refeições esta semana! O seu desconto de 10€ está disponível.",
     celebrationDismiss: "Obrigado!",
 
     // Validation
@@ -124,13 +124,13 @@ const translations = {
     birthdayRequired: "A data de nascimento é obrigatória",
     birthdayPlaceholder: "DD/MM/AAAA",
     birthdayBannerTitle: "🎂 Feliz Aniversário!",
-    birthdayBannerText18: "Celebra o teu aniversário connosco! Traz mais de 18 pessoas e a tua refeição é por nossa conta.",
-    birthdayBannerText10: "Traz mais de 10 pessoas e oferecemos espumante para celebrar!",
+    birthdayBannerText18: "Celebre o seu aniversário connosco! Traga mais de 18 pessoas e a sua refeição é por nossa conta.",
+    birthdayBannerText10: "Traga mais de 10 pessoas e oferecemos espumante para celebrar!",
 
     // Reviews
-    reviewTitle: "Avalia a tua experiência",
-    reviewSubtitle: "A tua opinião ajuda-nos a melhorar",
-    reviewPlaceholder: "Escreve a tua crítica ou sugestão (opcional)...",
+    reviewTitle: "Avalie a sua experiência",
+    reviewSubtitle: "A sua opinião ajuda-nos a melhorar",
+    reviewPlaceholder: "Escreva a sua crítica ou sugestão (opcional)...",
     reviewPointsHint: "Avaliação = 1.5 pts · Com crítica credível = 5 pts",
     confirmReview: "Confirmar Avaliação",
     reviewSubmitted: "Avaliação submetida!",
