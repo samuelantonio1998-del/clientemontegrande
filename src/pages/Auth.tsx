@@ -266,13 +266,7 @@ const Auth = () => {
                 </div>
               <div>
                   <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">{t.birthday as string}</label>
-                  <input
-                  type="date"
-                  value={birthDate}
-                  onChange={(e) => setBirthDate(e.target.value)}
-                  max={new Date().toISOString().split("T")[0]}
-                  className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
-                  required />
+                  <BirthDateInput value={birthDate} onChange={setBirthDate} />
                 </div>
               </>
               }
