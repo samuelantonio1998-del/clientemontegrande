@@ -223,10 +223,10 @@ const Auth = () => {
 
           <div className="bg-card border border-border rounded-lg p-8 shadow-sm">
             <h2 className="text-2xl font-display font-bold text-foreground mb-1">
-              {forgotPassword ? (t.recoverPassword as string) : isLogin ? "Bem-vindo!" : (t.createAccount as string)}
+              {forgotPassword ? (t.recoverPassword as string) : isLogin ? (t.welcomeBack as string) : (t.createAccount as string)}
             </h2>
             <p className="text-sm text-muted-foreground mb-6">
-              {forgotPassword ? (t.enterEmail as string) : isLogin ? "Inicie sessão ou crie uma conta" : "Crie a sua conta para começar"}
+              {forgotPassword ? (t.enterEmail as string) : isLogin ? (t.loginSubtitle as string) : (t.signupSubtitle as string)}
             </p>
 
           {forgotPassword ?
