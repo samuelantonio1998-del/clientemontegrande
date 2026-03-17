@@ -269,11 +269,10 @@ const DeleteAccountSection = () => {
       </footer>
       <ConfirmDialog
         open={showConfirm}
-        onClose={() => setShowConfirm(false)}
+        onCancel={() => setShowConfirm(false)}
         onConfirm={handleDelete}
         title={t.deleteAccountTitle as string}
         message={t.deleteAccountMsg as string}
-        loading={deleting}
       />
     </>
   );
