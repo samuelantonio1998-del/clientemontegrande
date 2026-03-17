@@ -137,13 +137,13 @@ const Admin = () => {
 
     const pointsEarned = 10;
 
-    await supabase.from("transactions").insert({
+    const { data: txData } = await supabase.from("transactions").insert({
       user_id: clientProfile.user_id,
       amount: 0,
       points_earned: pointsEarned,
       description: (t.mealDescription as (reached: boolean, n: number) => string)(reachedDiscount, newMeals),
       type: "meal",
-    });
+    }).select("id").single();
 
     await supabase
       .from("profiles")
