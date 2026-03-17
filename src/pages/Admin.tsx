@@ -191,7 +191,20 @@ const Admin = () => {
       .eq("user_id", clientProfile.user_id);
 
     setFeedback(t.discountRedeemed as string);
+
+    // Log admin action
+    await supabase.from("admin_actions").insert({
+      admin_id: user!.id,
+      client_user_id: clientProfile.user_id,
+      client_name: clientProfile.display_name,
+      client_code: clientProfile.client_code,
+      action_type: "redeem_discount",
+      description: t.discountRedeemed as string,
+      points_changed: 0,
+    } as any);
+
     await refreshClient();
+    setHistoryRefreshKey((k) => k + 1);
     actionLock.current = false;
     setActionLoading(false);
   };
