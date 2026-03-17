@@ -166,16 +166,16 @@ const Index = () => {
               <p className="font-display text-lg text-foreground">{(t.welcome as (name: string) => string)(displayName)}</p>
             )}
           </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <LanguageSwitcher />
-          <button
-            onClick={signOut}
-            className="text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Sair"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <button
+              onClick={signOut}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Sair"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </header>
 
