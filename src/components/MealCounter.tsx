@@ -1,5 +1,11 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Gift } from "lucide-react";
+import { Gift, Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface MealCounterProps {
   meals: number;
