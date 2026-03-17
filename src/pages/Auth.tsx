@@ -121,6 +121,10 @@ const Auth = () => {
         setError(t.birthdayRequired as string);
         return false;
       }
+      if (!privacyAccepted) {
+        setError(t.privacyRequired as string);
+        return false;
+      }
     }
     return true;
   };
