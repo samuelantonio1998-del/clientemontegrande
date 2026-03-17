@@ -13,7 +13,7 @@ interface MealCounterProps {
   buffetAvailable: boolean;
 }
 
-const MealCounter = ({ meals, discountAvailable }: MealCounterProps) => {
+const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterProps) => {
   const { t } = useLanguage();
 
   return (
