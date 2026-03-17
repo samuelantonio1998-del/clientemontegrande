@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Instagram, Upload, CheckCircle, Clock, XCircle } from "lucide-react";
+import { Instagram, Upload, CheckCircle, Clock, XCircle, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 const INSTAGRAM_URL = "https://www.instagram.com/restaurante_monte_grande/";
 
-type ClaimStatus = "none" | "pending" | "approved" | "rejected";
+type ClaimStatus = "none" | "pending" | "approved" | "rejected" | "verifying";
 
 const FollowUsCard = () => {
   const { user } = useAuth();
@@ -68,26 +68,58 @@ const FollowUsCard = () => {
       .from("follow-screenshots")
       .getPublicUrl(path);
 
-    const { error: claimError } = await supabase
+    const screenshotUrl = urlData.publicUrl || path;
+
+    // Insert/upsert the claim as pending first
+    const { data: claimData, error: claimError } = await supabase
       .from("follow_claims")
       .upsert(
         {
           user_id: user.id,
           platform: "instagram",
-          screenshot_url: urlData.publicUrl || path,
+          screenshot_url: screenshotUrl,
           status: "pending",
         },
         { onConflict: "user_id,platform" }
+      )
+      .select("id")
+      .single();
+
+    if (claimError || !claimData) {
+      toast.error(t.followUploadError as string);
+      setUploading(false);
+      return;
+    }
+
+    setStatus("verifying");
+    setUploading(false);
+
+    // Call AI verification
+    try {
+      const { data: verifyData, error: verifyError } = await supabase.functions.invoke(
+        "verify-follow-screenshot",
+        {
+          body: { screenshot_url: screenshotUrl, claim_id: claimData.id },
+        }
       );
 
-    if (claimError) {
-      toast.error(t.followUploadError as string);
-    } else {
+      if (verifyError) throw verifyError;
+
+      if (verifyData?.status === "approved") {
+        setStatus("approved");
+        toast.success(t.followApproved as string);
+      } else if (verifyData?.status === "rejected") {
+        setStatus("rejected");
+        toast.error(t.followRejected as string);
+      } else {
+        setStatus("pending");
+        toast.success(t.followSubmitted as string);
+      }
+    } catch (err) {
+      console.error("Verification error:", err);
       setStatus("pending");
       toast.success(t.followSubmitted as string);
     }
-
-    setUploading(false);
   };
 
   const statusIcon = {
