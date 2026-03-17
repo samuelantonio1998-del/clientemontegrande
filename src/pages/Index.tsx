@@ -211,12 +211,71 @@ const Index = () => {
 
       {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
 
-
       <DiscountCelebration
         show={showCelebration}
         onClose={() => setShowCelebration(false)}
       />
+
+      <DeleteAccountSection />
     </div>
+  );
+};
+
+const DeleteAccountSection = () => {
+  const { t } = useLanguage();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const res = await supabase.functions.invoke("delete-account", {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+
+      if (res.error) {
+        toast.error(t.deleteAccountError as string);
+      } else {
+        toast.success(t.accountDeleted as string);
+        await signOut();
+        navigate("/login");
+      }
+    } catch {
+      toast.error(t.deleteAccountError as string);
+    } finally {
+      setDeleting(false);
+      setShowConfirm(false);
+    }
+  };
+
+  return (
+    <>
+      <footer className="mx-4 sm:mx-[100px] my-8 flex flex-col items-center gap-3">
+        <Link to="/privacy" className="text-xs text-muted-foreground underline hover:text-foreground transition-colors">
+          {t.privacyPolicyTitle as string}
+        </Link>
+        <button
+          onClick={() => setShowConfirm(true)}
+          className="text-xs text-destructive hover:text-destructive/80 transition-colors flex items-center gap-1"
+        >
+          <Trash2 className="w-3 h-3" />
+          {t.deleteAccount as string}
+        </button>
+      </footer>
+      <ConfirmDialog
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={handleDelete}
+        title={t.deleteAccountTitle as string}
+        message={t.deleteAccountMsg as string}
+        loading={deleting}
+      />
+    </>
   );
 };
 
