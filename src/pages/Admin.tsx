@@ -299,6 +299,7 @@ const Admin = () => {
               profile={clientProfile}
               onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
               onRedeemDiscount={() => setShowConfirmRedeem(true)}
+              onRedeemBuffet={() => setShowConfirmBuffet(true)}
               actionLoading={actionLoading}
               feedback={feedback}
             />
