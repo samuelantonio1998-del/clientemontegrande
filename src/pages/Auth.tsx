@@ -160,6 +160,15 @@ const Auth = () => {
 
     setLoading(true);
 
+    // Server-side rate limit check
+    const action = isLogin ? "login" : "signup";
+    const rateCheck = await checkRateLimit(action, email.trim().toLowerCase());
+    if (!rateCheck.allowed) {
+      setError(t.tooManyAttempts as string);
+      setLoading(false);
+      return;
+    }
+
     if (isLogin) {
       const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
       if (error) {
