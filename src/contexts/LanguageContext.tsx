@@ -267,6 +267,7 @@ const translations = {
     reviewSubtitle: "Your feedback helps us improve",
     reviewPlaceholder: "Write your review or suggestion (optional)...",
     reviewPointsHint: "Rating = 1.5 pts · With credible review = 5 pts",
+    credibleReviewHint: "A credible review provides specific, genuine feedback about food, service, ambiance, or experience.",
     confirmReview: "Confirm Review",
     reviewSubmitted: "Review submitted!",
     reviewError: "Error submitting review",
