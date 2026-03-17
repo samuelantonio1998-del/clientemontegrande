@@ -5,5 +5,7 @@ project_id = "pfasftcqkgloxmvgwkfl"
     verify_jwt = false
   [functions.check-rate-limit]
     verify_jwt = false
+  [functions.verify-follow-screenshot]
+    verify_jwt = false
   [functions.process-email-queue]
     verify_jwt = true
