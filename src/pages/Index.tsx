@@ -165,6 +165,7 @@ const Index = () => {
               <p className="font-display text-lg text-foreground">{(t.welcome as (name: string) => string)(displayName)}</p>
             )}
           </div>
+        </div>
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
           <button
