@@ -271,8 +271,9 @@ const Auth = () => {
               </>
               }
               <div>
-                <label className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">{t.email as string}</label>
+                <label htmlFor="auth-email" className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">{t.email as string}</label>
                 <input
+                  id="auth-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -281,20 +282,21 @@ const Auth = () => {
               
               </div>
               <div>
-                <label className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">{t.password as string}</label>
+                <label htmlFor="auth-password" className="text-xs uppercase tracking-wider block mb-1 text-secondary-foreground">{t.password as string}</label>
                 <div className="relative">
                   <input
+                    id="auth-password"
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-card border border-border px-4 py-3 pr-10 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+                    className="w-full bg-card border border-border px-4 py-3 pr-12 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
                     required
                     minLength={6} />
                   <button
                     type="button"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-2"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-3"
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
