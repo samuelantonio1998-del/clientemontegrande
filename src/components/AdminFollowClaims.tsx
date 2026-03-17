@@ -119,7 +119,7 @@ const AdminFollowClaims = () => {
 
       {claims.length === 0 ? (
         <p className="text-xs text-muted-foreground text-center py-3">
-          {t.noFollowClaims as string || "Sem pedidos pendentes"}
+          {"Sem pedidos pendentes"}
         </p>
       ) : (
         <div className="space-y-3">
