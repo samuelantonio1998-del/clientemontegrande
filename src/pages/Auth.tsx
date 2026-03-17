@@ -226,7 +226,7 @@ const Auth = () => {
               {forgotPassword ? (t.recoverPassword as string) : isLogin ? "Bem-vindo!" : (t.createAccount as string)}
             </h2>
             <p className="text-sm text-muted-foreground mb-6">
-              {forgotPassword ? (t.enterEmail as string) : isLogin ? (t.loginSubtitle as string || "Inicie sessão ou crie uma conta") : (t.registerSubtitle as string || "Crie a sua conta para começar")}
+              {forgotPassword ? (t.enterEmail as string) : isLogin ? "Inicie sessão ou crie uma conta" : "Crie a sua conta para começar"}
             </p>
 
           {forgotPassword ?
