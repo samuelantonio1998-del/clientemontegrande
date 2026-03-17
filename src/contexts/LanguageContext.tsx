@@ -396,6 +396,16 @@ const translations = {
     deleteAccountMsg: "All your data will be permanently deleted. This action cannot be undone.",
     accountDeleted: "Account deleted successfully",
     deleteAccountError: "Error deleting account",
+
+    // Ads
+    adsManage: "Ads",
+    adsTitle: "Title (optional)",
+    adsLinkPlaceholder: "External link (optional)",
+    adsUploadImage: "Upload Image",
+    adsAdded: "Ad added",
+    adsDeleted: "Ad deleted",
+    adsUploadError: "Error uploading image",
+    adsEmpty: "No ads",
   },
 } as const;
 
