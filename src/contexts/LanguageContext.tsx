@@ -154,7 +154,7 @@ const translations = {
     // Referral
     inviteFriends: "Convida amigos e ganha pontos",
     referralTitle: "O teu link de convite",
-    referralDescription: "Partilha este link com os teus amigos e ganha pontos sempre que eles visitarem o Monte Grande.",
+    referralDescription: "Partilha este link com os teus amigos e ganha pontos quando eles visitarem o Monte Grande.",
     linkCopied: "Link copiado!",
     copyLink: "Copiar Link",
     referralPoints: "Pontos de referência",
@@ -329,7 +329,7 @@ const translations = {
 
     inviteFriends: "Invite friends and earn points",
     referralTitle: "Your invite link",
-    referralDescription: "Share this link with friends and earn points every time they visit Monte Grande.",
+    referralDescription: "Share this link with friends and earn points when they visit Monte Grande.",
     linkCopied: "Link copied!",
     copyLink: "Copy Link",
     referralPoints: "Referral points",
