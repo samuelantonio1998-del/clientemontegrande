@@ -33,6 +33,7 @@ const Index = () => {
   const [clientCode, setClientCode] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [referralCode, setReferralCode] = useState("");
+  const [birthDate, setBirthDate] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [showStamp, setShowStamp] = useState(false);
   const [lastPointsGained, setLastPointsGained] = useState(0);
