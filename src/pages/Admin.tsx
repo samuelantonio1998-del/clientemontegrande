@@ -348,7 +348,7 @@ const Admin = () => {
 
           <AdminActionHistory refreshKey={historyRefreshKey} />
 
-          <AdminFollowClaims />
+          
 
           <ConfirmDialog
             open={showConfirmMeal}
