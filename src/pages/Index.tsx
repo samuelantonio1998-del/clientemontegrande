@@ -155,7 +155,7 @@ const Index = () => {
     <div className="min-h-screen bg-background relative overflow-hidden">
       <header className="px-6 pt-8 pb-4 flex items-center justify-between">
         <div>
-          <p className="text-xs tracking-widest uppercase text-muted-foreground">{t.loyaltyProgram as string}</p>
+          
           {displayName && (
             <p className="font-display text-lg text-foreground mt-1">{(t.welcome as (name: string) => string)(displayName)}</p>
           )}
