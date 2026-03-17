@@ -140,17 +140,17 @@ const FollowUsCard = () => {
   if (status === "approved") {
     return (
       <section className="mx-4 sm:mx-[100px] mt-4 border border-border p-4 bg-card">
-        <div className="flex items-center gap-2 mb-2">
-          <Instagram className="w-5 h-5 text-primary" />
-          <p className="text-xs tracking-widest uppercase text-muted-foreground font-display">
-            {t.followUsTitle as string}
-          </p>
-        </div>
-        <div className="flex items-center justify-center gap-2 py-3 text-sm">
-          <CheckCircle className="w-4 h-4 text-green-500" />
-          <span className="text-muted-foreground">{t.followApproved as string}</span>
-          <span className="text-primary font-display ml-1">+10 {t.pts as string}</span>
-        </div>
+        <a
+          href={INSTAGRAM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 group"
+        >
+          <Instagram className="w-6 h-6 text-primary" />
+          <span className="text-sm text-foreground group-hover:text-primary transition-colors">
+            @restaurante_monte_grande
+          </span>
+        </a>
       </section>
     );
   }
