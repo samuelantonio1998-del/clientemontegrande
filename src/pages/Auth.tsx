@@ -119,6 +119,7 @@ const Auth = () => {
         options: {
           data: {
             display_name: displayName.trim(),
+            birth_date: birthDate,
             ...(refCode ? { referral_code: refCode } : {}),
           },
           emailRedirectTo: window.location.origin
