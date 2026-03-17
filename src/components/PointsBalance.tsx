@@ -55,7 +55,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
 
       <div className="px-4 py-3 flex items-center gap-2 mb-8">
         <span className="text-xs uppercase tracking-widest text-foreground">
-          Acumula 200 pontos e ganha <span className="text-primary font-semibold">1 buffet</span>
+          Acumula 200 pontos e ganha <span className="text-primary font-semibold">15€ de desconto</span>
         </span>
       </div>
 
