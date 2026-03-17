@@ -9,6 +9,61 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import logo from "@/assets/logo-mg-horizontal-bege.svg";
 
 const MAX_ATTEMPTS = 5;
+
+const BirthDateInput = ({ value, onChange }: { value: string; onChange: (val: string) => void }) => {
+  const parts = value ? value.split("-") : ["", "", ""];
+  const [year, month, day] = [parts[0] || "", parts[1] || "", parts[2] || ""];
+
+  const update = (d: string, m: string, y: string) => {
+    const dd = d.replace(/\D/g, "").slice(0, 2);
+    const mm = m.replace(/\D/g, "").slice(0, 2);
+    const yy = y.replace(/\D/g, "").slice(0, 4);
+    if (dd && mm && yy.length === 4) {
+      onChange(`${yy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`);
+    } else {
+      onChange(`${yy}-${mm}-${dd}`);
+    }
+  };
+
+  const inputClass = "bg-card border border-border px-2 py-3 text-sm text-foreground text-center focus:outline-none focus:border-foreground transition-colors";
+
+  return (
+    <div className="flex items-center gap-2">
+      <input
+        type="text"
+        inputMode="numeric"
+        placeholder="DD"
+        maxLength={2}
+        value={day}
+        onChange={(e) => update(e.target.value, month, year)}
+        className={`${inputClass} w-14`}
+        required
+      />
+      <span className="text-muted-foreground">/</span>
+      <input
+        type="text"
+        inputMode="numeric"
+        placeholder="MM"
+        maxLength={2}
+        value={month}
+        onChange={(e) => update(day, e.target.value, year)}
+        className={`${inputClass} w-14`}
+        required
+      />
+      <span className="text-muted-foreground">/</span>
+      <input
+        type="text"
+        inputMode="numeric"
+        placeholder="AAAA"
+        maxLength={4}
+        value={year}
+        onChange={(e) => update(day, month, e.target.value)}
+        className={`${inputClass} w-20`}
+        required
+      />
+    </div>
+  );
+};
 const LOCKOUT_MS = 60_000;
 
 const Auth = () => {
@@ -211,13 +266,7 @@ const Auth = () => {
                 </div>
               <div>
                   <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">{t.birthday as string}</label>
-                  <input
-                  type="date"
-                  value={birthDate}
-                  onChange={(e) => setBirthDate(e.target.value)}
-                  max={new Date().toISOString().split("T")[0]}
-                  className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
-                  required />
+                  <BirthDateInput value={birthDate} onChange={setBirthDate} />
                 </div>
               </>
               }
