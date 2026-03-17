@@ -124,8 +124,8 @@ const translations = {
     birthdayRequired: "A data de nascimento é obrigatória",
     birthdayPlaceholder: "DD/MM/AAAA",
     birthdayBannerTitle: "🎂 Feliz Aniversário!",
-    birthdayBannerText18: "Celebra o teu aniversário connosco! Traz mais de 18 pessoas e a tua refeição é por nossa conta.",
-    birthdayBannerText10: "Traz mais de 10 pessoas e oferecemos espumante para celebrar!",
+    birthdayBannerText18: "Celebre o seu aniversário connosco! Traga mais de 18 pessoas e a sua refeição é por nossa conta.",
+    birthdayBannerText10: "Traga mais de 10 pessoas e oferecemos espumante para celebrar!",
 
     // Reviews
     reviewTitle: "Avalia a tua experiência",
