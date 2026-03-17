@@ -180,6 +180,24 @@ const Admin = () => {
     setActionLoading(false);
   };
 
+  const redeemBuffet = async () => {
+    if (!clientProfile || actionLock.current) return;
+    actionLock.current = true;
+    setActionLoading(true);
+
+    const newPoints = clientProfile.total_points - 200;
+
+    await supabase
+      .from("profiles")
+      .update({ buffet_available: false, total_points: newPoints })
+      .eq("user_id", clientProfile.user_id);
+
+    setFeedback(t.buffetRedeemed as string);
+    await refreshClient();
+    actionLock.current = false;
+    setActionLoading(false);
+  };
+
   const refreshClient = async () => {
     if (!clientProfile) return;
     const { data } = await supabase
