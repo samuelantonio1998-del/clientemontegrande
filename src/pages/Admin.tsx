@@ -277,7 +277,7 @@ const Admin = () => {
             </div>
             <button
               onClick={() => setShowScanner(true)}
-              className="w-full mt-3 py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
+              className="w-full mt-3 aspect-square flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
             >
               <ScanLine className="w-4 h-4" />
               {t.readQR as string}
