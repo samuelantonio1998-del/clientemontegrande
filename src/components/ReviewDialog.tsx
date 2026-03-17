@@ -132,9 +132,14 @@ const ReviewDialog = ({ open, onClose, transactionId, onReviewSubmitted }: Revie
           rows={2}
           className="resize-none text-sm"
         />
-        <p className="text-[10px] text-muted-foreground">
-          {t.reviewPointsHint as string}
-        </p>
+        <div className="space-y-0.5">
+          <p className="text-[10px] text-muted-foreground">
+            {t.reviewPointsHint as string}
+          </p>
+          <p className="text-[10px] text-muted-foreground/70 italic">
+            {t.credibleReviewHint as string}
+          </p>
+        </div>
 
         <Button
           onClick={handleSubmit}
