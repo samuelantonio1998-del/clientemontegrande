@@ -8,7 +8,7 @@ import AdminClientCard from "@/components/AdminClientCard";
 import QRScanner from "@/components/QRScanner";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ConfirmDialog from "@/components/ConfirmDialog";
-import AdminFollowClaims from "@/components/AdminFollowClaims";
+
 import AdminActionHistory from "@/components/AdminActionHistory";
 
 const Admin = () => {
@@ -86,8 +86,6 @@ const Admin = () => {
   const searchClient = async () => {
     await searchClientByCode(clientCode.trim());
   };
-
-
   const registerWeekdayMeal = async () => {
     if (!clientProfile || actionLock.current) return;
     actionLock.current = true;
@@ -350,7 +348,7 @@ const Admin = () => {
 
           <AdminActionHistory refreshKey={historyRefreshKey} />
 
-          <AdminFollowClaims />
+          
 
           <ConfirmDialog
             open={showConfirmMeal}
