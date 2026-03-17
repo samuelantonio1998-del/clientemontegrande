@@ -202,6 +202,16 @@ const translations = {
     deleteAccountMsg: "Todos os seus dados serão permanentemente eliminados. Esta ação não pode ser revertida.",
     accountDeleted: "Conta eliminada com sucesso",
     deleteAccountError: "Erro ao eliminar conta",
+
+    // Ads
+    adsManage: "Anúncios",
+    adsTitle: "Título (opcional)",
+    adsLinkPlaceholder: "Link externo (opcional)",
+    adsUploadImage: "Carregar Imagem",
+    adsAdded: "Anúncio adicionado",
+    adsDeleted: "Anúncio eliminado",
+    adsUploadError: "Erro ao carregar imagem",
+    adsEmpty: "Sem anúncios",
   },
   en: {
     loyaltyProgram: "loyalty program",
@@ -386,6 +396,16 @@ const translations = {
     deleteAccountMsg: "All your data will be permanently deleted. This action cannot be undone.",
     accountDeleted: "Account deleted successfully",
     deleteAccountError: "Error deleting account",
+
+    // Ads
+    adsManage: "Ads",
+    adsTitle: "Title (optional)",
+    adsLinkPlaceholder: "External link (optional)",
+    adsUploadImage: "Upload Image",
+    adsAdded: "Ad added",
+    adsDeleted: "Ad deleted",
+    adsUploadError: "Error uploading image",
+    adsEmpty: "No ads",
   },
 } as const;
 

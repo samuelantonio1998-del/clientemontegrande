@@ -13,6 +13,7 @@ import ReferralButton from "@/components/ReferralButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import BirthdayBanner from "@/components/BirthdayBanner";
 import FollowUsCard from "@/components/FollowUsCard";
+import AdBanner from "@/components/AdBanner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { LogOut, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -197,6 +198,8 @@ const Index = () => {
       <ClientQRCode clientCode={clientCode} />
 
       <MealCounter meals={meals} discountAvailable={discountAvailable} buffetAvailable={buffetAvailable} />
+
+      <AdBanner />
 
       {totalSavings > 0 && (
         <section className="mx-4 sm:mx-[100px] mt-4 border border-border p-4 bg-card">
