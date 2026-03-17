@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { MoreHorizontal, CheckCircle, Star } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { MoreHorizontal, CheckCircle, Star, Clock } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import ReviewDialog from "@/components/ReviewDialog";
@@ -16,6 +16,30 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   const visible = expanded ? transactions : transactions.slice(0, 4);
   const [reviewedIds, setReviewedIds] = useState<Set<string>>(new Set());
   const [reviewTxId, setReviewTxId] = useState<string | null>(null);
+
+  // Calculate next expiry
+  const nextExpiry = useMemo(() => {
+    const now = new Date();
+    const upcoming = transactions
+      .filter((tx) => tx.expires_at && !tx.expired && tx.points > 0 && new Date(tx.expires_at) > now)
+      .sort((a, b) => new Date(a.expires_at!).getTime() - new Date(b.expires_at!).getTime());
+
+    if (upcoming.length === 0) return null;
+
+    const nextDate = new Date(upcoming[0].expires_at!);
+    // Sum points expiring on the same day
+    const sameDay = upcoming.filter((tx) => {
+      const d = new Date(tx.expires_at!);
+      return d.toDateString() === nextDate.toDateString();
+    });
+    const totalExpiring = sameDay.reduce((sum, tx) => sum + tx.points, 0);
+
+    return {
+      date: nextDate,
+      points: totalExpiring,
+      formatted: `${nextDate.getDate().toString().padStart(2, "0")}/${(nextDate.getMonth() + 1).toString().padStart(2, "0")}/${nextDate.getFullYear()}`,
+    };
+  }, [transactions]);
 
   useEffect(() => {
     const fetchReviewed = async () => {
@@ -44,7 +68,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
         {t.points as string}
       </h2>
 
-      <div className="mb-4">
+      <div className="mb-2">
         <span className="font-display text-7xl leading-none text-foreground">
           {points}
         </span>
@@ -52,6 +76,15 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
           {t.pts as string}
         </span>
       </div>
+
+      {nextExpiry && (
+        <div className="flex items-center gap-1.5 mb-4 text-xs text-muted-foreground">
+          <Clock className="w-3 h-3" />
+          <span>
+            {nextExpiry.points} {t.pts as string} {t.expiresOn as string || "expiram a"} {nextExpiry.formatted}
+          </span>
+        </div>
+      )}
 
       <div className="px-4 py-3 flex items-center gap-2 mb-8">
         <span className="text-xs uppercase tracking-widest text-foreground">
