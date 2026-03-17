@@ -12,6 +12,7 @@ import ClientQRCode from "@/components/ClientQRCode";
 import ReferralButton from "@/components/ReferralButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import BirthdayBanner from "@/components/BirthdayBanner";
+import FollowUsCard from "@/components/FollowUsCard";
 import { LogOut } from "lucide-react";
 
 export interface Transaction {
