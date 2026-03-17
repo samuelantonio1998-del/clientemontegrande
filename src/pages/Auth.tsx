@@ -201,7 +201,7 @@ const Auth = () => {
         <LanguageSwitcher />
       </nav>
       <main className="flex-1 flex items-center justify-center px-6">
-        <div className="w-full max-w-sm flex flex-col items-center">
+        <div className="w-full max-w-sm">
           {signUpSuccess ?
           <div className="text-center space-y-4">
               <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
@@ -221,10 +221,13 @@ const Auth = () => {
               </button>
             </div> :
 
-          <>
-          <p className="tracking-wide mb-8 text-secondary-foreground font-mono text-xl font-extralight">
-            {forgotPassword ? t.enterEmail as string : t.loyaltyProgramTitle as string}
-          </p>
+          <div className="bg-card border border-border rounded-lg p-8 shadow-sm">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-1">
+              {forgotPassword ? (t.recoverPassword as string) : isLogin ? "Bem-vindo!" : (t.createAccount as string)}
+            </h2>
+            <p className="text-sm text-muted-foreground mb-6">
+              {forgotPassword ? (t.enterEmail as string) : isLogin ? (t.loginSubtitle as string || "Inicie sessão ou crie uma conta") : (t.registerSubtitle as string || "Crie a sua conta para começar")}
+            </p>
 
           {forgotPassword ?
             resetSent ?
