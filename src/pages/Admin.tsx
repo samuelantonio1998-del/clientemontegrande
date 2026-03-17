@@ -24,6 +24,7 @@ const Admin = () => {
   const actionLock = useRef(false);
   const [showConfirmMeal, setShowConfirmMeal] = useState(false);
   const [showConfirmRedeem, setShowConfirmRedeem] = useState(false);
+  const [showConfirmBuffet, setShowConfirmBuffet] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -179,6 +180,24 @@ const Admin = () => {
     setActionLoading(false);
   };
 
+  const redeemBuffet = async () => {
+    if (!clientProfile || actionLock.current) return;
+    actionLock.current = true;
+    setActionLoading(true);
+
+    const newPoints = clientProfile.total_points - 200;
+
+    await supabase
+      .from("profiles")
+      .update({ buffet_available: false, total_points: newPoints })
+      .eq("user_id", clientProfile.user_id);
+
+    setFeedback(t.buffetRedeemed as string);
+    await refreshClient();
+    actionLock.current = false;
+    setActionLoading(false);
+  };
+
   const refreshClient = async () => {
     if (!clientProfile) return;
     const { data } = await supabase
@@ -280,6 +299,7 @@ const Admin = () => {
               profile={clientProfile}
               onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
               onRedeemDiscount={() => setShowConfirmRedeem(true)}
+              onRedeemBuffet={() => setShowConfirmBuffet(true)}
               actionLoading={actionLoading}
               feedback={feedback}
             />
@@ -305,6 +325,17 @@ const Admin = () => {
               redeemDiscount();
             }}
             onCancel={() => setShowConfirmRedeem(false)}
+          />
+
+          <ConfirmDialog
+            open={showConfirmBuffet}
+            title={t.confirmBuffet as string}
+            message={t.confirmBuffetMsg as string}
+            onConfirm={() => {
+              setShowConfirmBuffet(false);
+              redeemBuffet();
+            }}
+            onCancel={() => setShowConfirmBuffet(false)}
           />
         </div>
       </div>

@@ -31,6 +31,7 @@ const Index = () => {
   const [meals, setMeals] = useState(0);
   const [points, setPoints] = useState(0);
   const [discountAvailable, setDiscountAvailable] = useState(false);
+  const [buffetAvailable, setBuffetAvailable] = useState(false);
   const [clientCode, setClientCode] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [referralCode, setReferralCode] = useState("");
@@ -92,6 +93,7 @@ const Index = () => {
       }
       prevDiscountRef.current = newDiscount;
       setDiscountAvailable(newDiscount);
+      setBuffetAvailable(profileRes.data.buffet_available);
       setClientCode(profileRes.data.client_code || "");
       setDisplayName(profileRes.data.display_name || "");
       setReferralCode(profileRes.data.referral_code || "");
@@ -185,7 +187,7 @@ const Index = () => {
 
       <ClientQRCode clientCode={clientCode} />
 
-      <MealCounter meals={meals} discountAvailable={discountAvailable} />
+      <MealCounter meals={meals} discountAvailable={discountAvailable} buffetAvailable={buffetAvailable} />
 
       {totalSavings > 0 && (
         <section className="mx-4 sm:mx-[100px] mt-4 border border-border p-4 bg-card">
