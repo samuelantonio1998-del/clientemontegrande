@@ -123,6 +123,7 @@ const FollowUsCard = () => {
   };
 
   const statusIcon = {
+    verifying: <Loader2 className="w-4 h-4 text-primary animate-spin" />,
     pending: <Clock className="w-4 h-4 text-yellow-500" />,
     approved: <CheckCircle className="w-4 h-4 text-green-500" />,
     rejected: <XCircle className="w-4 h-4 text-destructive" />,
