@@ -159,6 +159,27 @@ const translations = {
     copyLink: "Copiar Link",
     referralPoints: "Pontos de referência",
 
+    // Follow Us
+    followUsTitle: "Segue-nos",
+    followUsDescription: "Segue o nosso Instagram e ganha 10 pontos! Envia um screenshot a provar que nos segues.",
+    followOpenInstagram: "Abrir Instagram",
+    followUploadScreenshot: "Enviar Screenshot",
+    followUploading: "A enviar...",
+    followSubmitted: "Screenshot enviado! A aguardar aprovação.",
+    followPending: "A aguardar aprovação",
+    followApproved: "Aprovado",
+    followRejected: "Rejeitado",
+    followRejectedRetry: "Rejeitado — envia novamente",
+    followInvalidFile: "Ficheiro inválido. Envia uma imagem.",
+    followFileTooLarge: "Ficheiro demasiado grande (máx. 5MB)",
+    followUploadError: "Erro ao enviar screenshot",
+    followClaimsTitle: "Pedidos de follow",
+    followViewScreenshot: "Ver screenshot",
+    followApproveBtn: "Aprovar",
+    followRejectBtn: "Rejeitar",
+    followClaimApproved: (name: string) => `Follow de ${name} aprovado — +10 pontos`,
+    followClaimRejected: (name: string) => `Follow de ${name} rejeitado`,
+
     // NotFound
     pageNotFound: "Página não encontrada",
     returnHome: "Voltar ao início",
