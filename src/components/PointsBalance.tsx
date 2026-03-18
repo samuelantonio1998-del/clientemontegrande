@@ -62,11 +62,11 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
 
   return (
     <section className="mx-4 mt-4 rounded-2xl p-6 bg-card shadow-card">
-      <h2 className="font-display text-lg mb-4 text-foreground">
+      <h2 className="font-display text-lg mb-4 text-foreground text-center">
         {t.points as string}
       </h2>
 
-      <div className="mb-4">
+      <div className="mb-4 text-center">
         <span className="font-display text-7xl leading-none text-foreground">
           {points}
         </span>
