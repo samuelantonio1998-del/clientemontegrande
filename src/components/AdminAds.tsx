@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Plus, Trash2, ExternalLink, Eye, EyeOff } from "lucide-react";
+import { Plus, Trash2, ExternalLink, Eye, EyeOff, Mail } from "lucide-react";
 import { toast } from "sonner";
 
 const ADS_PIN = "1234";
@@ -13,6 +13,7 @@ interface Ad {
   link_url: string | null;
   active: boolean;
   display_order: number;
+  click_count?: number;
 }
 
 type PendingAction =
@@ -35,9 +36,14 @@ const AdminAds = () => {
   const fetchAds = async () => {
     const { data } = await supabase
       .from("ads")
-      .select("*")
+      .select("*, ad_clicks(count)")
       .order("display_order", { ascending: true });
-    if (data) setAds(data as Ad[]);
+    if (data) {
+      setAds(data.map((ad: any) => ({
+        ...ad,
+        click_count: ad.ad_clicks?.[0]?.count ?? 0,
+      })));
+    }
   };
 
   useEffect(() => {
@@ -205,6 +211,10 @@ const AdminAds = () => {
                   <span className="truncate">{ad.link_url}</span>
                 </a>
               )}
+              <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                <Mail className="w-3 h-3" />
+                {ad.click_count ?? 0} cliques
+              </p>
             </div>
             <div className="flex items-center gap-1 flex-shrink-0">
               <button
