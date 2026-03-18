@@ -166,8 +166,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <header className="relative mb-2">
-        <div className="w-full py-[40px] bg-primary relative">
+      <header className="relative mb-4">
+        <div className="w-full py-[40px] bg-primary rounded-b-[32px] relative shadow-elevated">
           <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10">
             <img src={logo} alt="Monte Grande" className="w-[260px]" width={260} height={137} />
           </div>
@@ -182,7 +182,7 @@ const Index = () => {
             <LanguageSwitcher />
             <button
               onClick={signOut}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors w-9 h-9 rounded-full bg-card shadow-card flex items-center justify-center"
               aria-label="Sair"
             >
               <LogOut className="w-4 h-4" />
@@ -202,7 +202,7 @@ const Index = () => {
       <AdBanner />
 
       {totalSavings > 0 && (
-        <section className="mx-4 sm:mx-[100px] mt-4 border border-border p-4 bg-card">
+        <section className="mx-4 sm:mx-[100px] mt-4 rounded-2xl p-5 bg-card shadow-card">
           <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">{t.totalSavings as string}</p>
           <p className="font-display text-2xl text-primary">{(t.savedAmount as (n: number) => string)(totalSavings)}</p>
         </section>
