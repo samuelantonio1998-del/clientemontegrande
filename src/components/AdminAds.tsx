@@ -247,6 +247,15 @@ const AdminAds = () => {
                 <Mail className="w-3 h-3" />
                 {ad.click_count ?? 0} cliques
               </p>
+              {(ad.start_date || ad.end_date) && (
+                <p className="text-[10px] text-muted-foreground mt-0.5">
+                  {ad.start_date && ad.end_date
+                    ? `${ad.start_date} → ${ad.end_date}`
+                    : ad.start_date
+                    ? `Desde ${ad.start_date}`
+                    : `Até ${ad.end_date}`}
+                </p>
+              )}
             </div>
             <div className="flex items-center gap-1 flex-shrink-0">
               <button
