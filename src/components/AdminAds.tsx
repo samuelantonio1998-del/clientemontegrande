@@ -14,6 +14,8 @@ interface Ad {
   active: boolean;
   display_order: number;
   click_count?: number;
+  start_date: string | null;
+  end_date: string | null;
 }
 
 type PendingAction =
