@@ -131,7 +131,7 @@ const FollowUsCard = () => {
 
   if (status === "approved") {
     return (
-      <section className="mx-4 sm:mx-[100px] mt-4 rounded-2xl p-4 bg-card shadow-card">
+      <section className="mx-4 mt-4 rounded-2xl p-4 bg-card shadow-card">
         <a
           href={INSTAGRAM_URL}
           target="_blank"
