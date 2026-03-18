@@ -30,6 +30,8 @@ const Admin = () => {
   const [showConfirmBuffet, setShowConfirmBuffet] = useState(false);
   const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
   const [exportingEmails, setExportingEmails] = useState(false);
+  const [showExportPin, setShowExportPin] = useState(false);
+  const [exportPin, setExportPin] = useState("");
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -308,35 +310,7 @@ const Admin = () => {
               {t.exportEmails as string}
             </h2>
             <button
-              onClick={async () => {
-                setExportingEmails(true);
-                try {
-                  const { data: { session } } = await supabase.auth.getSession();
-                  const res = await fetch(
-                    `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/export-emails`,
-                    {
-                      headers: {
-                        Authorization: `Bearer ${session?.access_token}`,
-                        apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-                      },
-                    }
-                  );
-                  if (!res.ok) throw new Error();
-                  const blob = await res.blob();
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement("a");
-                  a.href = url;
-                  a.download = "utilizadores.csv";
-                  a.style.display = "none";
-                  document.body.appendChild(a);
-                  a.click();
-                  document.body.removeChild(a);
-                  setTimeout(() => URL.revokeObjectURL(url), 1000);
-                } catch {
-                  setFeedback(t.exportError as string);
-                }
-                setExportingEmails(false);
-              }}
+              onClick={() => { setShowExportPin(true); setExportPin(""); }}
               disabled={exportingEmails}
               className="w-full py-4 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors rounded-xl disabled:opacity-50"
             >
@@ -344,6 +318,57 @@ const Admin = () => {
               {exportingEmails ? t.exportingEmails as string : t.exportEmails as string}
             </button>
           </section>
+
+          <ConfirmDialog
+            open={showExportPin}
+            title="PIN de Segurança"
+            message="Introduza o PIN para exportar os emails."
+            onConfirm={async () => {
+              setShowExportPin(false);
+              setExportingEmails(true);
+              try {
+                const { data: { session } } = await supabase.auth.getSession();
+                const res = await fetch(
+                  `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/export-emails`,
+                  {
+                    method: "POST",
+                    headers: {
+                      Authorization: `Bearer ${session?.access_token}`,
+                      apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ pin: exportPin }),
+                  }
+                );
+                if (!res.ok) {
+                  const err = await res.json().catch(() => ({}));
+                  if (err?.error === "invalid_pin") {
+                    setFeedback("PIN inválido");
+                  } else {
+                    setFeedback(t.exportError as string);
+                  }
+                  setExportingEmails(false);
+                  return;
+                }
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "utilizadores.csv";
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+              } catch {
+                setFeedback(t.exportError as string);
+              }
+              setExportingEmails(false);
+            }}
+            onCancel={() => setShowExportPin(false)}
+            pinInput={exportPin}
+            onPinChange={setExportPin}
+          />
 
           
 
