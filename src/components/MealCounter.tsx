@@ -18,7 +18,7 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
           {t.weekMeals as string}
         </h2>
         <p className="text-xs text-muted-foreground text-center mb-4">
-          Para obter o desconto, tem que completar as 4 refeições na mesma semana.
+          Para obter o desconto, tem de completar as 4 refeições na mesma semana. Caso não consiga completar a semana, acumulará pontos.
         </p>
 
         <div className="flex gap-4 justify-center mb-6">
