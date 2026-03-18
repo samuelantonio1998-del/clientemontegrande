@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { motion } from "framer-motion";
 import logo from "@/assets/logo-mg-horizontal-bege.svg";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -166,61 +167,97 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <header className="relative mb-4">
-        <div className="w-full py-[40px] bg-primary rounded-b-[32px] relative shadow-elevated">
-          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10">
-            <img src={logo} alt="Monte Grande" className="w-[260px]" width={260} height={137} />
+      <div className="max-w-lg mx-auto">
+        <header className="relative mb-4">
+          <div className="w-full py-[40px] bg-primary rounded-b-[32px] relative shadow-elevated">
+            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10">
+              <img src={logo} alt="Monte Grande" className="w-[260px]" width={260} height={137} />
+            </div>
           </div>
-        </div>
-        <div className="px-6 pt-4 pb-2 flex items-center justify-between">
-          <div>
-            {displayName && (
-              <p className="font-display text-lg text-foreground">{(t.welcome as (name: string) => string)(displayName)}</p>
-            )}
+          <div className="px-6 pt-4 pb-2 flex items-center justify-between">
+            <div>
+              {displayName && (
+                <p className="font-display text-lg text-foreground">{(t.welcome as (name: string) => string)(displayName)}</p>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <LanguageSwitcher />
+              <button
+                onClick={signOut}
+                className="text-muted-foreground hover:text-foreground transition-colors w-9 h-9 rounded-full bg-card shadow-card flex items-center justify-center"
+                aria-label="Sair"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <button
-              onClick={signOut}
-              className="text-muted-foreground hover:text-foreground transition-colors w-9 h-9 rounded-full bg-card shadow-card flex items-center justify-center"
-              aria-label="Sair"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </header>
+        </header>
 
-      <ReferralButton referralCode={referralCode} />
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+          <ReferralButton referralCode={referralCode} />
+        </motion.div>
 
-      <BirthdayBanner birthDate={birthDate} />
+        <BirthdayBanner birthDate={birthDate} />
 
-      <div className="mx-4 sm:mx-[100px] mt-4 rounded-2xl bg-card shadow-card overflow-hidden">
-        <ClientQRCode clientCode={clientCode} />
-        <MealCounter meals={meals} discountAvailable={discountAvailable} buffetAvailable={buffetAvailable} />
+        <motion.div
+          className="mx-4 mt-4 rounded-2xl bg-card shadow-card overflow-hidden"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+        >
+          <ClientQRCode clientCode={clientCode} />
+          <MealCounter meals={meals} discountAvailable={discountAvailable} buffetAvailable={buffetAvailable} />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+        >
+          <AdBanner />
+        </motion.div>
+
+        {totalSavings > 0 && (
+          <motion.section
+            className="mx-4 mt-4 rounded-2xl p-5 bg-card shadow-card"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.25, ease: "easeOut" }}
+          >
+            <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">{t.totalSavings as string}</p>
+            <p className="font-display text-2xl text-primary">{(t.savedAmount as (n: number) => string)(totalSavings)}</p>
+          </motion.section>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+        >
+          <FollowUsCard />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.35, ease: "easeOut" }}
+        >
+          <PointsBalance points={points} transactions={transactions} />
+        </motion.div>
+
+        {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
+
+        <DiscountCelebration
+          show={showCelebration}
+          onClose={() => setShowCelebration(false)}
+        />
+
+        <DeleteAccountSection />
       </div>
-
-      <AdBanner />
-
-      {totalSavings > 0 && (
-        <section className="mx-4 sm:mx-[100px] mt-4 rounded-2xl p-5 bg-card shadow-card">
-          <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">{t.totalSavings as string}</p>
-          <p className="font-display text-2xl text-primary">{(t.savedAmount as (n: number) => string)(totalSavings)}</p>
-        </section>
-      )}
-
-      <FollowUsCard />
-
-      <PointsBalance points={points} transactions={transactions} />
-
-      {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
-
-      <DiscountCelebration
-        show={showCelebration}
-        onClose={() => setShowCelebration(false)}
-      />
-
-      <DeleteAccountSection />
     </div>
   );
 };
@@ -259,7 +296,7 @@ const DeleteAccountSection = () => {
 
   return (
     <>
-      <footer className="mx-4 sm:mx-[100px] my-8 flex flex-col items-center gap-3">
+      <footer className="mx-4 my-8 flex flex-col items-center gap-3">
         <Link to="/privacy" className="text-xs text-muted-foreground underline hover:text-foreground transition-colors">
           {t.privacyPolicyTitle as string}
         </Link>

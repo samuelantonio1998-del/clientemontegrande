@@ -17,7 +17,7 @@ const BirthdayBanner = ({ birthDate }: BirthdayBannerProps) => {
   if (birth.getMonth() !== today.getMonth()) return null;
 
   return (
-    <section className="mx-4 sm:mx-[100px] mt-4 rounded-2xl bg-primary/5 border border-primary/20 p-5 relative shadow-card">
+    <section className="mx-4 mt-4 rounded-2xl bg-primary/5 border border-primary/20 p-5 relative shadow-card">
       <button
         onClick={() => setDismissed(true)}
         className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors w-7 h-7 rounded-full bg-background/50 flex items-center justify-center"
