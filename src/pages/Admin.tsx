@@ -92,87 +92,38 @@ const Admin = () => {
     actionLock.current = true;
     setActionLoading(true);
 
-    const today = new Date();
-    const dayOfWeek = today.getDay();
+    try {
+      const { data, error } = await supabase.functions.invoke("register-meal", {
+        body: { client_user_id: clientProfile.user_id },
+      });
 
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-      setFeedback(t.weekdayOnly as string);
-      actionLock.current = false;
-      setActionLoading(false);
-      return;
+      if (error) {
+        setFeedback(t.genericError as string || "Erro inesperado");
+        actionLock.current = false;
+        setActionLoading(false);
+        return;
+      }
+
+      if (data?.error === "weekday_only") {
+        setFeedback(t.weekdayOnly as string);
+      } else if (data?.error === "cooldown_active") {
+        setFeedback(t.dailyMealLimit as string);
+      } else if (data?.error) {
+        setFeedback(data.error);
+      } else if (data?.success) {
+        setFeedback(
+          data.reachedDiscount
+            ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
+            : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
+        );
+      }
+
+      await refreshClient();
+      setHistoryRefreshKey((k) => k + 1);
+    } catch {
+      setFeedback(t.genericError as string || "Erro inesperado");
     }
 
-    // Check 5-hour cooldown since last meal
-    const fiveHoursAgo = new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString();
-    const { data: lastMeals } = await supabase
-      .from("transactions")
-      .select("created_at")
-      .eq("user_id", clientProfile.user_id)
-      .eq("type", "meal")
-      .gte("created_at", fiveHoursAgo)
-      .limit(1);
-
-    if (lastMeals && lastMeals.length > 0) {
-      setFeedback(t.dailyMealLimit as string);
-      actionLock.current = false;
-      setActionLoading(false);
-      return;
-    }
-
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - (dayOfWeek - 1));
-    const mondayStr = monday.toISOString().split("T")[0];
-
-    let newMeals = clientProfile.consecutive_meals;
-    const currentWeek = clientProfile.current_week_start;
-
-    if (currentWeek !== mondayStr) {
-      newMeals = 1;
-    } else {
-      newMeals += 1;
-    }
-
-    const reachedDiscount = newMeals >= 4;
-
-    const pointsEarned = 10;
-
-    const { data: txData } = await supabase.from("transactions").insert({
-      user_id: clientProfile.user_id,
-      amount: 0,
-      points_earned: pointsEarned,
-      description: (t.mealDescription as (reached: boolean, n: number) => string)(reachedDiscount, newMeals),
-      type: "meal",
-    }).select("id").single();
-
-    await supabase
-      .from("profiles")
-      .update({
-        consecutive_meals: reachedDiscount ? 0 : newMeals,
-        current_week_start: mondayStr,
-        discount_available: reachedDiscount,
-        total_points: clientProfile.total_points + pointsEarned,
-      })
-      .eq("user_id", clientProfile.user_id);
-
-    // Log admin action
-    await supabase.from("admin_actions").insert({
-      admin_id: user!.id,
-      client_user_id: clientProfile.user_id,
-      client_name: clientProfile.display_name,
-      client_code: clientProfile.client_code,
-      action_type: "meal",
-      description: (t.mealDescription as (reached: boolean, n: number) => string)(reachedDiscount, newMeals),
-      points_changed: pointsEarned,
-      transaction_id: txData?.id || null,
-    } as any);
-
-    setFeedback(
-      reachedDiscount
-        ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
-        : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(newMeals)}`
-    );
-    await refreshClient();
-    setHistoryRefreshKey((k) => k + 1);
     actionLock.current = false;
     setActionLoading(false);
   };
