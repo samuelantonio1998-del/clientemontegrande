@@ -327,8 +327,11 @@ const Admin = () => {
                   const a = document.createElement("a");
                   a.href = url;
                   a.download = "utilizadores.csv";
+                  a.style.display = "none";
+                  document.body.appendChild(a);
                   a.click();
-                  URL.revokeObjectURL(url);
+                  document.body.removeChild(a);
+                  setTimeout(() => URL.revokeObjectURL(url), 1000);
                 } catch {
                   setFeedback(t.exportError as string);
                 }
