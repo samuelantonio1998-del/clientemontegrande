@@ -20,6 +20,18 @@ Deno.serve(async (req) => {
       })
     }
 
+    // Validate PIN
+    const body = await req.json().catch(() => ({}))
+    const pin = body?.pin
+    const expectedPin = Deno.env.get('EXPORT_PIN')
+
+    if (!expectedPin || !pin || pin !== expectedPin) {
+      return new Response(JSON.stringify({ error: 'invalid_pin' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
     // Verify the caller is an admin
     const supabaseAnon = createClient(
       Deno.env.get('SUPABASE_URL')!,

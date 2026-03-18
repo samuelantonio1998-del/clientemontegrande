@@ -30,6 +30,8 @@ const Admin = () => {
   const [showConfirmBuffet, setShowConfirmBuffet] = useState(false);
   const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
   const [exportingEmails, setExportingEmails] = useState(false);
+  const [showExportPin, setShowExportPin] = useState(false);
+  const [exportPin, setExportPin] = useState("");
 
   useEffect(() => {
     if (!authLoading && !user) {
