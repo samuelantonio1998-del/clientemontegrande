@@ -211,6 +211,10 @@ const AdminAds = () => {
                   <span className="truncate">{ad.link_url}</span>
                 </a>
               )}
+              <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                <Mail className="w-3 h-3" />
+                {ad.click_count ?? 0} cliques
+              </p>
             </div>
             <div className="flex items-center gap-1 flex-shrink-0">
               <button
