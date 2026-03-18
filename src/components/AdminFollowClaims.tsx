@@ -57,7 +57,7 @@ const AdminFollowClaims = () => {
     if (!user || actionLoading) return;
     setActionLoading(claim.id);
 
-    const pointsToAward = approved ? 10 : 0;
+    const pointsToAward = approved ? (claim.platform === "google_review" ? 50 : 10) : 0;
 
     // Update claim status
     await supabase
