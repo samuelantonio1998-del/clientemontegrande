@@ -98,7 +98,7 @@ const Admin = () => {
       });
 
       if (error) {
-        setFeedback(t.genericError as string || "Erro inesperado");
+        setFeedback("Erro inesperado");
         actionLock.current = false;
         setActionLoading(false);
         return;
