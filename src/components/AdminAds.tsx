@@ -180,6 +180,30 @@ const AdminAds = () => {
           onChange={(e) => setNewLink(e.target.value)}
           className="w-full bg-background border border-border px-3 py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
         />
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <label className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1 block">
+              {t.adsStartDate as string}
+            </label>
+            <input
+              type="date"
+              value={newStartDate}
+              onChange={(e) => setNewStartDate(e.target.value)}
+              className="w-full bg-background border border-border px-3 py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+            />
+          </div>
+          <div className="flex-1">
+            <label className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1 block">
+              {t.adsEndDate as string}
+            </label>
+            <input
+              type="date"
+              value={newEndDate}
+              onChange={(e) => setNewEndDate(e.target.value)}
+              className="w-full bg-background border border-border px-3 py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+            />
+          </div>
+        </div>
         <label className="w-full py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors cursor-pointer">
           <Plus className="w-4 h-4" />
           {uploading ? (t.followUploading as string) : (t.adsUploadImage as string)}
