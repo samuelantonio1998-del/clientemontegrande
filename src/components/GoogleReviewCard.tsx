@@ -146,7 +146,7 @@ const GoogleReviewCard = () => {
     <section className="mx-4 mt-4 rounded-2xl p-5 bg-card shadow-card">
       <div className="flex items-center gap-2 mb-3">
         <Star className="w-5 h-5 text-primary" />
-        <p className="text-xs tracking-widest uppercase text-muted-foreground font-display">
+        <p className="text-xs tracking-widest uppercase text-foreground font-display font-bold">
           {t.googleReviewTitle as string}
         </p>
       </div>
