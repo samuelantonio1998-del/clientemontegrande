@@ -75,7 +75,7 @@ const AdminFollowClaims = () => {
       await supabase
         .from("profiles")
         .update({
-          total_points: (await supabase.from("profiles").select("total_points").eq("user_id", claim.user_id).single()).data?.total_points + 10,
+          total_points: (await supabase.from("profiles").select("total_points").eq("user_id", claim.user_id).single()).data?.total_points + pointsToAward,
         })
         .eq("user_id", claim.user_id);
 
