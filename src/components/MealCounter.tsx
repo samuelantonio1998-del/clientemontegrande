@@ -19,7 +19,7 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
   return (
     <div className="space-y-4">
       {/* Meal counter */}
-      <section className="mx-4 sm:mx-[100px] rounded-2xl p-6 bg-card shadow-card">
+      <div className="border-t border-border p-6">
         <div className="flex items-center gap-2 mb-6">
           <h2 className="font-display text-lg text-foreground">
             {t.weekMeals as string}
@@ -52,7 +52,7 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
         <p className="text-xs uppercase tracking-widest text-muted-foreground text-center font-medium">
           {(t.mealsRemaining as (n: number) => string)(4 - meals)}
         </p>
-      </section>
+      </div>
 
       {/* Discount available */}
       {discountAvailable && (
