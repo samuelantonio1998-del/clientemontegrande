@@ -26,7 +26,7 @@ const BirthDateInput = ({ value, onChange }: { value: string; onChange: (val: st
     }
   };
 
-  const inputClass = "bg-card border border-border px-2 py-3 text-sm text-foreground text-center focus:outline-none focus:border-foreground transition-colors";
+  const inputClass = "bg-card border border-border rounded-xl px-2 py-3 text-sm text-foreground text-center focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200";
 
   return (
     <div className="flex items-center gap-2">
