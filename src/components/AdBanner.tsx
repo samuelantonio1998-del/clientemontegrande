@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Mail } from "lucide-react";
+import { Mail, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Ad {
   id: string;
@@ -20,6 +20,7 @@ interface Ad {
 const AdBanner = () => {
   const [ads, setAds] = useState<Ad[]>([]);
   const [selectedAd, setSelectedAd] = useState<Ad | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -33,28 +34,91 @@ const AdBanner = () => {
     fetchAds();
   }, []);
 
+  // Auto-rotate every 10 seconds
+  useEffect(() => {
+    if (ads.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % ads.length);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [ads.length]);
+
+  const goToPrev = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev - 1 + ads.length) % ads.length);
+  }, [ads.length]);
+
+  const goToNext = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev + 1) % ads.length);
+  }, [ads.length]);
+
   if (ads.length === 0) return null;
+
+  const currentAd = ads[currentIndex];
 
   return (
     <>
-      <div className="space-y-3 mx-4 sm:mx-[100px] mt-4">
-        {ads.map((ad) => (
-          <div
-            key={ad.id}
-            className="border border-border overflow-hidden bg-card cursor-pointer hover:opacity-90 transition-opacity"
-            onClick={() => setSelectedAd(ad)}
-          >
-            <img
-              src={ad.image_url}
-              alt={ad.title || "Anúncio"}
-              className="w-full h-auto block"
-              loading="lazy"
-            />
-            <p className="text-[10px] text-muted-foreground uppercase tracking-widest px-2 py-1">
-              Anúncio{ad.title ? `. ${ad.title}` : ""}
-            </p>
+      <div className="mx-4 sm:mx-[100px] mt-4">
+        <div
+          className="border border-border overflow-hidden bg-card cursor-pointer hover:opacity-90 transition-opacity relative"
+          onClick={() => setSelectedAd(currentAd)}
+        >
+          {/* Navigation arrows */}
+          {ads.length > 1 && (
+            <>
+              <button
+                onClick={goToPrev}
+                className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-primary/70 text-primary-foreground rounded-full p-1 hover:bg-primary transition-colors"
+                aria-label="Anúncio anterior"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={goToNext}
+                className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-primary/70 text-primary-foreground rounded-full p-1 hover:bg-primary transition-colors"
+                aria-label="Próximo anúncio"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </>
+          )}
+
+          <img
+            src={currentAd.image_url}
+            alt={currentAd.title || "Anúncio"}
+            className="w-full h-auto block"
+            loading="lazy"
+          />
+
+          {/* Label bar */}
+          <div className="flex items-center justify-between px-2 py-1">
+            <span className="bg-primary text-primary-foreground text-[10px] uppercase tracking-widest px-2 py-0.5 font-medium">
+              Anúncio
+            </span>
+            {currentAd.title && (
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                {currentAd.title}
+              </span>
+            )}
           </div>
-        ))}
+        </div>
+
+        {/* Dots indicator */}
+        {ads.length > 1 && (
+          <div className="flex justify-center gap-1.5 mt-2">
+            {ads.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                  i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"
+                }`}
+                aria-label={`Ir para anúncio ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <Dialog open={!!selectedAd} onOpenChange={(open) => !open && setSelectedAd(null)}>
