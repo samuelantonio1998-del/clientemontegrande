@@ -1,0 +1,1 @@
+REVOKE UPDATE (total_points, discount_available, buffet_available, consecutive_meals, current_week_start, total_savings, client_code, referral_code) ON public.profiles FROM authenticated;
