@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const GOOGLE_REVIEW_URL =
-  "https://www.google.com/maps/place/Monte+Grande/@39.7495894,-8.9450632,17z/data=!4m8!3m7!1s0x2400989f95a5a593:0x641d8cc554636d30!8m2!3d39.7495894!4d-8.9450632!9m1!1b1!16s";
+  "https://www.google.com/maps/place/Restaurante+Monte+Grande/@39.7454814,-8.8919865,705m/data=!3m2!1e3!4b1!4m10!1m3!3m2!9m1!1b1!3m5!1s0xd220c5985ad0ce9:0x4542b2010e667489!8m2!3d39.7454773!4d-8.8894116!16s%2Fg%2F11clwn7l53?entry=ttu";
 
 type ClaimStatus = "none" | "pending" | "approved" | "rejected" | "verifying";
 
