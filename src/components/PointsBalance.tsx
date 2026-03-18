@@ -77,7 +77,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
 
       <div className="px-4 py-3 rounded-xl bg-muted/50 flex items-center gap-2">
         <span className="text-xs uppercase tracking-widest text-foreground">
-          Acumula 200 pontos e ganha <span className="text-primary font-semibold">15€ de desconto</span>
+          {t.pointsGoalMsg as string} <span className="text-primary font-semibold">{t.pointsGoalDiscount as string}</span>
         </span>
       </div>
 
