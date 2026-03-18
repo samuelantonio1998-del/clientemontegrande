@@ -376,9 +376,9 @@ const translations = {
 
     // Google Review
     googleReviewTitle: "Review us on Google",
-    googleReviewDescription: "Leave a Google review and earn 10 points! Send a screenshot of your review.",
+    googleReviewDescription: "Help us get a great rating and earn 50 points!",
     googleReviewOpen: "Review on Google",
-    googleReviewApproved: "Google review verified! +10 points",
+    googleReviewApproved: "Google review verified! +50 points",
     googleReviewRejected: "Invalid screenshot — stars and your name must be visible",
     googleReviewRejectedRetry: "Rejected — try again",
     googleReviewHint: "Screenshot must show the stars and your profile name",

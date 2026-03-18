@@ -196,9 +196,9 @@ Deno.serve(async (req) => {
       await supabase.from("transactions").insert({
         user_id: user.id,
         amount: 0,
-        points_earned: 10,
+        points_earned: 50,
         type: "google_review",
-        description: "Google Review — 10 pts",
+        description: "Google Review — 50 pts",
       });
     }
 
