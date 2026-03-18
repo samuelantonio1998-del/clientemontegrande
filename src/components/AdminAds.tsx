@@ -36,9 +36,14 @@ const AdminAds = () => {
   const fetchAds = async () => {
     const { data } = await supabase
       .from("ads")
-      .select("*")
+      .select("*, ad_clicks(count)")
       .order("display_order", { ascending: true });
-    if (data) setAds(data as Ad[]);
+    if (data) {
+      setAds(data.map((ad: any) => ({
+        ...ad,
+        click_count: ad.ad_clicks?.[0]?.count ?? 0,
+      })));
+    }
   };
 
   useEffect(() => {
