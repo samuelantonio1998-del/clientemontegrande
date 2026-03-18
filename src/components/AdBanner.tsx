@@ -101,7 +101,7 @@ const AdBanner = () => {
 
           <div className="flex items-center justify-between px-4 py-2">
             <span className="bg-primary text-primary-foreground text-[10px] uppercase tracking-widest px-3 py-1 font-medium rounded-full">
-              Anúncio
+              {t.adLabel as string}
             </span>
             {currentAd.title && (
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
