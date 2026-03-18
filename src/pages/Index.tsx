@@ -112,7 +112,7 @@ const Index = () => {
     if (txRes.data) {
       setTransactions(
         txRes.data
-          .filter((tx: any) => tx.type !== "follow")
+          .filter((tx: any) => tx.type !== "follow" && tx.type !== "google_review")
           .map((tx: any) => ({
             id: tx.id,
             date: tx.created_at.split("T")[0],
