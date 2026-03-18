@@ -11,10 +11,10 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Verify authorization (accept anon key for cron or CRON_SECRET)
+  // Verify authorization using CRON_SECRET
   const authHeader = req.headers.get("authorization");
-  const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
-  if (authHeader !== `Bearer ${anonKey}`) {
+  const expectedToken = Deno.env.get("CRON_SECRET");
+  if (!expectedToken || authHeader !== `Bearer ${expectedToken}`) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -40,7 +40,8 @@ serve(async (req) => {
     .not("birth_date", "is", null);
 
   if (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    console.error("Birthday check DB error:", error.message);
+    return new Response(JSON.stringify({ error: "An unexpected error occurred" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
