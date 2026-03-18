@@ -40,7 +40,7 @@ const PrivacyContentPT = () => (
     <p>A Quinta Monte Grande, LDA. está comprometida com a proteção dos seus dados pessoais, em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD — Regulamento UE 2016/679).</p>
 
     <h2>1. Responsável pelo Tratamento</h2>
-    <p>Quinta Monte Grande é a entidade responsável pelo tratamento dos seus dados pessoais recolhidos através desta aplicação.</p>
+    <p>Quinta Monte Grande, LDA. é a entidade responsável pelo tratamento dos seus dados pessoais recolhidos através desta aplicação.</p>
 
     <h2>2. Dados que Recolhemos</h2>
     <ul>
@@ -92,7 +92,7 @@ const PrivacyContentEN = () => (
     <p>Quinta Monte Grande, LDA. is committed to protecting your personal data in compliance with the General Data Protection Regulation (GDPR — EU Regulation 2016/679).</p>
 
     <h2>1. Data Controller</h2>
-    <p>Quinta Monte Grande is the entity responsible for processing your personal data collected through this application.</p>
+    <p>Quinta Monte Grande, LDA. is the entity responsible for processing your personal data collected through this application.</p>
 
     <h2>2. Data We Collect</h2>
     <ul>
