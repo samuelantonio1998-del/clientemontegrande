@@ -63,10 +63,8 @@ const FollowUsCard = () => {
       setUploading(false);
       return;
     }
-    // Store the storage path (not public URL) since bucket is private
     const screenshotUrl = path;
 
-    // Insert/upsert the claim as pending first
     const { data: claimData, error: claimError } = await supabase
       .from("follow_claims")
       .upsert(
@@ -90,7 +88,6 @@ const FollowUsCard = () => {
     setStatus("verifying");
     setUploading(false);
 
-    // Call AI verification
     try {
       const { data: verifyData, error: verifyError } = await supabase.functions.invoke(
         "verify-follow-screenshot",
@@ -132,10 +129,9 @@ const FollowUsCard = () => {
     rejected: t.followRejected as string,
   };
 
-  // If approved, show minimal "used" state
   if (status === "approved") {
     return (
-      <section className="mx-4 sm:mx-[100px] mt-4 border border-border p-4 bg-card">
+      <section className="mx-4 sm:mx-[100px] mt-4 rounded-2xl p-4 bg-card shadow-card">
         <a
           href={INSTAGRAM_URL}
           target="_blank"
@@ -152,7 +148,7 @@ const FollowUsCard = () => {
   }
 
   return (
-    <section className="mx-4 sm:mx-[100px] mt-4 border border-border p-4 bg-card">
+    <section className="mx-4 sm:mx-[100px] mt-4 rounded-2xl p-5 bg-card shadow-card">
       <div className="flex items-center gap-2 mb-3">
         <Instagram className="w-5 h-5 text-primary" />
         <p className="text-xs tracking-widest uppercase text-muted-foreground font-display">
@@ -160,22 +156,20 @@ const FollowUsCard = () => {
         </p>
       </div>
 
-      <p className="text-sm text-muted-foreground mb-3">
+      <p className="text-sm text-muted-foreground mb-4">
         {t.followUsDescription as string}
       </p>
 
-      {/* Step 1: Follow link */}
       <a
         href={INSTAGRAM_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-full mb-3 py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
+        className="w-full mb-3 py-3 rounded-full flex items-center justify-center gap-2 bg-foreground text-background text-xs uppercase tracking-widest hover:bg-foreground/90 transition-all duration-200"
       >
         <Instagram className="w-4 h-4" />
         {t.followOpenInstagram as string}
       </a>
 
-      {/* Step 2: Upload or status */}
       {status === "none" || status === "rejected" ? (
         <>
           <input
@@ -188,7 +182,7 @@ const FollowUsCard = () => {
           <button
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="w-full py-3 flex items-center justify-center gap-2 border border-primary text-primary text-xs uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50"
+            className="w-full py-3 rounded-full flex items-center justify-center gap-2 border-2 border-primary text-primary text-xs uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-all duration-200 disabled:opacity-50"
           >
             <Upload className="w-4 h-4" />
             {uploading ? (t.followUploading as string) : (t.followUploadScreenshot as string)}

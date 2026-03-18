@@ -42,7 +42,6 @@ const AdBanner = () => {
     fetchAds();
   }, []);
 
-  // Auto-rotate every 10 seconds
   useEffect(() => {
     if (ads.length <= 1) return;
     const interval = setInterval(() => {
@@ -69,25 +68,24 @@ const AdBanner = () => {
     <>
       <div className="mx-4 sm:mx-[100px] mt-4">
         <div
-          className="border border-border overflow-hidden bg-card cursor-pointer hover:opacity-90 transition-opacity relative"
+          className="rounded-2xl overflow-hidden bg-card cursor-pointer hover:shadow-elevated transition-all duration-300 shadow-card relative"
           onClick={() => setSelectedAd(currentAd)}
         >
-          {/* Navigation arrows */}
           {ads.length > 1 && (
             <>
               <button
                 onClick={goToPrev}
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 text-primary hover:text-primary/70 transition-colors"
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-card/80 backdrop-blur-sm flex items-center justify-center text-primary hover:bg-card transition-colors"
                 aria-label="Anúncio anterior"
               >
-                <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
+                <ChevronLeft className="w-4 h-4" strokeWidth={2} />
               </button>
               <button
                 onClick={goToNext}
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 text-primary hover:text-primary/70 transition-colors"
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-card/80 backdrop-blur-sm flex items-center justify-center text-primary hover:bg-card transition-colors"
                 aria-label="Próximo anúncio"
               >
-                <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
+                <ChevronRight className="w-4 h-4" strokeWidth={2} />
               </button>
             </>
           )}
@@ -99,9 +97,8 @@ const AdBanner = () => {
             loading="lazy"
           />
 
-          {/* Label bar */}
-          <div className="flex items-center justify-between px-2 py-1">
-            <span className="bg-primary text-primary-foreground text-[10px] uppercase tracking-widest px-2 py-0.5 font-medium">
+          <div className="flex items-center justify-between px-4 py-2">
+            <span className="bg-primary text-primary-foreground text-[10px] uppercase tracking-widest px-3 py-1 font-medium rounded-full">
               Anúncio
             </span>
             {currentAd.title && (
@@ -112,15 +109,14 @@ const AdBanner = () => {
           </div>
         </div>
 
-        {/* Dots indicator */}
         {ads.length > 1 && (
-          <div className="flex justify-center gap-1.5 mt-2">
+          <div className="flex justify-center gap-1.5 mt-3">
             {ads.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                  i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === currentIndex ? "bg-primary w-4" : "bg-muted-foreground/30 w-1.5"
                 }`}
                 aria-label={`Ir para anúncio ${i + 1}`}
               />
@@ -130,7 +126,7 @@ const AdBanner = () => {
       </div>
 
       <Dialog open={!!selectedAd} onOpenChange={(open) => !open && setSelectedAd(null)}>
-        <DialogContent className="max-w-sm">
+        <DialogContent className="max-w-sm rounded-2xl">
           <DialogHeader>
             <DialogTitle>Entrar em contacto</DialogTitle>
           </DialogHeader>

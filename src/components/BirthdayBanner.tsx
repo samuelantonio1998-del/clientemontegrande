@@ -17,16 +17,18 @@ const BirthdayBanner = ({ birthDate }: BirthdayBannerProps) => {
   if (birth.getMonth() !== today.getMonth()) return null;
 
   return (
-    <section className="mx-4 sm:mx-[100px] mt-4 border border-primary/30 bg-primary/5 p-4 relative">
+    <section className="mx-4 sm:mx-[100px] mt-4 rounded-2xl bg-primary/5 border border-primary/20 p-5 relative shadow-card">
       <button
         onClick={() => setDismissed(true)}
-        className="absolute top-2 right-2 text-muted-foreground hover:text-foreground transition-colors"
+        className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors w-7 h-7 rounded-full bg-background/50 flex items-center justify-center"
         aria-label="Fechar"
       >
         <X className="w-4 h-4" />
       </button>
       <div className="flex items-start gap-3">
-        <Gift className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+          <Gift className="w-5 h-5 text-primary" />
+        </div>
         <div className="space-y-1">
           <p className="font-display text-base text-foreground font-medium">
             {t.birthdayBannerTitle as string}

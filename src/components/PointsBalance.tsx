@@ -17,7 +17,6 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   const [reviewedIds, setReviewedIds] = useState<Set<string>>(new Set());
   const [reviewTxId, setReviewTxId] = useState<string | null>(null);
 
-  // Calculate next expiry
   const nextExpiry = useMemo(() => {
     const now = new Date();
     const upcoming = transactions
@@ -27,7 +26,6 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
     if (upcoming.length === 0) return null;
 
     const nextDate = new Date(upcoming[0].expires_at!);
-    // Sum points expiring on the same day
     const sameDay = upcoming.filter((tx) => {
       const d = new Date(tx.expires_at!);
       return d.toDateString() === nextDate.toDateString();
@@ -63,7 +61,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   };
 
   return (
-    <section className="mx-4 sm:mx-[100px] mt-0 border border-t-0 border-border p-6 bg-card">
+    <section className="mx-4 sm:mx-[100px] mt-4 rounded-2xl p-6 bg-card shadow-card">
       <h2 className="font-display text-lg mb-2 text-foreground">
         {t.points as string}
       </h2>
@@ -77,7 +75,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
         </span>
       </div>
 
-      <div className="px-4 py-3 flex items-center gap-2 mb-2">
+      <div className="px-4 py-3 rounded-xl bg-muted/50 flex items-center gap-2 mb-2">
         <span className="text-xs uppercase tracking-widest text-foreground">
           Acumula 200 pontos e ganha <span className="text-primary font-semibold">15€ de desconto</span>
         </span>
@@ -114,7 +112,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                 ) : (
                   <button
                     onClick={() => setReviewTxId(tx.id)}
-                    className="border border-border px-3 py-2 bg-card flex items-center gap-2 hover:bg-muted transition-colors shrink-0 whitespace-nowrap"
+                    className="rounded-full border border-border px-4 py-2 bg-card flex items-center gap-2 hover:bg-muted transition-all duration-200 shrink-0 whitespace-nowrap"
                   >
                     <Star className="w-4 h-4 text-primary shrink-0" />
                     <span className="text-xs uppercase tracking-widest text-foreground">
