@@ -133,7 +133,7 @@ const AdBanner = () => {
             <DialogTitle>Entrar em contacto</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground">
-            {selectedAd?.title || "Anúncio"}
+            {selectedAd?.title || (t.adLabel as string)}
           </p>
           <DialogFooter>
             {selectedAd?.link_url && (
