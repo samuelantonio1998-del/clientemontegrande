@@ -14,6 +14,7 @@ import ReferralButton from "@/components/ReferralButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import BirthdayBanner from "@/components/BirthdayBanner";
 import FollowUsCard from "@/components/FollowUsCard";
+import GoogleReviewCard from "@/components/GoogleReviewCard";
 import AdBanner from "@/components/AdBanner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { LogOut, Trash2 } from "lucide-react";
