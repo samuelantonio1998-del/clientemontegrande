@@ -220,6 +220,11 @@ const translations = {
     adsInvalidPin: "PIN incorreto",
     adsStartDate: "Data início (opcional)",
     adsEndDate: "Data fim (opcional)",
+
+    // Export
+    exportEmails: "Exportar Emails",
+    exportingEmails: "A exportar...",
+    exportError: "Erro ao exportar emails",
   },
   en: {
     loyaltyProgram: "loyalty program",
