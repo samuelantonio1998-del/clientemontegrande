@@ -157,7 +157,7 @@ const translations = {
 
     // Google Review
     googleReviewTitle: "Avalie-nos no Google",
-    googleReviewDescription: "Deixe uma avaliação no Google e ganhe 10 pontos! Envie um screenshot da sua avaliação.",
+    googleReviewDescription: "Ajude-nos a ter uma boa avaliação e receba 50 pontos!",
     googleReviewOpen: "Avaliar no Google",
     googleReviewApproved: "Avaliação Google verificada! +10 pontos",
     googleReviewRejected: "Screenshot inválido — as estrelas e o seu nome devem ser visíveis",
