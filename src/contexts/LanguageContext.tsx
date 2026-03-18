@@ -408,6 +408,8 @@ const translations = {
     adsDeleted: "Ad deleted",
     adsUploadError: "Error uploading image",
     adsEmpty: "No ads",
+    adsEnterPin: "Enter PIN to confirm",
+    adsInvalidPin: "Incorrect PIN",
   },
 } as const;
 
