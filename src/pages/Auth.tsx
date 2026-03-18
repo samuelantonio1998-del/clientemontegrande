@@ -215,7 +215,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="relative">
-        <div className="w-full h-2 mx-0 my-0 px-0 py-[40px] bg-primary" />
+        <div className="w-full h-2 mx-0 my-0 px-0 py-[40px] bg-primary rounded-b-[32px] shadow-elevated" />
         <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10">
           <img src={logo} alt="Monte Grande" className="w-[260px]" width={260} height={137} fetchPriority="high" />
         </div>
