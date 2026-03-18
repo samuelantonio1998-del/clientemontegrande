@@ -11,6 +11,10 @@ const translations = {
     loading: "A carregar...",
     totalSavings: "poupança total",
     savedAmount: (amount: number) => `Já economizou ${amount}€`,
+    adLabel: "Anúncio",
+    pointsGoalMsg: "Acumula 200 pontos e ganha",
+    pointsGoalDiscount: "15€ de desconto",
+    pointsExpireAt: (pts: number, date: string) => `${pts} pts expiram a ${date}`,
 
     // MealCounter
     discountAvailable: "Desconto 10€ Disponível",
