@@ -81,12 +81,12 @@ const AdminFollowClaims = () => {
 
       // Log transaction
       const txType = claim.platform === "google_review" ? "google_review" : "follow";
-      const txDesc = claim.platform === "google_review" ? "Google Review — 10 pts" : "Instagram follow — 10 pts";
+      const txDesc = claim.platform === "google_review" ? "Google Review — 50 pts" : "Instagram follow — 10 pts";
 
       await supabase.from("transactions").insert({
         user_id: claim.user_id,
         amount: 0,
-        points_earned: 10,
+        points_earned: pointsToAward,
         type: txType,
         description: txDesc,
       });
