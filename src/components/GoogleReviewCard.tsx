@@ -132,7 +132,7 @@ const GoogleReviewCard = () => {
 
   const statusIcon: Record<string, JSX.Element> = {
     verifying: <Loader2 className="w-4 h-4 text-primary animate-spin" />,
-    pending: <Clock className="w-4 h-4 text-yellow-500" />,
+    pending: <Clock className="w-4 h-4 text-muted-foreground" />,
     rejected: <XCircle className="w-4 h-4 text-destructive" />,
   };
 
