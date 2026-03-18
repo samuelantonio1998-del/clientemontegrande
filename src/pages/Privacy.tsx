@@ -37,7 +37,7 @@ const Privacy = () => {
 const PrivacyContentPT = () => (
   <>
     <p>Última atualização: 17 de março de 2026</p>
-    <p>A Quinta Monte Grande ("nós", "nosso") está comprometida com a proteção dos seus dados pessoais, em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD — Regulamento UE 2016/679).</p>
+    <p>A Quinta Monte Grande, LDA. está comprometida com a proteção dos seus dados pessoais, em conformidade com o Regulamento Geral sobre a Proteção de Dados (RGPD — Regulamento UE 2016/679).</p>
 
     <h2>1. Responsável pelo Tratamento</h2>
     <p>Quinta Monte Grande é a entidade responsável pelo tratamento dos seus dados pessoais recolhidos através desta aplicação.</p>
