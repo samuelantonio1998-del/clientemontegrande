@@ -212,6 +212,8 @@ const translations = {
     adsDeleted: "Anúncio eliminado",
     adsUploadError: "Erro ao carregar imagem",
     adsEmpty: "Sem anúncios",
+    adsEnterPin: "Introduza o PIN para confirmar",
+    adsInvalidPin: "PIN incorreto",
   },
   en: {
     loyaltyProgram: "loyalty program",
@@ -406,6 +408,8 @@ const translations = {
     adsDeleted: "Ad deleted",
     adsUploadError: "Error uploading image",
     adsEmpty: "No ads",
+    adsEnterPin: "Enter PIN to confirm",
+    adsInvalidPin: "Incorrect PIN",
   },
 } as const;
 
