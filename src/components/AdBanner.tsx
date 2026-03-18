@@ -19,6 +19,7 @@ interface Ad {
 }
 
 const AdBanner = () => {
+  const { t } = useLanguage();
   const [ads, setAds] = useState<Ad[]>([]);
   const [selectedAd, setSelectedAd] = useState<Ad | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
