@@ -123,10 +123,14 @@ const AdminAds = () => {
         image_url: publicUrl,
         link_url: newLink || null,
         display_order: ads.length,
+        start_date: newStartDate || null,
+        end_date: newEndDate || null,
       } as any);
 
       setNewTitle("");
       setNewLink("");
+      setNewStartDate("");
+      setNewEndDate("");
       await fetchAds();
       toast.success(t.adsAdded as string);
     } catch {
