@@ -69,17 +69,17 @@ const AdBanner = () => {
             <>
               <button
                 onClick={goToPrev}
-                className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-primary/70 text-primary-foreground rounded-full p-1 hover:bg-primary transition-colors"
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 text-primary hover:text-primary/70 transition-colors"
                 aria-label="Anúncio anterior"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
               </button>
               <button
                 onClick={goToNext}
-                className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-primary/70 text-primary-foreground rounded-full p-1 hover:bg-primary transition-colors"
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 text-primary hover:text-primary/70 transition-colors"
                 aria-label="Próximo anúncio"
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
               </button>
             </>
           )}
