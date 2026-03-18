@@ -351,7 +351,7 @@ const Auth = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 text-primary-foreground text-sm uppercase tracking-widest disabled:opacity-50 hover:opacity-90 transition-opacity bg-primary">
+                className="w-full py-3 rounded-full text-primary-foreground text-sm uppercase tracking-widest disabled:opacity-50 hover:bg-primary/90 transition-all duration-200 bg-primary shadow-button">
               
                 {loading ? "..." : isLogin ? t.enter as string : t.register as string}
               </button>
