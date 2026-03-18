@@ -94,7 +94,7 @@ const AdBanner = () => {
 
           <img
             src={currentAd.image_url}
-            alt={currentAd.title || "Anúncio"}
+            alt={currentAd.title || (t.adLabel as string)}
             className="w-full h-auto block"
             loading="lazy"
           />
