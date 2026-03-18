@@ -60,6 +60,24 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
     }
   };
 
+  // Translate known backend descriptions
+  const translateDescription = (desc: string): string => {
+    // "Refeição X/4 (semana)" → translated
+    const mealMatch = desc.match(/^Refeição (\d)\/4 \(semana\)$/);
+    if (mealMatch) {
+      return (t.mealDescription as (reached: boolean, n: number) => string)(false, parseInt(mealMatch[1]));
+    }
+    // "4ª refeição — desconto 10€ desbloqueado"
+    if (desc.includes("4ª refeição")) {
+      return (t.mealDescription as (reached: boolean, n: number) => string)(true, 4);
+    }
+    // "Refeição — pontos"
+    if (desc === "Refeição — pontos") {
+      return t.mealPointsDesc as string;
+    }
+    return desc;
+  };
+
   return (
     <section className="mx-4 mt-4 rounded-2xl p-6 bg-card shadow-card">
       <h2 className="font-display text-lg mb-4 text-foreground text-center">
