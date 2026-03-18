@@ -29,12 +29,17 @@ const AdBanner = () => {
     <div className="space-y-3 mx-4 sm:mx-[100px] mt-4">
       {ads.map((ad) => {
         const content = (
-          <img
-            src={ad.image_url}
-            alt={ad.title || "Anúncio"}
-            className="w-full h-auto block"
-            loading="lazy"
-          />
+          <div>
+            <img
+              src={ad.image_url}
+              alt={ad.title || "Anúncio"}
+              className="w-full h-auto block"
+              loading="lazy"
+            />
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest px-2 py-1">
+              Anúncio{ad.title ? `. ${ad.title}` : ""}
+            </p>
+          </div>
         );
 
         return ad.link_url ? (
