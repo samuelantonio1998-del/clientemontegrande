@@ -19,7 +19,7 @@ const ClientQRCode = ({ clientCode }: ClientQRCodeProps) => {
           {clientCode}
         </p>
       </div>
-    </section>
+    </div>
   );
 };
 

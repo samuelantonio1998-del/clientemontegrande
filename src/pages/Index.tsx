@@ -195,9 +195,10 @@ const Index = () => {
 
       <BirthdayBanner birthDate={birthDate} />
 
-      <ClientQRCode clientCode={clientCode} />
-
-      <MealCounter meals={meals} discountAvailable={discountAvailable} buffetAvailable={buffetAvailable} />
+      <div className="mx-4 sm:mx-[100px] mt-4 rounded-2xl bg-card shadow-card overflow-hidden">
+        <ClientQRCode clientCode={clientCode} />
+        <MealCounter meals={meals} discountAvailable={discountAvailable} buffetAvailable={buffetAvailable} />
+      </div>
 
       <AdBanner />
 

@@ -52,7 +52,7 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
         <p className="text-xs uppercase tracking-widest text-muted-foreground text-center font-medium">
           {(t.mealsRemaining as (n: number) => string)(4 - meals)}
         </p>
-      </section>
+      </div>
 
       {/* Discount available */}
       {discountAvailable && (
