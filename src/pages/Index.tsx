@@ -245,6 +245,14 @@ const Index = () => {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.32, ease: "easeOut" }}
+        >
+          <GoogleReviewCard />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.35, ease: "easeOut" }}
         >
           <PointsBalance points={points} transactions={transactions} />

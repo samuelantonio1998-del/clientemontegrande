@@ -374,6 +374,15 @@ const translations = {
     rate: "Rate",
     reviewed: "Reviewed",
 
+    // Google Review
+    googleReviewTitle: "Review us on Google",
+    googleReviewDescription: "Leave a Google review and earn 10 points! Send a screenshot of your review.",
+    googleReviewOpen: "Review on Google",
+    googleReviewApproved: "Google review verified! +10 points",
+    googleReviewRejected: "Invalid screenshot — stars and your name must be visible",
+    googleReviewRejectedRetry: "Rejected — try again",
+    googleReviewHint: "Screenshot must show the stars and your profile name",
+
     inviteFriends: "Invite friends and earn points",
     referralTitle: "Your invite link",
     referralDescription: "Share this link with friends and earn points when they visit Monte Grande.",
