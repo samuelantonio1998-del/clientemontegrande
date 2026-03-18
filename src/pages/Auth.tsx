@@ -244,7 +244,7 @@ const Auth = () => {
               </button>
             </div> :
 
-          <div className="bg-card border border-border rounded-lg p-8 shadow-sm">
+          <div className="bg-card border border-border rounded-2xl p-8 shadow-card">
             <h2 className="text-2xl font-display font-bold text-foreground mb-1">
               {forgotPassword ? (t.recoverPassword as string) : isLogin ? (t.welcomeBack as string) : (t.createAccount as string)}
             </h2>
