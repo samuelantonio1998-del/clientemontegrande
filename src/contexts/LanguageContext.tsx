@@ -155,6 +155,15 @@ const translations = {
     rate: "Avaliar",
     reviewed: "Avaliado",
 
+    // Google Review
+    googleReviewTitle: "Avalie-nos no Google",
+    googleReviewDescription: "Deixe uma avaliação no Google e ganhe 10 pontos! Envie um screenshot da sua avaliação.",
+    googleReviewOpen: "Avaliar no Google",
+    googleReviewApproved: "Avaliação Google verificada! +10 pontos",
+    googleReviewRejected: "Screenshot inválido — as estrelas e o seu nome devem ser visíveis",
+    googleReviewRejectedRetry: "Rejeitado — envie novamente",
+    googleReviewHint: "O screenshot deve mostrar as estrelas e o seu nome de perfil",
+
     // Referral
     inviteFriends: "Convida amigos e ganha pontos",
     referralTitle: "O teu link de convite",
