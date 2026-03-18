@@ -63,12 +63,8 @@ const FollowUsCard = () => {
       setUploading(false);
       return;
     }
-
-    const { data: urlData } = supabase.storage
-      .from("follow-screenshots")
-      .getPublicUrl(path);
-
-    const screenshotUrl = urlData.publicUrl || path;
+    // Store the storage path (not public URL) since bucket is private
+    const screenshotUrl = path;
 
     // Insert/upsert the claim as pending first
     const { data: claimData, error: claimError } = await supabase

@@ -48,6 +48,14 @@ serve(async (req) => {
       });
     }
 
+    // Generate a signed URL for the screenshot (bucket is private)
+    const supabaseForStorage = createClient(supabaseUrl, supabaseServiceKey);
+    const { data: signedUrlData, error: signedUrlError } = await supabaseForStorage.storage
+      .from("follow-screenshots")
+      .createSignedUrl(screenshot_url, 300); // 5-minute expiry
+
+    const imageUrl = signedUrlData?.signedUrl || screenshot_url;
+
     // Use Gemini to analyze the screenshot
     const aiResponse = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
