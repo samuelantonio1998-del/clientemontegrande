@@ -76,9 +76,14 @@ const AdBanner = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5"
+                  onClick={() => {
+                    if (selectedAd) {
+                      supabase.from("ad_clicks").insert({ ad_id: selectedAd.id }).then();
+                    }
+                  }}
                 >
-                  <ExternalLink className="w-4 h-4" />
-                  Visitar
+                  <Mail className="w-4 h-4" />
+                  Enviar email
                 </a>
               </Button>
             )}
