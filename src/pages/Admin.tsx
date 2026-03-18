@@ -121,7 +121,7 @@ const Admin = () => {
       await refreshClient();
       setHistoryRefreshKey((k) => k + 1);
     } catch {
-      setFeedback(t.genericError as string || "Erro inesperado");
+      setFeedback("Erro inesperado");
     }
 
     actionLock.current = false;
