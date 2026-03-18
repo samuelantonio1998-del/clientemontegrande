@@ -129,9 +129,14 @@ const AdminFollowClaims = () => {
           {claims.map((claim) => (
             <div key={claim.id} className="border border-border p-3">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-medium text-foreground">
-                  {claim.display_name || t.noName as string}
-                </p>
+                <div>
+                  <p className="text-sm font-medium text-foreground">
+                    {claim.display_name || t.noName as string}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                    {claim.platform === "google_review" ? "Google Review" : "Instagram"}
+                  </p>
+                </div>
                 <a
                   href={getScreenshotUrl(claim)}
                   target="_blank"
