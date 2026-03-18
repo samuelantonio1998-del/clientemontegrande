@@ -25,7 +25,7 @@ export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => 
     <Preview>O seu código de verificação</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img src={LOGO_URL} alt="Quinta Monte Grande" width="180" height="auto" style={logo} />
+        <Img src={LOGO_URL} alt="Quinta Monte Grande, LDA." width="180" height="auto" style={logo} />
         <Heading style={h1}>Código de verificação</Heading>
         <Text style={text}>Use o código abaixo para confirmar a sua identidade:</Text>
         <Text style={codeStyle}>{token}</Text>

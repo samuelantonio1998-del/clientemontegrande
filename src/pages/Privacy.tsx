@@ -92,7 +92,7 @@ const PrivacyContentEN = () => (
     <p>Quinta Monte Grande, LDA. is committed to protecting your personal data in compliance with the General Data Protection Regulation (GDPR — EU Regulation 2016/679).</p>
 
     <h2>1. Data Controller</h2>
-    <p>Quinta Monte Grande is the entity responsible for processing your personal data collected through this application.</p>
+    <p>Quinta Monte Grande, LDA. is the entity responsible for processing your personal data collected through this application.</p>
 
     <h2>2. Data We Collect</h2>
     <ul>
