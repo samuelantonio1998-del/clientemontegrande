@@ -150,7 +150,7 @@ Deno.serve(async (req) => {
     }
 
     const newStatus = valid ? "approved" : "rejected";
-    const pointsToAward = valid ? 10 : 0;
+    const pointsToAward = valid ? 50 : 0;
 
     // Update claim
     await supabase
