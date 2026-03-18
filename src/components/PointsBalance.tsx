@@ -62,11 +62,11 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
 
   return (
     <section className="mx-4 sm:mx-[100px] mt-4 rounded-2xl p-6 bg-card shadow-card">
-      <h2 className="font-display text-lg mb-2 text-foreground">
+      <h2 className="font-display text-lg mb-4 text-foreground">
         {t.points as string}
       </h2>
 
-      <div className="mb-2">
+      <div className="mb-4">
         <span className="font-display text-7xl leading-none text-foreground">
           {points}
         </span>
@@ -75,14 +75,14 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
         </span>
       </div>
 
-      <div className="px-4 py-3 rounded-xl bg-muted/50 flex items-center gap-2 mb-2">
+      <div className="px-4 py-3 rounded-xl bg-muted/50 flex items-center gap-2">
         <span className="text-xs uppercase tracking-widest text-foreground">
           Acumula 200 pontos e ganha <span className="text-primary font-semibold">15€ de desconto</span>
         </span>
       </div>
 
       {nextExpiry && (
-        <div className="flex items-center gap-1.5 mb-8 text-xs text-muted-foreground px-4">
+        <div className="flex items-center gap-1.5 mt-3 mb-6 text-xs text-muted-foreground px-1">
           <Clock className="w-3 h-3" />
           <span>
             {nextExpiry.points} {t.pts as string} expiram a {nextExpiry.formatted}
