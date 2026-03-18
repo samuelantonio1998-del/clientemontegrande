@@ -21,16 +21,15 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
           <h2 className="font-display text-lg text-foreground">
             {t.weekMeals as string}
           </h2>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent side="top" className="max-w-[220px] text-center rounded-xl">
-                <p className="text-xs">Para obter o desconto, tem que completar as 4 refeições na mesma semana.</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <button onClick={() => setShowInfo(!showInfo)} className="focus:outline-none">
+            <Info className="w-4 h-4 text-muted-foreground" />
+          </button>
+        </div>
+        {showInfo && (
+          <p className="text-xs text-muted-foreground text-center mb-4 -mt-2">
+            Para obter o desconto, tem que completar as 4 refeições na mesma semana.
+          </p>
+        )}
         </div>
 
         <div className="flex gap-4 justify-center mb-6">
