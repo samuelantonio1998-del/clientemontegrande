@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Plus, Trash2, ExternalLink, Eye, EyeOff } from "lucide-react";
+import { Plus, Trash2, ExternalLink, Eye, EyeOff, Mail } from "lucide-react";
 import { toast } from "sonner";
 
 const ADS_PIN = "1234";
