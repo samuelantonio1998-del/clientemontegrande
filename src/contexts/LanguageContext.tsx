@@ -228,6 +228,10 @@ const translations = {
     loading: "Loading...",
     totalSavings: "total savings",
     savedAmount: (amount: number) => `You saved ${amount}€`,
+    adLabel: "Ad",
+    pointsGoalMsg: "Collect 200 points and get",
+    pointsGoalDiscount: "15€ discount",
+    pointsExpireAt: (pts: number, date: string) => `${pts} pts expire on ${date}`,
 
     discountAvailable: "10€ Discount Available",
     weekMeals: "Meals This Week",
