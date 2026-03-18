@@ -303,6 +303,45 @@ const Admin = () => {
 
           <AdminAds />
 
+          <section className="border border-border p-6 bg-card mt-6 rounded-2xl">
+            <h2 className="font-display text-xl text-foreground mb-4 text-center">
+              {t.exportEmails as string}
+            </h2>
+            <button
+              onClick={async () => {
+                setExportingEmails(true);
+                try {
+                  const { data: { session } } = await supabase.auth.getSession();
+                  const res = await fetch(
+                    `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/export-emails`,
+                    {
+                      headers: {
+                        Authorization: `Bearer ${session?.access_token}`,
+                        apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+                      },
+                    }
+                  );
+                  if (!res.ok) throw new Error();
+                  const blob = await res.blob();
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "utilizadores.csv";
+                  a.click();
+                  URL.revokeObjectURL(url);
+                } catch {
+                  setFeedback(t.exportError as string);
+                }
+                setExportingEmails(false);
+              }}
+              disabled={exportingEmails}
+              className="w-full py-4 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors rounded-xl disabled:opacity-50"
+            >
+              <Download className="w-4 h-4" />
+              {exportingEmails ? t.exportingEmails as string : t.exportEmails as string}
+            </button>
+          </section>
+
           
 
           <ConfirmDialog
