@@ -14,9 +14,14 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["'Cormorant Garamond'", "serif"],
-        body: ["'DM Sans'", "sans-serif"],
-        mono: ["'DM Sans'", "sans-serif"],
+        display: ["'Playfair Display'", "serif"],
+        body: ["'Inter'", "sans-serif"],
+        mono: ["'Inter'", "sans-serif"],
+      },
+      boxShadow: {
+        card: "var(--shadow-card)",
+        elevated: "var(--shadow-elevated)",
+        button: "var(--shadow-button)",
       },
       colors: {
         border: "hsl(var(--border))",
