@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Gift, Info } from "lucide-react";
+import { Gift } from "lucide-react";
 
 interface MealCounterProps {
   meals: number;
@@ -10,25 +9,17 @@ interface MealCounterProps {
 
 const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterProps) => {
   const { t } = useLanguage();
-  const [showInfo, setShowInfo] = useState(false);
 
   return (
     <div className="space-y-4">
       {/* Meal counter */}
       <div className="border-t border-border p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <h2 className="font-display text-lg text-foreground">
-            {t.weekMeals as string}
-          </h2>
-          <button onClick={() => setShowInfo(!showInfo)} className="focus:outline-none">
-            <Info className="w-4 h-4 text-muted-foreground" />
-          </button>
-        </div>
-        {showInfo && (
-          <p className="text-xs text-muted-foreground text-center mb-4 -mt-2">
-            Para obter o desconto, tem que completar as 4 refeições na mesma semana.
-          </p>
-        )}
+        <h2 className="font-display text-lg text-foreground mb-2">
+          {t.weekMeals as string}
+        </h2>
+        <p className="text-xs text-muted-foreground text-center mb-4">
+          Para obter o desconto, tem que completar as 4 refeições na mesma semana.
+        </p>
 
         <div className="flex gap-4 justify-center mb-6">
           {[0, 1, 2, 3].map((i) => (
