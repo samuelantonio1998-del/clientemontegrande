@@ -11,7 +11,6 @@ interface MealCounterProps {
 const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterProps) => {
   const { t } = useLanguage();
   const [showInfo, setShowInfo] = useState(false);
-  const { t } = useLanguage();
 
   return (
     <div className="space-y-4">
@@ -30,7 +29,6 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
             Para obter o desconto, tem que completar as 4 refeições na mesma semana.
           </p>
         )}
-        </div>
 
         <div className="flex gap-4 justify-center mb-6">
           {[0, 1, 2, 3].map((i) => (
