@@ -182,9 +182,6 @@ const GoogleReviewCard = () => {
             <Upload className="w-4 h-4" />
             {uploading ? (t.followUploading as string) : (t.followUploadScreenshot as string)}
           </button>
-          <p className="text-[10px] text-muted-foreground/70 italic mt-2 text-center">
-            {t.googleReviewHint as string}
-          </p>
           {status === "rejected" && (
             <p className="text-xs text-destructive mt-2 text-center flex items-center justify-center gap-1">
               {statusIcon.rejected} {statusTextMap.rejected}
