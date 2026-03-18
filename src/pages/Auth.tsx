@@ -26,7 +26,7 @@ const BirthDateInput = ({ value, onChange }: { value: string; onChange: (val: st
     }
   };
 
-  const inputClass = "bg-card border border-border px-2 py-3 text-sm text-foreground text-center focus:outline-none focus:border-foreground transition-colors";
+  const inputClass = "bg-card border border-border rounded-xl px-2 py-3 text-sm text-foreground text-center focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200";
 
   return (
     <div className="flex items-center gap-2">
@@ -215,7 +215,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="relative">
-        <div className="w-full h-2 mx-0 my-0 px-0 py-[40px] bg-primary" />
+        <div className="w-full h-2 mx-0 my-0 px-0 py-[40px] bg-primary rounded-b-[32px] shadow-elevated" />
         <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10">
           <img src={logo} alt="Monte Grande" className="w-[260px]" width={260} height={137} fetchPriority="high" />
         </div>
@@ -227,7 +227,7 @@ const Auth = () => {
         <div className="w-full max-w-sm">
           {signUpSuccess ?
           <div className="text-center space-y-4">
-              <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center shadow-card">
                 <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
@@ -244,7 +244,7 @@ const Auth = () => {
               </button>
             </div> :
 
-          <div className="bg-card border border-border rounded-lg p-8 shadow-sm">
+          <div className="bg-card border border-border rounded-2xl p-8 shadow-card">
             <h2 className="text-2xl font-display font-bold text-foreground mb-1">
               {forgotPassword ? (t.recoverPassword as string) : isLogin ? (t.welcomeBack as string) : (t.createAccount as string)}
             </h2>
@@ -259,11 +259,11 @@ const Auth = () => {
             <form onSubmit={handleForgotPassword} className="space-y-4 w-full">
                 <div>
                   <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">{t.email as string}</label>
-                  <input
+                   <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+                  className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
                   required />
               
                 </div>
@@ -271,7 +271,7 @@ const Auth = () => {
                 <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-primary text-primary-foreground text-sm uppercase tracking-widest disabled:opacity-50 hover:opacity-90 transition-opacity">
+                className="w-full py-3 rounded-full bg-primary text-primary-foreground text-sm uppercase tracking-widest disabled:opacity-50 hover:bg-primary/90 transition-all duration-200 shadow-button">
               
                   {loading ? "..." : t.sendEmail as string}
                 </button>
@@ -287,7 +287,7 @@ const Auth = () => {
                   type="text"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+                  className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
                   required />
                 </div>
               <div>
@@ -303,7 +303,7 @@ const Auth = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors text-center"
+                  className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200 text-center"
                   required />
               
               </div>
@@ -315,7 +315,7 @@ const Auth = () => {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-card border border-border px-4 py-3 pr-12 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+                    className="w-full bg-card border border-border rounded-xl px-4 py-3 pr-12 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
                     required
                     minLength={6} />
                   <button
@@ -351,7 +351,7 @@ const Auth = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 text-primary-foreground text-sm uppercase tracking-widest disabled:opacity-50 hover:opacity-90 transition-opacity bg-primary">
+                className="w-full py-3 rounded-full text-primary-foreground text-sm uppercase tracking-widest disabled:opacity-50 hover:bg-primary/90 transition-all duration-200 bg-primary shadow-button">
               
                 {loading ? "..." : isLogin ? t.enter as string : t.register as string}
               </button>
@@ -373,7 +373,7 @@ const Auth = () => {
                   });
                   if (error) setError(error.message);
                 }}
-                className="w-full py-3 bg-card text-foreground text-sm uppercase tracking-wider border border-border flex items-center justify-center gap-2 hover:bg-muted transition-colors">
+                className="w-full py-3 rounded-full bg-card text-foreground text-sm uppercase tracking-wider border border-border flex items-center justify-center gap-2 hover:bg-muted transition-all duration-200 shadow-card">
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
                   <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -390,7 +390,7 @@ const Auth = () => {
                   });
                   if (error) setError(error.message);
                 }}
-                className="w-full py-3 bg-card text-foreground text-sm uppercase tracking-wider border border-border flex items-center justify-center gap-2 hover:bg-muted transition-colors mt-2">
+                className="w-full py-3 rounded-full bg-card text-foreground text-sm uppercase tracking-wider border border-border flex items-center justify-center gap-2 hover:bg-muted transition-all duration-200 shadow-card mt-2">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
                 </svg>

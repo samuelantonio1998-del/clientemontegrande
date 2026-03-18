@@ -28,7 +28,7 @@ const ConfettiPiece = ({ index }: { index: number }) => {
 
   return (
     <motion.div
-      className="absolute top-0 rounded-sm"
+      className="absolute top-0 rounded-full"
       style={{
         left: `${left}%`,
         width: size,
@@ -76,17 +76,14 @@ const DiscountCelebration = ({ show, onClose }: DiscountCelebrationProps) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-foreground/60" onClick={handleClose} />
+          <div className="absolute inset-0 bg-foreground/60 backdrop-blur-sm" onClick={handleClose} />
 
-          {/* Confetti */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {confetti.map((i) => (
               <ConfettiPiece key={i} index={i} />
             ))}
           </div>
 
-          {/* Card */}
           <motion.div
             className="relative z-10 mx-6 max-w-sm w-full"
             initial={{ scale: 0.5, y: 40, opacity: 0 }}
@@ -94,8 +91,7 @@ const DiscountCelebration = ({ show, onClose }: DiscountCelebrationProps) => {
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ type: "spring", damping: 15, stiffness: 200, delay: 0.1 }}
           >
-            <div className="bg-card border border-border p-8 text-center">
-              {/* Icon */}
+            <div className="bg-card rounded-3xl shadow-elevated p-8 text-center">
               <motion.div
                 className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center"
                 initial={{ scale: 0 }}
@@ -105,7 +101,6 @@ const DiscountCelebration = ({ show, onClose }: DiscountCelebrationProps) => {
                 <Gift className="w-8 h-8 text-primary" />
               </motion.div>
 
-              {/* Title */}
               <motion.h2
                 className="font-display text-3xl text-foreground mb-2"
                 initial={{ opacity: 0, y: 10 }}
@@ -135,7 +130,7 @@ const DiscountCelebration = ({ show, onClose }: DiscountCelebrationProps) => {
 
               <motion.button
                 onClick={handleClose}
-                className="w-full py-3 bg-primary text-primary-foreground text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
+                className="w-full py-3 rounded-full bg-primary text-primary-foreground text-xs uppercase tracking-widest hover:bg-primary/90 transition-all duration-200 shadow-button"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}

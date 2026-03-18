@@ -18,8 +18,8 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
 
   return (
     <div className="space-y-4">
-      {/* Meal counter - always visible */}
-      <section className="mx-4 sm:mx-[100px] border border-border p-6 bg-card">
+      {/* Meal counter */}
+      <section className="mx-4 sm:mx-[100px] rounded-2xl p-6 bg-card shadow-card">
         <div className="flex items-center gap-2 mb-6">
           <h2 className="font-display text-lg text-foreground">
             {t.weekMeals as string}
@@ -29,7 +29,7 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
               <TooltipTrigger asChild>
                 <Info className="w-4 h-4 text-muted-foreground cursor-help" />
               </TooltipTrigger>
-              <TooltipContent side="top" className="max-w-[220px] text-center">
+              <TooltipContent side="top" className="max-w-[220px] text-center rounded-xl">
                 <p className="text-xs">Para obter o desconto, tem que completar as 4 refeições na mesma semana.</p>
               </TooltipContent>
             </Tooltip>
@@ -40,23 +40,23 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
           {[0, 1, 2, 3].map((i) => (
             <div
               key={i}
-              className={`w-16 h-16 rounded-full border transition-colors ${
+              className={`w-16 h-16 rounded-full border-2 transition-all duration-300 ${
                 i < meals
-                  ? "border-foreground bg-primary"
+                  ? "border-primary bg-primary shadow-button scale-105"
                   : "border-border bg-transparent"
               }`}
             />
           ))}
         </div>
 
-        <p className="text-xs uppercase tracking-widest text-foreground text-center">
+        <p className="text-xs uppercase tracking-widest text-muted-foreground text-center font-medium">
           {(t.mealsRemaining as (n: number) => string)(4 - meals)}
         </p>
       </section>
 
-      {/* Discount available indicator */}
+      {/* Discount available */}
       {discountAvailable && (
-        <section className="mx-4 sm:mx-[100px] border border-border p-6 bg-primary">
+        <section className="mx-4 sm:mx-[100px] rounded-2xl p-6 bg-primary shadow-elevated">
           <div className="flex items-center justify-center gap-3">
             <Gift className="w-5 h-5 text-primary-foreground" />
             <h2 className="font-display text-lg text-primary-foreground">
@@ -70,7 +70,7 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
       )}
 
       {buffetAvailable && (
-        <section className="mx-4 sm:mx-[100px] border border-border p-6 bg-primary">
+        <section className="mx-4 sm:mx-[100px] rounded-2xl p-6 bg-primary shadow-elevated">
           <div className="flex items-center justify-center gap-3">
             <Gift className="w-5 h-5 text-primary-foreground" />
             <h2 className="font-display text-lg text-primary-foreground">

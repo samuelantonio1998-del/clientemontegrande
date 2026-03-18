@@ -29,7 +29,6 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // fallback
       const input = document.createElement("input");
       input.value = referralLink;
       document.body.appendChild(input);
@@ -46,17 +45,17 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
       <div className="mx-4 sm:mx-[100px] mt-4 flex justify-center">
         <button
           onClick={() => setOpen(true)}
-          className="border border-border px-6 py-4 bg-card flex items-center gap-3 hover:bg-muted transition-colors"
+          className="rounded-full px-6 py-4 bg-card shadow-card flex items-center gap-3 hover:shadow-elevated transition-all duration-200"
         >
           <Users className="w-5 h-5 text-primary shrink-0" />
-          <span className="text-sm uppercase tracking-widest text-foreground">
+          <span className="text-sm uppercase tracking-widest text-foreground font-medium">
             {t.inviteFriends as string}
           </span>
         </button>
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-sm">
+        <DialogContent className="max-w-sm rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-base uppercase tracking-widest">
               {t.referralTitle as string}
@@ -67,12 +66,12 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
           </DialogHeader>
 
           <div className="mt-2 flex flex-col gap-3">
-            <div className="bg-muted border border-border px-3 py-2 text-xs text-foreground font-mono break-all rounded-sm">
+            <div className="bg-muted rounded-xl px-4 py-3 text-xs text-foreground font-mono break-all">
               {displayLink}
             </div>
             <button
               onClick={handleCopy}
-              className="w-full py-2.5 bg-primary text-primary-foreground text-xs uppercase tracking-wider hover:bg-primary/90 transition-colors flex items-center justify-center gap-1.5"
+              className="w-full py-3 rounded-full bg-primary text-primary-foreground text-xs uppercase tracking-wider hover:bg-primary/90 transition-all duration-200 flex items-center justify-center gap-1.5 shadow-button"
             >
               {copied ? (
                 <>
