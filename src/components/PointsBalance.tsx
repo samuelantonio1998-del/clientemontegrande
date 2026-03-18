@@ -66,7 +66,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
         {t.points as string}
       </h2>
 
-      <div className="mb-4">
+      <div className="mb-4 text-center">
         <span className="font-display text-7xl leading-none text-foreground">
           {points}
         </span>
