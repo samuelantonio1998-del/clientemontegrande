@@ -188,7 +188,7 @@ Deno.serve(async (req) => {
       if (profile) {
         await supabase
           .from("profiles")
-          .update({ total_points: (Number(profile.total_points) || 0) + 10 })
+          .update({ total_points: (Number(profile.total_points) || 0) + 50 })
           .eq("user_id", user.id);
       }
 
