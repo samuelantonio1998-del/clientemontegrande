@@ -13,6 +13,7 @@ interface Ad {
   link_url: string | null;
   active: boolean;
   display_order: number;
+  click_count?: number;
 }
 
 type PendingAction =
