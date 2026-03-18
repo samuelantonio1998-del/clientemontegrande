@@ -157,9 +157,9 @@ const translations = {
 
     // Google Review
     googleReviewTitle: "Avalie-nos no Google",
-    googleReviewDescription: "Deixe uma avaliação no Google e ganhe 10 pontos! Envie um screenshot da sua avaliação.",
+    googleReviewDescription: "Ajude-nos a ter uma boa avaliação e receba 50 pontos!",
     googleReviewOpen: "Avaliar no Google",
-    googleReviewApproved: "Avaliação Google verificada! +10 pontos",
+    googleReviewApproved: "Avaliação Google verificada! +50 pontos",
     googleReviewRejected: "Screenshot inválido — as estrelas e o seu nome devem ser visíveis",
     googleReviewRejectedRetry: "Rejeitado — envie novamente",
     googleReviewHint: "O screenshot deve mostrar as estrelas e o seu nome de perfil",
@@ -376,9 +376,9 @@ const translations = {
 
     // Google Review
     googleReviewTitle: "Review us on Google",
-    googleReviewDescription: "Leave a Google review and earn 10 points! Send a screenshot of your review.",
+    googleReviewDescription: "Help us get a great rating and earn 50 points!",
     googleReviewOpen: "Review on Google",
-    googleReviewApproved: "Google review verified! +10 points",
+    googleReviewApproved: "Google review verified! +50 points",
     googleReviewRejected: "Invalid screenshot — stars and your name must be visible",
     googleReviewRejectedRetry: "Rejected — try again",
     googleReviewHint: "Screenshot must show the stars and your profile name",

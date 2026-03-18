@@ -150,7 +150,7 @@ Deno.serve(async (req) => {
     }
 
     const newStatus = valid ? "approved" : "rejected";
-    const pointsToAward = valid ? 10 : 0;
+    const pointsToAward = valid ? 50 : 0;
 
     // Update claim
     await supabase
@@ -188,7 +188,7 @@ Deno.serve(async (req) => {
       if (profile) {
         await supabase
           .from("profiles")
-          .update({ total_points: (Number(profile.total_points) || 0) + 10 })
+          .update({ total_points: (Number(profile.total_points) || 0) + 50 })
           .eq("user_id", user.id);
       }
 
@@ -196,9 +196,9 @@ Deno.serve(async (req) => {
       await supabase.from("transactions").insert({
         user_id: user.id,
         amount: 0,
-        points_earned: 10,
+        points_earned: 50,
         type: "google_review",
-        description: "Google Review — 10 pts",
+        description: "Google Review — 50 pts",
       });
     }
 

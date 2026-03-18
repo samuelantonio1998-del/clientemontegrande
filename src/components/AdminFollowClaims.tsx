@@ -57,7 +57,7 @@ const AdminFollowClaims = () => {
     if (!user || actionLoading) return;
     setActionLoading(claim.id);
 
-    const pointsToAward = approved ? 10 : 0;
+    const pointsToAward = approved ? (claim.platform === "google_review" ? 50 : 10) : 0;
 
     // Update claim status
     await supabase
@@ -75,18 +75,18 @@ const AdminFollowClaims = () => {
       await supabase
         .from("profiles")
         .update({
-          total_points: (await supabase.from("profiles").select("total_points").eq("user_id", claim.user_id).single()).data?.total_points + 10,
+          total_points: (await supabase.from("profiles").select("total_points").eq("user_id", claim.user_id).single()).data?.total_points + pointsToAward,
         })
         .eq("user_id", claim.user_id);
 
       // Log transaction
       const txType = claim.platform === "google_review" ? "google_review" : "follow";
-      const txDesc = claim.platform === "google_review" ? "Google Review — 10 pts" : "Instagram follow — 10 pts";
+      const txDesc = claim.platform === "google_review" ? "Google Review — 50 pts" : "Instagram follow — 10 pts";
 
       await supabase.from("transactions").insert({
         user_id: claim.user_id,
         amount: 0,
-        points_earned: 10,
+        points_earned: pointsToAward,
         type: txType,
         description: txDesc,
       });

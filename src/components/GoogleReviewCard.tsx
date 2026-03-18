@@ -126,7 +126,7 @@ const GoogleReviewCard = () => {
     }
   };
 
-  if (status === "approved") {
+  if (status === "approved" || status === "pending" || status === "verifying") {
     return null;
   }
 
