@@ -29,6 +29,8 @@ const AdminAds = () => {
   const [uploading, setUploading] = useState(false);
   const [newLink, setNewLink] = useState("");
   const [newTitle, setNewTitle] = useState("");
+  const [newStartDate, setNewStartDate] = useState("");
+  const [newEndDate, setNewEndDate] = useState("");
   const [pinDialogOpen, setPinDialogOpen] = useState(false);
   const [pinValue, setPinValue] = useState("");
   const [pinError, setPinError] = useState(false);
