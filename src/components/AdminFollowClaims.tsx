@@ -80,12 +80,15 @@ const AdminFollowClaims = () => {
         .eq("user_id", claim.user_id);
 
       // Log transaction
+      const txType = claim.platform === "google_review" ? "google_review" : "follow";
+      const txDesc = claim.platform === "google_review" ? "Google Review — 10 pts" : "Instagram follow — 10 pts";
+
       await supabase.from("transactions").insert({
         user_id: claim.user_id,
         amount: 0,
         points_earned: 10,
-        type: "follow",
-        description: "Instagram follow — 10 pts",
+        type: txType,
+        description: txDesc,
       });
 
       toast.success((t.followClaimApproved as (name: string) => string)(claim.display_name || ""));
@@ -126,9 +129,14 @@ const AdminFollowClaims = () => {
           {claims.map((claim) => (
             <div key={claim.id} className="border border-border p-3">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-medium text-foreground">
-                  {claim.display_name || t.noName as string}
-                </p>
+                <div>
+                  <p className="text-sm font-medium text-foreground">
+                    {claim.display_name || t.noName as string}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                    {claim.platform === "google_review" ? "Google Review" : "Instagram"}
+                  </p>
+                </div>
                 <a
                   href={getScreenshotUrl(claim)}
                   target="_blank"

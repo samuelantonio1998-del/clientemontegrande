@@ -14,6 +14,7 @@ import ReferralButton from "@/components/ReferralButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import BirthdayBanner from "@/components/BirthdayBanner";
 import FollowUsCard from "@/components/FollowUsCard";
+import GoogleReviewCard from "@/components/GoogleReviewCard";
 import AdBanner from "@/components/AdBanner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { LogOut, Trash2 } from "lucide-react";
@@ -111,7 +112,7 @@ const Index = () => {
     if (txRes.data) {
       setTransactions(
         txRes.data
-          .filter((tx: any) => tx.type !== "follow")
+          .filter((tx: any) => tx.type !== "follow" && tx.type !== "google_review")
           .map((tx: any) => ({
             id: tx.id,
             date: tx.created_at.split("T")[0],
@@ -239,6 +240,14 @@ const Index = () => {
           transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
         >
           <FollowUsCard />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.32, ease: "easeOut" }}
+        >
+          <GoogleReviewCard />
         </motion.div>
 
         <motion.div
