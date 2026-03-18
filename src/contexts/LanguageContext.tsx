@@ -173,7 +173,7 @@ const translations = {
     referralPoints: "Pontos de referência",
 
     // Follow Us
-    followUsTitle: "Segue-nos",
+    followUsTitle: "Segue-nos no Instagram",
     followUsDescription: "Segue o nosso Instagram e ganha 10 pontos! Envia um screenshot a provar que nos segues.",
     followOpenInstagram: "Abrir Instagram",
     followUploadScreenshot: "Enviar Screenshot",
