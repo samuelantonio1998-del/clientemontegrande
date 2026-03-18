@@ -24,7 +24,7 @@ interface SignupEmailProps {
   confirmationUrl: string
 }
 
-const LOGO_URL = 'https://pfasftcqkgloxmvgwkfl.supabase.co/storage/v1/object/public/email-assets/logo.svg'
+const LOGO_URL = 'https://pfasftcqkgloxmvgwkfl.supabase.co/storage/v1/object/public/email-assets/logo.png'
 
 export const SignupEmail = ({
   siteName,
