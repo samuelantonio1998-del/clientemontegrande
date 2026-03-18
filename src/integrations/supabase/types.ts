@@ -95,9 +95,11 @@ export type Database = {
           active: boolean
           created_at: string
           display_order: number
+          end_date: string | null
           id: string
           image_url: string
           link_url: string | null
+          start_date: string | null
           title: string
           updated_at: string
         }
@@ -105,9 +107,11 @@ export type Database = {
           active?: boolean
           created_at?: string
           display_order?: number
+          end_date?: string | null
           id?: string
           image_url: string
           link_url?: string | null
+          start_date?: string | null
           title?: string
           updated_at?: string
         }
@@ -115,9 +119,11 @@ export type Database = {
           active?: boolean
           created_at?: string
           display_order?: number
+          end_date?: string | null
           id?: string
           image_url?: string
           link_url?: string | null
+          start_date?: string | null
           title?: string
           updated_at?: string
         }

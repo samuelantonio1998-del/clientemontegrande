@@ -24,12 +24,20 @@ const AdBanner = () => {
 
   useEffect(() => {
     const fetchAds = async () => {
+      const today = new Date().toISOString().split("T")[0];
       const { data } = await supabase
         .from("ads")
-        .select("id, title, image_url, link_url")
+        .select("id, title, image_url, link_url, start_date, end_date")
         .eq("active", true)
         .order("display_order", { ascending: true });
-      if (data) setAds(data as Ad[]);
+      if (data) {
+        const filtered = (data as any[]).filter((ad) => {
+          if (ad.start_date && ad.start_date > today) return false;
+          if (ad.end_date && ad.end_date < today) return false;
+          return true;
+        });
+        setAds(filtered);
+      }
     };
     fetchAds();
   }, []);

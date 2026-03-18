@@ -214,6 +214,8 @@ const translations = {
     adsEmpty: "Sem anúncios",
     adsEnterPin: "Introduza o PIN para confirmar",
     adsInvalidPin: "PIN incorreto",
+    adsStartDate: "Data início (opcional)",
+    adsEndDate: "Data fim (opcional)",
   },
   en: {
     loyaltyProgram: "loyalty program",
@@ -410,6 +412,8 @@ const translations = {
     adsEmpty: "No ads",
     adsEnterPin: "Enter PIN to confirm",
     adsInvalidPin: "Incorrect PIN",
+    adsStartDate: "Start date (optional)",
+    adsEndDate: "End date (optional)",
   },
 } as const;
 

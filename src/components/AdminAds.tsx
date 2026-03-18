@@ -14,6 +14,8 @@ interface Ad {
   active: boolean;
   display_order: number;
   click_count?: number;
+  start_date: string | null;
+  end_date: string | null;
 }
 
 type PendingAction =
@@ -27,6 +29,8 @@ const AdminAds = () => {
   const [uploading, setUploading] = useState(false);
   const [newLink, setNewLink] = useState("");
   const [newTitle, setNewTitle] = useState("");
+  const [newStartDate, setNewStartDate] = useState("");
+  const [newEndDate, setNewEndDate] = useState("");
   const [pinDialogOpen, setPinDialogOpen] = useState(false);
   const [pinValue, setPinValue] = useState("");
   const [pinError, setPinError] = useState(false);
@@ -119,10 +123,14 @@ const AdminAds = () => {
         image_url: publicUrl,
         link_url: newLink || null,
         display_order: ads.length,
+        start_date: newStartDate || null,
+        end_date: newEndDate || null,
       } as any);
 
       setNewTitle("");
       setNewLink("");
+      setNewStartDate("");
+      setNewEndDate("");
       await fetchAds();
       toast.success(t.adsAdded as string);
     } catch {
@@ -172,6 +180,30 @@ const AdminAds = () => {
           onChange={(e) => setNewLink(e.target.value)}
           className="w-full bg-background border border-border px-3 py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
         />
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <label className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1 block">
+              {t.adsStartDate as string}
+            </label>
+            <input
+              type="date"
+              value={newStartDate}
+              onChange={(e) => setNewStartDate(e.target.value)}
+              className="w-full bg-background border border-border px-3 py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+            />
+          </div>
+          <div className="flex-1">
+            <label className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1 block">
+              {t.adsEndDate as string}
+            </label>
+            <input
+              type="date"
+              value={newEndDate}
+              onChange={(e) => setNewEndDate(e.target.value)}
+              className="w-full bg-background border border-border px-3 py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+            />
+          </div>
+        </div>
         <label className="w-full py-3 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors cursor-pointer">
           <Plus className="w-4 h-4" />
           {uploading ? (t.followUploading as string) : (t.adsUploadImage as string)}
@@ -215,6 +247,15 @@ const AdminAds = () => {
                 <Mail className="w-3 h-3" />
                 {ad.click_count ?? 0} cliques
               </p>
+              {(ad.start_date || ad.end_date) && (
+                <p className="text-[10px] text-muted-foreground mt-0.5">
+                  {ad.start_date && ad.end_date
+                    ? `${ad.start_date} → ${ad.end_date}`
+                    : ad.start_date
+                    ? `Desde ${ad.start_date}`
+                    : `Até ${ad.end_date}`}
+                </p>
+              )}
             </div>
             <div className="flex items-center gap-1 flex-shrink-0">
               <button
