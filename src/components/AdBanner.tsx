@@ -65,10 +65,7 @@ const AdBanner = () => {
           <p className="text-sm text-muted-foreground">
             {selectedAd?.title || "Anúncio"}
           </p>
-          <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="outline" onClick={() => setSelectedAd(null)}>
-              Fechar
-            </Button>
+          <DialogFooter>
             {selectedAd?.link_url && (
               <Button asChild>
                 <a
