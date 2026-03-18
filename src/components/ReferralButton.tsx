@@ -42,7 +42,7 @@ const ReferralButton = ({ referralCode }: ReferralButtonProps) => {
 
   return (
     <>
-      <div className="mx-4 sm:mx-[100px] mt-4 flex justify-center">
+      <div className="mx-4 mt-4 flex justify-center">
         <button
           onClick={() => setOpen(true)}
           className="rounded-full px-6 py-4 bg-card shadow-card flex items-center gap-3 hover:shadow-elevated transition-all duration-200"

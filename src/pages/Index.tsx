@@ -296,7 +296,7 @@ const DeleteAccountSection = () => {
 
   return (
     <>
-      <footer className="mx-4 sm:mx-[100px] my-8 flex flex-col items-center gap-3">
+      <footer className="mx-4 my-8 flex flex-col items-center gap-3">
         <Link to="/privacy" className="text-xs text-muted-foreground underline hover:text-foreground transition-colors">
           {t.privacyPolicyTitle as string}
         </Link>

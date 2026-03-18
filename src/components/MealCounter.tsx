@@ -70,7 +70,7 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
       )}
 
       {buffetAvailable && (
-        <section className="mx-4 sm:mx-[100px] rounded-2xl p-6 bg-primary shadow-elevated">
+        <section className="mx-4 rounded-2xl p-6 bg-primary shadow-elevated mt-4">
           <div className="flex items-center justify-center gap-3">
             <Gift className="w-5 h-5 text-primary-foreground" />
             <h2 className="font-display text-lg text-primary-foreground">

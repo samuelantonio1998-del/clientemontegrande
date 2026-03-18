@@ -66,7 +66,7 @@ const AdBanner = () => {
 
   return (
     <>
-      <div className="mx-4 sm:mx-[100px] mt-4">
+      <div className="mx-4 mt-4">
         <div
           className="rounded-2xl overflow-hidden bg-card cursor-pointer hover:shadow-elevated transition-all duration-300 shadow-card relative"
           onClick={() => setSelectedAd(currentAd)}
