@@ -287,7 +287,7 @@ const Auth = () => {
                   type="text"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  className="w-full bg-card border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors"
+                  className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
                   required />
                 </div>
               <div>
