@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
@@ -18,6 +19,7 @@ interface Ad {
 }
 
 const AdBanner = () => {
+  const { t } = useLanguage();
   const [ads, setAds] = useState<Ad[]>([]);
   const [selectedAd, setSelectedAd] = useState<Ad | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -92,14 +94,14 @@ const AdBanner = () => {
 
           <img
             src={currentAd.image_url}
-            alt={currentAd.title || "Anúncio"}
+            alt={currentAd.title || (t.adLabel as string)}
             className="w-full h-auto block"
             loading="lazy"
           />
 
           <div className="flex items-center justify-between px-4 py-2">
             <span className="bg-primary text-primary-foreground text-[10px] uppercase tracking-widest px-3 py-1 font-medium rounded-full">
-              Anúncio
+              {t.adLabel as string}
             </span>
             {currentAd.title && (
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
@@ -131,7 +133,7 @@ const AdBanner = () => {
             <DialogTitle>Entrar em contacto</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground">
-            {selectedAd?.title || "Anúncio"}
+            {selectedAd?.title || (t.adLabel as string)}
           </p>
           <DialogFooter>
             {selectedAd?.link_url && (

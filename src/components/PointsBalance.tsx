@@ -60,6 +60,24 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
     }
   };
 
+  // Translate known backend descriptions
+  const translateDescription = (desc: string): string => {
+    // "Refeição X/4 (semana)" → translated
+    const mealMatch = desc.match(/^Refeição (\d)\/4 \(semana\)$/);
+    if (mealMatch) {
+      return (t.mealDescription as (reached: boolean, n: number) => string)(false, parseInt(mealMatch[1]));
+    }
+    // "4ª refeição — desconto 10€ desbloqueado"
+    if (desc.includes("4ª refeição")) {
+      return (t.mealDescription as (reached: boolean, n: number) => string)(true, 4);
+    }
+    // "Refeição — pontos"
+    if (desc === "Refeição — pontos") {
+      return t.mealPointsDesc as string;
+    }
+    return desc;
+  };
+
   return (
     <section className="mx-4 mt-4 rounded-2xl p-6 bg-card shadow-card">
       <h2 className="font-display text-lg mb-4 text-foreground text-center">
@@ -77,7 +95,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
 
       <div className="px-4 py-3 rounded-xl bg-muted/50 flex items-center gap-2">
         <span className="text-xs uppercase tracking-widest text-foreground">
-          Acumula 200 pontos e ganha <span className="text-primary font-semibold">15€ de desconto</span>
+          {t.pointsGoalMsg as string} <span className="text-primary font-semibold">{t.pointsGoalDiscount as string}</span>
         </span>
       </div>
 
@@ -85,7 +103,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
         <div className="flex items-center gap-1.5 mt-3 mb-6 text-xs text-muted-foreground px-1">
           <Clock className="w-3 h-3" />
           <span>
-            {nextExpiry.points} {t.pts as string} expiram a {nextExpiry.formatted}
+            {(t.pointsExpireAt as (pts: number, date: string) => string)(nextExpiry.points, nextExpiry.formatted)}
           </span>
         </div>
       )}
@@ -104,7 +122,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                 className="flex items-center py-3 border-b border-border text-sm gap-3 min-w-0"
               >
                 <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                  <span className="text-foreground truncate">{tx.description}</span>
+                  <span className="text-foreground truncate">{translateDescription(tx.description)}</span>
                   <span className="text-muted-foreground text-xs">{tx.date}</span>
                 </div>
                 {isReviewed ? (
