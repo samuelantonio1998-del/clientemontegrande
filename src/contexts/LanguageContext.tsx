@@ -287,7 +287,7 @@ const translations = {
     signupSubtitle: "Create your account to get started",
     haveAccount: "I already have an account",
 
-    administration: "administration",
+    administration: "register",
     registerMeal: "Register Meal",
     clientCode: "Client code",
     readQR: "Scan QR Code",
