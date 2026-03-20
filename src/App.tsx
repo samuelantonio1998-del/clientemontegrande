@@ -6,8 +6,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import AdminLayout from "@/components/AdminLayout";
 import Index from "./pages/Index.tsx";
 import Admin from "./pages/Admin.tsx";
+import AdminOtherFunctions from "./pages/AdminOtherFunctions.tsx";
 import Auth from "./pages/Auth.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import Privacy from "./pages/Privacy.tsx";
@@ -26,7 +28,10 @@ const App = () => (
             <Routes>
               <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
               <Route path="/login" element={<Auth />} />
-              <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+              <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+                <Route index element={<Admin />} />
+                <Route path="other" element={<AdminOtherFunctions />} />
+              </Route>
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="*" element={<NotFound />} />
