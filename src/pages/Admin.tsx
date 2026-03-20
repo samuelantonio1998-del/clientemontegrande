@@ -1,23 +1,16 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
-import { LogOut, Search, ScanLine, Download } from "lucide-react";
+import { Search, ScanLine } from "lucide-react";
 import AdminClientCard from "@/components/AdminClientCard";
 import QRScanner from "@/components/QRScanner";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ConfirmDialog from "@/components/ConfirmDialog";
-
 import AdminActionHistory from "@/components/AdminActionHistory";
-import AdminAds from "@/components/AdminAds";
 
 const Admin = () => {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user } = useAuth();
   const { t } = useLanguage();
-  const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [checking, setChecking] = useState(true);
   const [clientCode, setClientCode] = useState("");
   const [clientProfile, setClientProfile] = useState<any>(null);
   const [searchError, setSearchError] = useState("");
@@ -29,34 +22,9 @@ const Admin = () => {
   const [showConfirmRedeem, setShowConfirmRedeem] = useState(false);
   const [showConfirmBuffet, setShowConfirmBuffet] = useState(false);
   const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
-  const [exportingEmails, setExportingEmails] = useState(false);
-  const [showExportPin, setShowExportPin] = useState(false);
-  const [exportPin, setExportPin] = useState("");
-
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate("/login");
-      return;
-    }
-    if (user) {
-      checkAdmin();
-    }
-  }, [user, authLoading]);
-
-  const checkAdmin = async () => {
-    if (!user) return;
-    const { data } = await supabase.rpc("has_role", {
-      _user_id: user.id,
-      _role: "admin",
-    });
-    setIsAdmin(!!data);
-    setChecking(false);
-    if (!data) navigate("/");
-  };
 
   const searchClientByCode = useCallback(async (code: string) => {
     const normalizedCode = code.replace(/\D/g, "").slice(0, 6);
-
     setSearchError("");
     setClientProfile(null);
     setFeedback("");
@@ -90,6 +58,7 @@ const Admin = () => {
   const searchClient = async () => {
     await searchClientByCode(clientCode.trim());
   };
+
   const registerWeekdayMeal = async () => {
     if (!clientProfile || actionLock.current) return;
     actionLock.current = true;
@@ -145,7 +114,6 @@ const Admin = () => {
 
     setFeedback(t.discountRedeemed as string);
 
-    // Log admin action
     await supabase.from("admin_actions").insert({
       admin_id: user!.id,
       client_user_id: clientProfile.user_id,
@@ -176,7 +144,6 @@ const Admin = () => {
 
     setFeedback(t.buffetRedeemed as string);
 
-    // Log admin action
     await supabase.from("admin_actions").insert({
       admin_id: user!.id,
       client_user_id: clientProfile.user_id,
@@ -203,209 +170,94 @@ const Admin = () => {
     if (data) setClientProfile(data);
   };
 
-  if (authLoading || checking) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-sm text-muted-foreground tracking-wide">
-          {t.checking as string}
-        </p>
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-6">
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground tracking-wide mb-3">
-            {t.checking as string}
-          </p>
-          <button
-            onClick={() => navigate("/")}
-            className="px-4 py-2 border border-border text-xs uppercase tracking-widest text-foreground hover:bg-foreground hover:text-background transition-colors"
-          >
-            {t.returnHome as string}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <header className="px-6 pt-8 pb-4 flex items-center justify-between">
-        <div>
-          <p className="text-xs tracking-widest uppercase text-muted-foreground">
-            {t.administration as string}
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <LanguageSwitcher />
-          <button onClick={signOut} className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Sair">
-            <LogOut className="w-4 h-4" />
+    <div className="w-full max-w-md mx-auto">
+      <section className="border border-border p-6 bg-card">
+        <h1 className="font-display text-3xl text-foreground mb-4 text-center">
+          {t.registerMeal as string}
+        </h1>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            maxLength={6}
+            placeholder={t.clientCode as string}
+            value={clientCode}
+            onChange={(e) => setClientCode(e.target.value.replace(/\D/g, ""))}
+            className="flex-1 bg-background border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground tracking-widest text-center transition-colors"
+          />
+          <button
+            onClick={searchClient}
+            className="px-4 py-3 bg-foreground text-background border border-foreground hover:opacity-90 transition-opacity"
+            aria-label="Pesquisar"
+          >
+            <Search className="w-4 h-4" />
           </button>
         </div>
-      </header>
+        <button
+          onClick={() => setShowScanner(true)}
+          className="w-full mt-3 py-4 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
+          aria-label="Ler QR Code"
+        >
+          <ScanLine className="w-5 h-5" />
+          {t.readQR as string}
+        </button>
+        {searchError && (
+          <p className="text-xs text-destructive mt-2 text-center">{searchError}</p>
+        )}
+      </section>
 
-      <div className="flex-1 flex flex-col items-center px-4 pb-8">
-        <div className="w-full max-w-md">
-          <section className="border border-border p-6 bg-card">
-            <h1 className="font-display text-3xl text-foreground mb-4 text-center">
-              {t.registerMeal as string}
-            </h1>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                maxLength={6}
-                placeholder={t.clientCode as string}
-                value={clientCode}
-                onChange={(e) => setClientCode(e.target.value.replace(/\D/g, ""))}
-                className="flex-1 bg-background border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground tracking-widest text-center transition-colors"
-              />
-              <button
-                onClick={searchClient}
-                className="px-4 py-3 bg-foreground text-background border border-foreground hover:opacity-90 transition-opacity"
-                aria-label="Pesquisar"
-              >
-                <Search className="w-4 h-4" />
-              </button>
-            </div>
-            <button
-              onClick={() => setShowScanner(true)}
-              className="w-full mt-3 py-4 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
-              aria-label="Ler QR Code"
-            >
-              <ScanLine className="w-5 h-5" />
-              {t.readQR as string}
-            </button>
-            {searchError && (
-              <p className="text-xs text-destructive mt-2 text-center">{searchError}</p>
-            )}
-          </section>
+      {showScanner && (
+        <QRScanner
+          onScan={handleQRScan}
+          onClose={() => setShowScanner(false)}
+        />
+      )}
 
-          {showScanner && (
-            <QRScanner
-              onScan={handleQRScan}
-              onClose={() => setShowScanner(false)}
-            />
-          )}
+      {clientProfile && (
+        <AdminClientCard
+          profile={clientProfile}
+          onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
+          onRedeemDiscount={() => setShowConfirmRedeem(true)}
+          onRedeemBuffet={() => setShowConfirmBuffet(true)}
+          actionLoading={actionLoading}
+          feedback={feedback}
+        />
+      )}
 
-          {clientProfile && (
-            <AdminClientCard
-              profile={clientProfile}
-              onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
-              onRedeemDiscount={() => setShowConfirmRedeem(true)}
-              onRedeemBuffet={() => setShowConfirmBuffet(true)}
-              actionLoading={actionLoading}
-              feedback={feedback}
-            />
-          )}
+      <AdminActionHistory refreshKey={historyRefreshKey} />
 
-          <AdminActionHistory refreshKey={historyRefreshKey} />
+      <ConfirmDialog
+        open={showConfirmMeal}
+        title={t.confirmMeal as string}
+        message={t.confirmMealMsg as string}
+        onConfirm={() => {
+          setShowConfirmMeal(false);
+          registerWeekdayMeal();
+        }}
+        onCancel={() => setShowConfirmMeal(false)}
+      />
 
-          <AdminAds />
+      <ConfirmDialog
+        open={showConfirmRedeem}
+        title={t.confirmRedeem as string}
+        message={t.confirmRedeemMsg as string}
+        onConfirm={() => {
+          setShowConfirmRedeem(false);
+          redeemDiscount();
+        }}
+        onCancel={() => setShowConfirmRedeem(false)}
+      />
 
-          <section className="border border-border p-6 bg-card mt-6 rounded-2xl">
-            <h2 className="font-display text-xl text-foreground mb-4 text-center">
-              {t.exportEmails as string}
-            </h2>
-            <button
-              onClick={() => { setShowExportPin(true); setExportPin(""); }}
-              disabled={exportingEmails}
-              className="w-full py-4 flex items-center justify-center gap-2 border border-border text-foreground text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors rounded-xl disabled:opacity-50"
-            >
-              <Download className="w-4 h-4" />
-              {exportingEmails ? t.exportingEmails as string : t.exportEmails as string}
-            </button>
-          </section>
-
-          <ConfirmDialog
-            open={showExportPin}
-            title="PIN de Segurança"
-            message="Introduza o PIN para exportar os emails."
-            onConfirm={async () => {
-              setShowExportPin(false);
-              setExportingEmails(true);
-              try {
-                const { data: { session } } = await supabase.auth.getSession();
-                const res = await fetch(
-                  `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/export-emails`,
-                  {
-                    method: "POST",
-                    headers: {
-                      Authorization: `Bearer ${session?.access_token}`,
-                      apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ pin: exportPin }),
-                  }
-                );
-                if (!res.ok) {
-                  const err = await res.json().catch(() => ({}));
-                  if (err?.error === "invalid_pin") {
-                    setFeedback("PIN inválido");
-                  } else {
-                    setFeedback(t.exportError as string);
-                  }
-                  setExportingEmails(false);
-                  return;
-                }
-                const blob = await res.blob();
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "utilizadores.csv";
-                a.style.display = "none";
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
-              } catch {
-                setFeedback(t.exportError as string);
-              }
-              setExportingEmails(false);
-            }}
-            onCancel={() => setShowExportPin(false)}
-            pinInput={exportPin}
-            onPinChange={setExportPin}
-          />
-
-          
-
-          <ConfirmDialog
-            open={showConfirmMeal}
-            title={t.confirmMeal as string}
-            message={t.confirmMealMsg as string}
-            onConfirm={() => {
-              setShowConfirmMeal(false);
-              registerWeekdayMeal();
-            }}
-            onCancel={() => setShowConfirmMeal(false)}
-          />
-
-          <ConfirmDialog
-            open={showConfirmRedeem}
-            title={t.confirmRedeem as string}
-            message={t.confirmRedeemMsg as string}
-            onConfirm={() => {
-              setShowConfirmRedeem(false);
-              redeemDiscount();
-            }}
-            onCancel={() => setShowConfirmRedeem(false)}
-          />
-
-          <ConfirmDialog
-            open={showConfirmBuffet}
-            title={t.confirmBuffet as string}
-            message={t.confirmBuffetMsg as string}
-            onConfirm={() => {
-              setShowConfirmBuffet(false);
-              redeemBuffet();
-            }}
-            onCancel={() => setShowConfirmBuffet(false)}
-          />
-        </div>
-      </div>
+      <ConfirmDialog
+        open={showConfirmBuffet}
+        title={t.confirmBuffet as string}
+        message={t.confirmBuffetMsg as string}
+        onConfirm={() => {
+          setShowConfirmBuffet(false);
+          redeemBuffet();
+        }}
+        onCancel={() => setShowConfirmBuffet(false)}
+      />
     </div>
   );
 };
