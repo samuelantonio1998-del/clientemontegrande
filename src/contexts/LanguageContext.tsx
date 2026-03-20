@@ -59,7 +59,7 @@ const translations = {
     haveAccount: "Já tenho conta",
 
     // Admin
-    administration: "administração",
+    administration: "registo",
     registerMeal: "Registar Refeição",
     clientCode: "Código cliente",
     readQR: "Ler Código QR",
