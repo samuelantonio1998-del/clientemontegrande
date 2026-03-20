@@ -230,6 +230,9 @@ const translations = {
     adsStartDate: "Data início (opcional)",
     adsEndDate: "Data fim (opcional)",
 
+    // Navigation
+    otherFunctions: "Outras Funções",
+
     // Export
     exportEmails: "Exportar Emails",
     exportingEmails: "A exportar...",
