@@ -2,18 +2,68 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
-import { Download } from "lucide-react";
+import { Download, Lock } from "lucide-react";
 import AdminAds from "@/components/AdminAds";
 import ConfirmDialog from "@/components/ConfirmDialog";
-import AdminFollowClaims from "@/components/AdminFollowClaims";
+
+const ADMIN_PIN = "0866";
 
 const AdminOtherFunctions = () => {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const [unlocked, setUnlocked] = useState(false);
+  const [pinInput, setPinInput] = useState("");
+  const [pinError, setPinError] = useState("");
   const [exportingEmails, setExportingEmails] = useState(false);
   const [showExportPin, setShowExportPin] = useState(false);
   const [exportPin, setExportPin] = useState("");
   const [feedback, setFeedback] = useState("");
+
+  const handleUnlock = () => {
+    if (pinInput === ADMIN_PIN) {
+      setUnlocked(true);
+      setPinError("");
+    } else {
+      setPinError("PIN incorreto");
+      setPinInput("");
+    }
+  };
+
+  if (!unlocked) {
+    return (
+      <div className="w-full max-w-sm mx-auto mt-12">
+        <section className="border border-border p-8 bg-card rounded-2xl text-center">
+          <Lock className="w-8 h-8 text-muted-foreground mx-auto mb-4" />
+          <h2 className="font-display text-xl text-foreground mb-2">
+            {t.otherFunctions as string}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-6">
+            Introduza o PIN para aceder
+          </p>
+          <input
+            type="password"
+            inputMode="numeric"
+            maxLength={4}
+            value={pinInput}
+            onChange={(e) => setPinInput(e.target.value.replace(/\D/g, ""))}
+            onKeyDown={(e) => e.key === "Enter" && handleUnlock()}
+            className="w-32 mx-auto block bg-background border border-border px-4 py-3 text-sm text-foreground text-center tracking-[0.5em] focus:outline-none focus:border-foreground transition-colors rounded-xl"
+            placeholder="····"
+            autoFocus
+          />
+          {pinError && (
+            <p className="text-xs text-destructive mt-2">{pinError}</p>
+          )}
+          <button
+            onClick={handleUnlock}
+            className="mt-4 px-8 py-3 bg-foreground text-background text-xs uppercase tracking-widest hover:opacity-90 transition-opacity rounded-full"
+          >
+            {t.enter as string}
+          </button>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-md mx-auto">
