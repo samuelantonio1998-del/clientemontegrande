@@ -449,6 +449,9 @@ const translations = {
     adsStartDate: "Start date (optional)",
     adsEndDate: "End date (optional)",
 
+    // Navigation
+    otherFunctions: "Other Functions",
+
     // Export
     exportEmails: "Export Emails",
     exportingEmails: "Exporting...",
