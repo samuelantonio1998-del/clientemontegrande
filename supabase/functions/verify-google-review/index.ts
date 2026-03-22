@@ -152,8 +152,8 @@ Deno.serve(async (req) => {
     const newStatus = valid ? "approved" : "rejected";
     const pointsToAward = valid ? 50 : 0;
 
-    // Update claim
-    await supabase
+    // Update claim - only if still pending (prevents race condition / double-award)
+    const { data: updatedClaim } = await supabase
       .from("follow_claims")
       .update({
         status: newStatus,
@@ -162,7 +162,18 @@ Deno.serve(async (req) => {
         screenshot_url: "verified",
       })
       .eq("id", claim_id)
-      .eq("user_id", user.id);
+      .eq("user_id", user.id)
+      .eq("status", "pending")
+      .select("id")
+      .maybeSingle();
+
+    // If no row was updated, the claim was already processed
+    if (!updatedClaim) {
+      return new Response(
+        JSON.stringify({ status: "already_processed", valid }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
     // Delete screenshot from storage
     const { data: files } = await supabase.storage
