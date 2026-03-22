@@ -105,24 +105,19 @@ const Admin = () => {
     actionLock.current = true;
     setActionLoading(true);
 
-    const newSavings = (Number(clientProfile.total_savings) || 0) + 10;
+    try {
+      const { data, error } = await supabase.functions.invoke("redeem-benefit", {
+        body: { benefit_type: "discount", client_user_id: clientProfile.user_id },
+      });
 
-    await supabase
-      .from("profiles")
-      .update({ discount_available: false, total_savings: newSavings })
-      .eq("user_id", clientProfile.user_id);
-
-    setFeedback(t.discountRedeemed as string);
-
-    await supabase.from("admin_actions").insert({
-      admin_id: user!.id,
-      client_user_id: clientProfile.user_id,
-      client_name: clientProfile.display_name,
-      client_code: clientProfile.client_code,
-      action_type: "redeem_discount",
-      description: t.discountRedeemed as string,
-      points_changed: 0,
-    } as any);
+      if (error || data?.error) {
+        setFeedback(data?.error === "discount_not_available" ? "Desconto não disponível" : "Erro inesperado");
+      } else {
+        setFeedback(t.discountRedeemed as string);
+      }
+    } catch {
+      setFeedback("Erro inesperado");
+    }
 
     await refreshClient();
     setHistoryRefreshKey((k) => k + 1);
