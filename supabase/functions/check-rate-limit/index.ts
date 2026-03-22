@@ -16,14 +16,17 @@ const getCorsHeaders = (origin: string | null) => {
 
 // Rate limit configurations per action
 const LIMITS: Record<string, { maxRequests: number; windowSeconds: number }> = {
-  login:    { maxRequests: 5,  windowSeconds: 60 },    // 5 per minute
-  signup:   { maxRequests: 3,  windowSeconds: 300 },   // 3 per 5 minutes
-  reset:    { maxRequests: 3,  windowSeconds: 300 },   // 3 per 5 minutes
-  scan:     { maxRequests: 30, windowSeconds: 60 },    // 30 per minute
-  review:   { maxRequests: 5,  windowSeconds: 60 },    // 5 per minute
+  login:    { maxRequests: 5,  windowSeconds: 60 },
+  signup:   { maxRequests: 3,  windowSeconds: 300 },
+  reset:    { maxRequests: 3,  windowSeconds: 300 },
+  scan:     { maxRequests: 30, windowSeconds: 60 },
+  review:   { maxRequests: 5,  windowSeconds: 60 },
 }
 
 Deno.serve(async (req) => {
+  const origin = req.headers.get('Origin')
+  const corsHeaders = getCorsHeaders(origin)
+
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
   }
@@ -80,7 +83,6 @@ Deno.serve(async (req) => {
 
   if (error) {
     console.error('Rate limit check failed', { error })
-    // Fail open — allow the request if rate limit check fails
     return new Response(
       JSON.stringify({ allowed: true }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
