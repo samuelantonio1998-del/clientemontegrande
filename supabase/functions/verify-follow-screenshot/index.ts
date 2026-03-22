@@ -151,9 +151,9 @@ serve(async (req) => {
     const newStatus = following ? "approved" : "rejected";
     const pointsToAward = following ? 10 : 0;
 
-    // Update claim - clear screenshot_url after verification
+    // Update claim - only if still pending (prevents race condition / double-award)
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
-    await supabase
+    const { data: updatedClaim } = await supabase
       .from("follow_claims")
       .update({
         status: newStatus,
@@ -162,7 +162,21 @@ serve(async (req) => {
         screenshot_url: "verified",
       })
       .eq("id", claim_id)
-      .eq("user_id", user.id);
+      .eq("user_id", user.id)
+      .eq("status", "pending")
+      .select("id")
+      .maybeSingle();
+
+    // If no row was updated, the claim was already processed
+    if (!updatedClaim) {
+      return new Response(
+        JSON.stringify({ status: "already_processed", following }),
+        {
+          status: 200,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
 
     // Delete the screenshot from storage
     const filePath = `${user.id}/instagram-follow`;

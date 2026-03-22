@@ -130,24 +130,22 @@ const Admin = () => {
     actionLock.current = true;
     setActionLoading(true);
 
-    const newPoints = clientProfile.total_points - 200;
+    try {
+      const { data, error } = await supabase.functions.invoke("redeem-benefit", {
+        body: { benefit_type: "buffet", client_user_id: clientProfile.user_id },
+      });
 
-    await supabase
-      .from("profiles")
-      .update({ buffet_available: false, total_points: newPoints })
-      .eq("user_id", clientProfile.user_id);
-
-    setFeedback(t.buffetRedeemed as string);
-
-    await supabase.from("admin_actions").insert({
-      admin_id: user!.id,
-      client_user_id: clientProfile.user_id,
-      client_name: clientProfile.display_name,
-      client_code: clientProfile.client_code,
-      action_type: "redeem_buffet",
-      description: t.buffetRedeemed as string,
-      points_changed: -200,
-    } as any);
+      if (error || data?.error) {
+        const msg = data?.error === "buffet_not_available" ? "Buffet não disponível"
+          : data?.error === "insufficient_points" ? "Pontos insuficientes"
+          : "Erro inesperado";
+        setFeedback(msg);
+      } else {
+        setFeedback(t.buffetRedeemed as string);
+      }
+    } catch {
+      setFeedback("Erro inesperado");
+    }
 
     await refreshClient();
     setHistoryRefreshKey((k) => k + 1);
