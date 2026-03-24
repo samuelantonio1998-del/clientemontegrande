@@ -69,6 +69,7 @@ const AdminOtherFunctions = () => {
   return (
     <div className="w-full max-w-md mx-auto">
       <AdminAds />
+      <AdminReviews />
 
       <section className="border border-border p-6 bg-card mt-6 rounded-2xl">
         <h2 className="font-display text-xl text-foreground mb-4 text-center">
