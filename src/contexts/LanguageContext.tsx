@@ -233,6 +233,10 @@ const translations = {
     // Navigation
     otherFunctions: "Outras Funções",
 
+    // Admin Reviews
+    adminReviewsTitle: "Avaliações dos Clientes",
+    adminReviewsEmpty: "Sem avaliações",
+
     // Export
     exportEmails: "Exportar Emails",
     exportingEmails: "A exportar...",
