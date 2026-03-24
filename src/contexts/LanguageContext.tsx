@@ -233,6 +233,10 @@ const translations = {
     // Navigation
     otherFunctions: "Outras Funções",
 
+    // Admin Reviews
+    adminReviewsTitle: "Avaliações dos Clientes",
+    adminReviewsEmpty: "Sem avaliações",
+
     // Export
     exportEmails: "Exportar Emails",
     exportingEmails: "A exportar...",
@@ -451,6 +455,10 @@ const translations = {
 
     // Navigation
     otherFunctions: "Other Functions",
+
+    // Admin Reviews
+    adminReviewsTitle: "Customer Reviews",
+    adminReviewsEmpty: "No reviews",
 
     // Export
     exportEmails: "Export Emails",
