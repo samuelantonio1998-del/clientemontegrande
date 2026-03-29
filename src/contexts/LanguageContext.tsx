@@ -254,6 +254,7 @@ const translations = {
     reportMarkResolved: "Marcar como resolvido",
     adminReportsTitle: "Problemas Reportados",
     adminReportsEmpty: "Sem problemas reportados",
+    deleteReport: "Apagar",
   },
   en: {
     loyaltyProgram: "loyalty program",
