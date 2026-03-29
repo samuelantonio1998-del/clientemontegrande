@@ -77,10 +77,29 @@ Deno.serve(async (req) => {
         });
       }
 
+      // Check that the discount can only be used on a FUTURE visit
+      const earnedAt = profile.discount_earned_at;
+      if (earnedAt) {
+        const { data: mealsAfter } = await supabase
+          .from("transactions")
+          .select("id")
+          .eq("user_id", client_user_id)
+          .eq("type", "meal")
+          .gt("created_at", earnedAt)
+          .limit(1);
+
+        if (!mealsAfter || mealsAfter.length === 0) {
+          return new Response(JSON.stringify({ error: "must_return_first" }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      }
+
       const newSavings = (Number(profile.total_savings) || 0) + 10;
       await supabase
         .from("profiles")
-        .update({ discount_available: false, total_savings: newSavings })
+        .update({ discount_available: false, total_savings: newSavings, discount_earned_at: null })
         .eq("user_id", client_user_id);
 
       await supabase.from("admin_actions").insert({
