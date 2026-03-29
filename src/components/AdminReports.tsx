@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { AlertTriangle, CheckCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle, Trash2 } from "lucide-react";
 
 interface ReportWithProfile {
   id: string;
@@ -63,6 +63,14 @@ const AdminReports = () => {
     fetchReports();
   };
 
+  const deleteReport = async (id: string) => {
+    await (supabase
+      .from("problem_reports" as any)
+      .delete()
+      .eq("id", id) as any);
+    fetchReports();
+  };
+
   const formatDate = (iso: string) => {
     const d = new Date(iso);
     return d.toLocaleDateString("pt-PT", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" });
@@ -100,15 +108,24 @@ const AdminReports = () => {
                 </div>
               </div>
               <p className="text-sm text-foreground mt-2">{report.message}</p>
-              {report.status === "open" && (
+              <div className="flex items-center gap-3 mt-3">
+                {report.status === "open" && (
+                  <button
+                    onClick={() => markResolved(report.id)}
+                    className="text-xs flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
+                  >
+                    <CheckCircle className="w-3.5 h-3.5" />
+                    {t.reportMarkResolved as string}
+                  </button>
+                )}
                 <button
-                  onClick={() => markResolved(report.id)}
-                  className="mt-3 text-xs flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
+                  onClick={() => deleteReport(report.id)}
+                  className="text-xs flex items-center gap-1 text-destructive hover:text-destructive/80 transition-colors ml-auto"
                 >
-                  <CheckCircle className="w-3.5 h-3.5" />
-                  {t.reportMarkResolved as string}
+                  <Trash2 className="w-3.5 h-3.5" />
+                  {t.deleteReport as string}
                 </button>
-              )}
+              </div>
             </div>
           ))}
         </div>
