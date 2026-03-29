@@ -21,7 +21,7 @@ const translations = {
     weekMeals: "Refeições desta Semana",
     useDiscount: "Usar Desconto 10€",
     redeemDiscount: "Aplicar Desconto 10€",
-    discountRedeemHint: "Peça ao staff para aplicar o desconto",
+    discountRedeemHint: "Válido na sua próxima visita — peça ao staff para aplicar",
     mealsRemaining: (n: number) => `${n} ${n !== 1 ? "refeições" : "refeição"} para desconto de 10€`,
 
     // PointsBalance
@@ -87,7 +87,8 @@ const translations = {
     discountUnlocked: "Desconto de 10€ desbloqueado!",
     discountRedeemed: "Desconto de 10€ aplicado com sucesso!",
     buffetAvailable: "Desconto 15€ Disponível",
-    buffetRedeemHint: "Peça ao staff para aplicar o seu desconto de 15€",
+    buffetRedeemHint: "Válido na sua próxima visita — peça ao staff para aplicar",
+    discountRulesInfo: "Os descontos só podem ser utilizados numa compra futura após serem ganhos. Não é possível acumular nem utilizar múltiplos descontos em simultâneo.",
     buffetRedeemed: "Desconto de 15€ aplicado com sucesso!",
     buffet200Active: "Desconto 15€ ativo",
     redeemBuffet: "Aplicar Desconto 15€",
@@ -280,7 +281,7 @@ const translations = {
     weekMeals: "Meals This Week",
     useDiscount: "Use 10€ Discount",
     redeemDiscount: "Apply 10€ Discount",
-    discountRedeemHint: "Ask staff to apply your discount",
+    discountRedeemHint: "Valid on your next visit — ask staff to apply",
     mealsRemaining: (n: number) => `${n} ${n !== 1 ? "meals" : "meal"} to 10€ discount`,
 
     points: "Points",
@@ -341,7 +342,8 @@ const translations = {
     discountUnlocked: "10€ discount unlocked!",
     discountRedeemed: "10€ discount applied successfully!",
     buffetAvailable: "15€ Discount Available",
-    buffetRedeemHint: "Ask staff to apply your 15€ discount",
+    buffetRedeemHint: "Valid on your next visit — ask staff to apply",
+    discountRulesInfo: "Discounts can only be used on a future visit after being earned. It is not possible to accumulate or use multiple discounts at the same time.",
     buffetRedeemed: "15€ discount applied successfully!",
     buffet200Active: "15€ discount active",
     redeemBuffet: "Apply 15€ Discount",
