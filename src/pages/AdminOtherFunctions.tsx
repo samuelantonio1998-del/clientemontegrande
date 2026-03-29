@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Download, Lock } from "lucide-react";
 import AdminAds from "@/components/AdminAds";
 import AdminReviews from "@/components/AdminReviews";
+import AdminReports from "@/components/AdminReports";
 import ConfirmDialog from "@/components/ConfirmDialog";
 
 const ADMIN_PIN = "0866";
