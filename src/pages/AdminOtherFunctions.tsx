@@ -6,6 +6,7 @@ import { Download, Lock } from "lucide-react";
 import AdminAds from "@/components/AdminAds";
 import AdminReviews from "@/components/AdminReviews";
 import AdminReports from "@/components/AdminReports";
+import AdminInactiveUsers from "@/components/AdminInactiveUsers";
 import ConfirmDialog from "@/components/ConfirmDialog";
 
 const ADMIN_PIN = "0866";
@@ -71,6 +72,7 @@ const AdminOtherFunctions = () => {
     <div className="w-full max-w-md mx-auto">
       <AdminAds />
       <AdminReports />
+      <AdminInactiveUsers />
       <AdminReviews />
 
       <section className="border border-border p-6 bg-card mt-6 rounded-2xl">

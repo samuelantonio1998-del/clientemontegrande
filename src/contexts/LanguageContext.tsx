@@ -255,6 +255,14 @@ const translations = {
     adminReportsTitle: "Problemas Reportados",
     adminReportsEmpty: "Sem problemas reportados",
     deleteReport: "Apagar",
+
+    // Inactive users
+    inactiveUsersTitle: "Utilizadores Inativos",
+    inactiveUsersEmpty: "Sem utilizadores inativos",
+    inactiveUsersCount: (n: number) => `${n} utilizador${n !== 1 ? "es" : ""} inativo${n !== 1 ? "s" : ""}`,
+    inactiveDaysLabel: "Sem refeição há mais de:",
+    days: "dias",
+    exportInactiveEmails: "Exportar CSV",
   },
   en: {
     loyaltyProgram: "loyalty program",
@@ -492,6 +500,14 @@ const translations = {
     adminReportsTitle: "Reported Problems",
     adminReportsEmpty: "No reported problems",
     deleteReport: "Delete",
+
+    // Inactive users
+    inactiveUsersTitle: "Inactive Users",
+    inactiveUsersEmpty: "No inactive users",
+    inactiveUsersCount: (n: number) => `${n} inactive user${n !== 1 ? "s" : ""}`,
+    inactiveDaysLabel: "No meal for more than:",
+    days: "days",
+    exportInactiveEmails: "Export CSV",
   },
 } as const;
 
