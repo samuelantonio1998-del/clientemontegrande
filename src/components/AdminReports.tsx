@@ -108,15 +108,24 @@ const AdminReports = () => {
                 </div>
               </div>
               <p className="text-sm text-foreground mt-2">{report.message}</p>
-              {report.status === "open" && (
+              <div className="flex items-center gap-3 mt-3">
+                {report.status === "open" && (
+                  <button
+                    onClick={() => markResolved(report.id)}
+                    className="text-xs flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
+                  >
+                    <CheckCircle className="w-3.5 h-3.5" />
+                    {t.reportMarkResolved as string}
+                  </button>
+                )}
                 <button
-                  onClick={() => markResolved(report.id)}
-                  className="mt-3 text-xs flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
+                  onClick={() => deleteReport(report.id)}
+                  className="text-xs flex items-center gap-1 text-destructive hover:text-destructive/80 transition-colors ml-auto"
                 >
-                  <CheckCircle className="w-3.5 h-3.5" />
-                  {t.reportMarkResolved as string}
+                  <Trash2 className="w-3.5 h-3.5" />
+                  {t.delete as string}
                 </button>
-              )}
+              </div>
             </div>
           ))}
         </div>
