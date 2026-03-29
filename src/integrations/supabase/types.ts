@@ -284,11 +284,13 @@ export type Database = {
           avatar_url: string | null
           birth_date: string | null
           buffet_available: boolean
+          buffet_earned_at: string | null
           client_code: string | null
           consecutive_meals: number
           created_at: string
           current_week_start: string | null
           discount_available: boolean
+          discount_earned_at: string | null
           display_name: string | null
           id: string
           referral_code: string | null
@@ -301,11 +303,13 @@ export type Database = {
           avatar_url?: string | null
           birth_date?: string | null
           buffet_available?: boolean
+          buffet_earned_at?: string | null
           client_code?: string | null
           consecutive_meals?: number
           created_at?: string
           current_week_start?: string | null
           discount_available?: boolean
+          discount_earned_at?: string | null
           display_name?: string | null
           id?: string
           referral_code?: string | null
@@ -318,11 +322,13 @@ export type Database = {
           avatar_url?: string | null
           birth_date?: string | null
           buffet_available?: boolean
+          buffet_earned_at?: string | null
           client_code?: string | null
           consecutive_meals?: number
           created_at?: string
           current_week_start?: string | null
           discount_available?: boolean
+          discount_earned_at?: string | null
           display_name?: string | null
           id?: string
           referral_code?: string | null
