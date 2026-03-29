@@ -500,6 +500,14 @@ const translations = {
     adminReportsTitle: "Reported Problems",
     adminReportsEmpty: "No reported problems",
     deleteReport: "Delete",
+
+    // Inactive users
+    inactiveUsersTitle: "Inactive Users",
+    inactiveUsersEmpty: "No inactive users",
+    inactiveUsersCount: (n: number) => `${n} inactive user${n !== 1 ? "s" : ""}`,
+    inactiveDaysLabel: "No meal for more than:",
+    days: "days",
+    exportInactiveEmails: "Export CSV",
   },
 } as const;
 
