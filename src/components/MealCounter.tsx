@@ -67,6 +67,13 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
           </p>
         </section>
       )}
+
+      {/* Discount rules info */}
+      <div className="mx-4 mt-3">
+        <p className="text-xs text-muted-foreground text-center leading-relaxed">
+          {t.discountRulesInfo as string}
+        </p>
+      </div>
     </div>
   );
 };

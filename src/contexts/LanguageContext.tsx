@@ -21,7 +21,7 @@ const translations = {
     weekMeals: "Refeições desta Semana",
     useDiscount: "Usar Desconto 10€",
     redeemDiscount: "Aplicar Desconto 10€",
-    discountRedeemHint: "Peça ao staff para aplicar o desconto",
+    discountRedeemHint: "Válido na sua próxima visita — peça ao staff para aplicar",
     mealsRemaining: (n: number) => `${n} ${n !== 1 ? "refeições" : "refeição"} para desconto de 10€`,
 
     // PointsBalance
