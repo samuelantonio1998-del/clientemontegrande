@@ -255,6 +255,14 @@ const translations = {
     adminReportsTitle: "Problemas Reportados",
     adminReportsEmpty: "Sem problemas reportados",
     deleteReport: "Apagar",
+
+    // Inactive users
+    inactiveUsersTitle: "Utilizadores Inativos",
+    inactiveUsersEmpty: "Sem utilizadores inativos",
+    inactiveUsersCount: (n: number) => `${n} utilizador${n !== 1 ? "es" : ""} inativo${n !== 1 ? "s" : ""}`,
+    inactiveDaysLabel: "Sem refeição há mais de:",
+    days: "dias",
+    exportInactiveEmails: "Exportar CSV",
   },
   en: {
     loyaltyProgram: "loyalty program",
