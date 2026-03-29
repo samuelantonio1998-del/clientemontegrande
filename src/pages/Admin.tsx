@@ -111,7 +111,10 @@ const Admin = () => {
       });
 
       if (error || data?.error) {
-        setFeedback(data?.error === "discount_not_available" ? "Desconto não disponível" : "Erro inesperado");
+        const msg = data?.error === "discount_not_available" ? "Desconto não disponível"
+          : data?.error === "must_return_first" ? "O desconto só pode ser usado numa próxima visita"
+          : "Erro inesperado";
+        setFeedback(msg);
       } else {
         setFeedback(t.discountRedeemed as string);
       }
@@ -138,6 +141,7 @@ const Admin = () => {
       if (error || data?.error) {
         const msg = data?.error === "buffet_not_available" ? "Buffet não disponível"
           : data?.error === "insufficient_points" ? "Pontos insuficientes"
+          : data?.error === "must_return_first" ? "O buffet só pode ser usado numa próxima visita"
           : "Erro inesperado";
         setFeedback(msg);
       } else {

@@ -134,14 +134,27 @@ serve(async (req) => {
       .single();
 
     // Update profile atomically using fresh server-side data
+    const profileUpdate: Record<string, any> = {
+      consecutive_meals: reachedDiscount ? 0 : newMeals,
+      current_week_start: mondayStr,
+      discount_available: reachedDiscount,
+      total_points: profile.total_points + pointsEarned,
+    };
+
+    // Record when discount was earned
+    if (reachedDiscount) {
+      profileUpdate.discount_earned_at = new Date().toISOString();
+    }
+
+    // Check if buffet threshold reached (200 points)
+    const newTotal = profile.total_points + pointsEarned;
+    if (newTotal >= 200 && profile.total_points < 200) {
+      profileUpdate.buffet_earned_at = new Date().toISOString();
+    }
+
     await supabase
       .from("profiles")
-      .update({
-        consecutive_meals: reachedDiscount ? 0 : newMeals,
-        current_week_start: mondayStr,
-        discount_available: reachedDiscount,
-        total_points: profile.total_points + pointsEarned,
-      })
+      .update(profileUpdate)
       .eq("user_id", client_user_id);
 
     // Log admin action
