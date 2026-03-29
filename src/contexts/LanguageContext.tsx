@@ -241,6 +241,19 @@ const translations = {
     exportEmails: "Exportar Emails",
     exportingEmails: "A exportar...",
     exportError: "Erro ao exportar emails",
+
+    // Reports
+    reportProblem: "Reportar Problema",
+    reportProblemDesc: "Descreva o problema que encontrou e iremos analisá-lo.",
+    reportPlaceholder: "Descreva o problema...",
+    reportSend: "Enviar",
+    reportSent: "Problema reportado com sucesso!",
+    reportError: "Erro ao enviar reporte",
+    reportOpen: "Aberto",
+    reportResolved: "Resolvido",
+    reportMarkResolved: "Marcar como resolvido",
+    adminReportsTitle: "Problemas Reportados",
+    adminReportsEmpty: "Sem problemas reportados",
   },
   en: {
     loyaltyProgram: "loyalty program",
