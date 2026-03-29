@@ -241,6 +241,19 @@ const translations = {
     exportEmails: "Exportar Emails",
     exportingEmails: "A exportar...",
     exportError: "Erro ao exportar emails",
+
+    // Reports
+    reportProblem: "Reportar Problema",
+    reportProblemDesc: "Descreva o problema que encontrou e iremos analisá-lo.",
+    reportPlaceholder: "Descreva o problema...",
+    reportSend: "Enviar",
+    reportSent: "Problema reportado com sucesso!",
+    reportError: "Erro ao enviar reporte",
+    reportOpen: "Aberto",
+    reportResolved: "Resolvido",
+    reportMarkResolved: "Marcar como resolvido",
+    adminReportsTitle: "Problemas Reportados",
+    adminReportsEmpty: "Sem problemas reportados",
   },
   en: {
     loyaltyProgram: "loyalty program",
@@ -464,6 +477,19 @@ const translations = {
     exportEmails: "Export Emails",
     exportingEmails: "Exporting...",
     exportError: "Error exporting emails",
+
+    // Reports
+    reportProblem: "Report Problem",
+    reportProblemDesc: "Describe the problem you found and we'll look into it.",
+    reportPlaceholder: "Describe the problem...",
+    reportSend: "Send",
+    reportSent: "Problem reported successfully!",
+    reportError: "Error sending report",
+    reportOpen: "Open",
+    reportResolved: "Resolved",
+    reportMarkResolved: "Mark as resolved",
+    adminReportsTitle: "Reported Problems",
+    adminReportsEmpty: "No reported problems",
   },
 } as const;
 

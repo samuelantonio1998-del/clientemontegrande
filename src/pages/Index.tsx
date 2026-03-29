@@ -17,6 +17,7 @@ import FollowUsCard from "@/components/FollowUsCard";
 import GoogleReviewCard from "@/components/GoogleReviewCard";
 import AdBanner from "@/components/AdBanner";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import ReportProblemButton from "@/components/ReportProblemButton";
 import { LogOut, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -267,6 +268,7 @@ const Index = () => {
 
         <DeleteAccountSection />
       </div>
+      <ReportProblemButton />
     </div>
   );
 };
