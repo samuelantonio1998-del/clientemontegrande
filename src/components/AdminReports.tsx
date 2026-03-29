@@ -123,7 +123,7 @@ const AdminReports = () => {
                   className="text-xs flex items-center gap-1 text-destructive hover:text-destructive/80 transition-colors ml-auto"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
-                  {t.delete as string}
+                  {t.deleteReport as string}
                 </button>
               </div>
             </div>

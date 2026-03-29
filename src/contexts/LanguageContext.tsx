@@ -491,6 +491,7 @@ const translations = {
     reportMarkResolved: "Mark as resolved",
     adminReportsTitle: "Reported Problems",
     adminReportsEmpty: "No reported problems",
+    deleteReport: "Delete",
   },
 } as const;
 
