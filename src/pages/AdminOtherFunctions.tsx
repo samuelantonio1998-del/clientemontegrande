@@ -70,6 +70,7 @@ const AdminOtherFunctions = () => {
   return (
     <div className="w-full max-w-md mx-auto">
       <AdminAds />
+      <AdminReports />
       <AdminReviews />
 
       <section className="border border-border p-6 bg-card mt-6 rounded-2xl">

@@ -477,6 +477,19 @@ const translations = {
     exportEmails: "Export Emails",
     exportingEmails: "Exporting...",
     exportError: "Error exporting emails",
+
+    // Reports
+    reportProblem: "Report Problem",
+    reportProblemDesc: "Describe the problem you found and we'll look into it.",
+    reportPlaceholder: "Describe the problem...",
+    reportSend: "Send",
+    reportSent: "Problem reported successfully!",
+    reportError: "Error sending report",
+    reportOpen: "Open",
+    reportResolved: "Resolved",
+    reportMarkResolved: "Mark as resolved",
+    adminReportsTitle: "Reported Problems",
+    adminReportsEmpty: "No reported problems",
   },
 } as const;
 

@@ -268,6 +268,7 @@ const Index = () => {
 
         <DeleteAccountSection />
       </div>
+      <ReportProblemButton />
     </div>
   );
 };
