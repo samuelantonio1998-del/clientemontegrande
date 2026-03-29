@@ -1,0 +1,1 @@
+CREATE POLICY "Admins can delete reports" ON public.problem_reports FOR DELETE TO authenticated USING (public.has_role(auth.uid(), 'admin'::app_role));
