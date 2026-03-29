@@ -133,9 +133,28 @@ Deno.serve(async (req) => {
         });
       }
 
+      // Check that buffet can only be used on a FUTURE visit
+      const earnedAt = profile.buffet_earned_at;
+      if (earnedAt) {
+        const { data: mealsAfter } = await supabase
+          .from("transactions")
+          .select("id")
+          .eq("user_id", client_user_id)
+          .eq("type", "meal")
+          .gt("created_at", earnedAt)
+          .limit(1);
+
+        if (!mealsAfter || mealsAfter.length === 0) {
+          return new Response(JSON.stringify({ error: "must_return_first" }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      }
+
       await supabase
         .from("profiles")
-        .update({ buffet_available: false, total_points: currentPoints - 200 })
+        .update({ buffet_available: false, total_points: currentPoints - 200, buffet_earned_at: null })
         .eq("user_id", client_user_id);
 
       await supabase.from("admin_actions").insert({
