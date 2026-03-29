@@ -281,7 +281,7 @@ const translations = {
     weekMeals: "Meals This Week",
     useDiscount: "Use 10€ Discount",
     redeemDiscount: "Apply 10€ Discount",
-    discountRedeemHint: "Ask staff to apply your discount",
+    discountRedeemHint: "Valid on your next visit — ask staff to apply",
     mealsRemaining: (n: number) => `${n} ${n !== 1 ? "meals" : "meal"} to 10€ discount`,
 
     points: "Points",
