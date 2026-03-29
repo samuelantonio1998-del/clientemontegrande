@@ -63,6 +63,14 @@ const AdminReports = () => {
     fetchReports();
   };
 
+  const deleteReport = async (id: string) => {
+    await (supabase
+      .from("problem_reports" as any)
+      .delete()
+      .eq("id", id) as any);
+    fetchReports();
+  };
+
   const formatDate = (iso: string) => {
     const d = new Date(iso);
     return d.toLocaleDateString("pt-PT", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" });
