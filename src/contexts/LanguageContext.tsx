@@ -19,6 +19,7 @@ const translations = {
     // MealCounter
     discountAvailable: "Desconto 10€ Disponível",
     weekMeals: "Refeições desta Semana",
+    weekMealsSubtitle: "Para obter o desconto, tem de completar as 4 refeições na mesma semana. Caso não consiga completar a semana, acumulará pontos.",
     useDiscount: "Usar Desconto 10€",
     redeemDiscount: "Aplicar Desconto 10€",
     discountRedeemHint: "Válido na sua próxima visita — peça ao staff para aplicar",
@@ -279,6 +280,7 @@ const translations = {
 
     discountAvailable: "10€ Discount Available",
     weekMeals: "Meals This Week",
+    weekMealsSubtitle: "To get the discount, you must complete 4 meals in the same week. If you don't complete the week, you'll accumulate points.",
     useDiscount: "Use 10€ Discount",
     redeemDiscount: "Apply 10€ Discount",
     discountRedeemHint: "Valid on your next visit — ask staff to apply",
