@@ -101,24 +101,13 @@ const Admin = () => {
     setActionLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("redeem-benefit", {
+      const { data } = await supabase.functions.invoke("redeem-benefit", {
         body: { benefit_type: "discount", client_user_id: clientProfile.user_id },
       });
 
-      let result = data;
-      if (error && !data) {
-        try {
-          const context = (error as any)?.context;
-          if (context && typeof context.json === 'function') {
-            result = await context.json();
-          }
-        } catch { /* ignore */ }
-      }
-
-      if (!result || result.error) {
-        const errCode = result?.error;
-        const msg = errCode === "discount_not_available" ? "Desconto não disponível"
-          : errCode === "must_return_first" ? "O desconto só pode ser usado numa próxima visita"
+      if (data?.error) {
+        const msg = data.error === "discount_not_available" ? "Desconto não disponível"
+          : data.error === "must_return_first" ? "O desconto só pode ser usado numa próxima visita"
           : "Erro inesperado";
         setFeedback(msg);
       } else {
