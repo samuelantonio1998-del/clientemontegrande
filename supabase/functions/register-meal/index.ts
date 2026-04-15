@@ -7,6 +7,13 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+function respond(body: Record<string, unknown>) {
+  return new Response(JSON.stringify(body), {
+    status: 200,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -15,16 +22,12 @@ serve(async (req) => {
   try {
     const authHeader = req.headers.get("authorization");
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Not authenticated" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return respond({ error: "Not authenticated" });
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-    // Verify caller is admin
     const supabaseAuth = createClient(supabaseUrl, serviceRoleKey);
     const token = authHeader.replace("Bearer ", "");
     const {
@@ -33,31 +36,21 @@ serve(async (req) => {
     } = await supabaseAuth.auth.getUser(token);
 
     if (authError || !user) {
-      return new Response(JSON.stringify({ error: "Invalid token" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return respond({ error: "Invalid token" });
     }
 
-    // Check admin role
     const { data: isAdmin } = await supabaseAuth.rpc("has_role", {
       _user_id: user.id,
       _role: "admin",
     });
 
     if (!isAdmin) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), {
-        status: 403,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return respond({ error: "Forbidden" });
     }
 
     const { client_user_id } = await req.json();
     if (!client_user_id) {
-      return new Response(JSON.stringify({ error: "Missing client_user_id" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return respond({ error: "Missing client_user_id" });
     }
 
     const supabase = createClient(supabaseUrl, serviceRoleKey);
@@ -66,10 +59,7 @@ serve(async (req) => {
     const today = new Date();
     const dayOfWeek = today.getDay();
     if (dayOfWeek === 0 || dayOfWeek === 6) {
-      return new Response(
-        JSON.stringify({ error: "weekday_only" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return respond({ error: "weekday_only" });
     }
 
     // Server-side 5-hour cooldown check
@@ -83,13 +73,10 @@ serve(async (req) => {
       .limit(1);
 
     if (lastMeals && lastMeals.length > 0) {
-      return new Response(
-        JSON.stringify({ error: "cooldown_active" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return respond({ error: "cooldown_active" });
     }
 
-    // Get current profile atomically
+    // Get current profile
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("user_id, display_name, client_code, consecutive_meals, current_week_start, total_points")
@@ -97,10 +84,7 @@ serve(async (req) => {
       .single();
 
     if (profileError || !profile) {
-      return new Response(
-        JSON.stringify({ error: "Client not found" }),
-        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return respond({ error: "Client not found" });
     }
 
     // Calculate meals
@@ -133,7 +117,7 @@ serve(async (req) => {
       .select("id")
       .single();
 
-    // Update profile atomically using fresh server-side data
+    // Update profile
     const profileUpdate: Record<string, any> = {
       consecutive_meals: reachedDiscount ? 0 : newMeals,
       current_week_start: mondayStr,
@@ -141,12 +125,10 @@ serve(async (req) => {
       total_points: profile.total_points + pointsEarned,
     };
 
-    // Record when discount was earned
     if (reachedDiscount) {
       profileUpdate.discount_earned_at = new Date().toISOString();
     }
 
-    // Check if buffet threshold reached (200 points)
     const newTotal = profile.total_points + pointsEarned;
     if (newTotal >= 200 && profile.total_points < 200) {
       profileUpdate.buffet_earned_at = new Date().toISOString();
@@ -171,21 +153,15 @@ serve(async (req) => {
       transaction_id: txData?.id || null,
     });
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        meals: newMeals,
-        reachedDiscount,
-        pointsEarned,
-        transactionId: txData?.id,
-      }),
-      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return respond({
+      success: true,
+      meals: newMeals,
+      reachedDiscount,
+      pointsEarned,
+      transactionId: txData?.id,
+    });
   } catch (e) {
     console.error("register-meal error:", e);
-    return new Response(
-      JSON.stringify({ error: "An unexpected error occurred" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return respond({ error: "An unexpected error occurred" });
   }
 });
