@@ -65,42 +65,24 @@ const Admin = () => {
     setActionLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("register-meal", {
+      const { data } = await supabase.functions.invoke("register-meal", {
         body: { client_user_id: clientProfile.user_id },
       });
 
-      // Parse response - edge function may return 4xx which puts body in error
-      let result = data;
-      if (error && !data) {
-        try {
-          const context = (error as any)?.context;
-          if (context && typeof context.json === 'function') {
-            result = await context.json();
-          }
-        } catch {
-          // ignore parse errors
-        }
-      }
-
-      if (!result) {
-        setFeedback("Erro inesperado");
-        actionLock.current = false;
-        setActionLoading(false);
-        return;
-      }
-
-      if (result.error === "weekday_only") {
+      if (data?.error === "weekday_only") {
         setFeedback(t.weekdayOnly as string);
-      } else if (result.error === "cooldown_active") {
+      } else if (data?.error === "cooldown_active") {
         setFeedback(t.dailyMealLimit as string);
-      } else if (result.error) {
-        setFeedback(result.error);
-      } else if (result.success) {
+      } else if (data?.error) {
+        setFeedback(data.error);
+      } else if (data?.success) {
         setFeedback(
-          result.reachedDiscount
+          data.reachedDiscount
             ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
-            : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(result.meals)}`
+            : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
         );
+      } else {
+        setFeedback("Erro inesperado");
       }
 
       await refreshClient();
@@ -119,24 +101,13 @@ const Admin = () => {
     setActionLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("redeem-benefit", {
+      const { data } = await supabase.functions.invoke("redeem-benefit", {
         body: { benefit_type: "discount", client_user_id: clientProfile.user_id },
       });
 
-      let result = data;
-      if (error && !data) {
-        try {
-          const context = (error as any)?.context;
-          if (context && typeof context.json === 'function') {
-            result = await context.json();
-          }
-        } catch { /* ignore */ }
-      }
-
-      if (!result || result.error) {
-        const errCode = result?.error;
-        const msg = errCode === "discount_not_available" ? "Desconto não disponível"
-          : errCode === "must_return_first" ? "O desconto só pode ser usado numa próxima visita"
+      if (data?.error) {
+        const msg = data.error === "discount_not_available" ? "Desconto não disponível"
+          : data.error === "must_return_first" ? "O desconto só pode ser usado numa próxima visita"
           : "Erro inesperado";
         setFeedback(msg);
       } else {
@@ -158,25 +129,14 @@ const Admin = () => {
     setActionLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("redeem-benefit", {
+      const { data } = await supabase.functions.invoke("redeem-benefit", {
         body: { benefit_type: "buffet", client_user_id: clientProfile.user_id },
       });
 
-      let result = data;
-      if (error && !data) {
-        try {
-          const context = (error as any)?.context;
-          if (context && typeof context.json === 'function') {
-            result = await context.json();
-          }
-        } catch { /* ignore */ }
-      }
-
-      if (!result || result.error) {
-        const errCode = result?.error;
-        const msg = errCode === "buffet_not_available" ? "Buffet não disponível"
-          : errCode === "insufficient_points" ? "Pontos insuficientes"
-          : errCode === "must_return_first" ? "O buffet só pode ser usado numa próxima visita"
+      if (data?.error) {
+        const msg = data.error === "buffet_not_available" ? "Buffet não disponível"
+          : data.error === "insufficient_points" ? "Pontos insuficientes"
+          : data.error === "must_return_first" ? "O buffet só pode ser usado numa próxima visita"
           : "Erro inesperado";
         setFeedback(msg);
       } else {
