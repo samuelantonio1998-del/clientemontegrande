@@ -104,6 +104,9 @@ const AdminClientCard = ({
         <p className="text-xs text-muted-foreground/70 mt-2 italic">
           {t.discountRedeemInfo as string}
         </p>
+        <p className="text-xs text-muted-foreground/70 mt-2">
+          {t.discountRulesInfo as string}
+        </p>
       </div>
 
       {feedback && (
