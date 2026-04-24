@@ -84,6 +84,9 @@ const AdminClientCard = ({
           >
             {t.redeemBuffet as string}
           </button>
+          <p className="text-xs text-muted-foreground mt-2 text-center italic">
+            {t.drinksExcluded as string}
+          </p>
         </div>
       )}
 

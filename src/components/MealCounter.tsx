@@ -65,6 +65,9 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
           <p className="text-sm text-primary-foreground/70 text-center mt-2 tracking-wide">
             {t.buffetRedeemHint as string}
           </p>
+          <p className="text-xs text-primary-foreground/70 text-center mt-1 italic">
+            {t.drinksExcluded as string}
+          </p>
         </section>
       )}
 
