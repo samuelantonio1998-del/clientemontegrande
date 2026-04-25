@@ -69,19 +69,15 @@ const Admin = () => {
         body: { client_user_id: clientProfile.user_id },
       });
 
-      if (data?.error === "weekday_only") {
-        setFeedback(t.weekdayOnly as string);
-      } else if (data?.error === "cooldown_active") {
+      if (data?.error === "cooldown_active") {
         setFeedback(t.dailyMealLimit as string);
       } else if (data?.error) {
         setFeedback("Erro inesperado");
       } else if (data?.success) {
         setFeedback(
-          data.isWeekend
-            ? `+10 ${t.points as string} · ${t.weekendMealRegistered as string}`
-            : data.reachedDiscount
-              ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
-              : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
+          data.reachedDiscount
+            ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
+            : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
         );
       } else {
         setFeedback("Erro inesperado");
