@@ -102,16 +102,6 @@ Deno.serve(async (req) => {
         return respond({ error: "buffet_not_available" });
       }
 
-      // Buffet só pode ser resgatado em dias úteis (segunda a sexta), hora de Lisboa
-      const lisbonWeekday = new Date().toLocaleString("en-US", {
-        timeZone: "Europe/Lisbon",
-        weekday: "short",
-      });
-      const isWeekend = lisbonWeekday === "Sat" || lisbonWeekday === "Sun";
-      if (isWeekend) {
-        return respond({ error: "weekday_only" });
-      }
-
       const currentPoints = Number(profile.total_points) || 0;
       if (currentPoints < 200) {
         return respond({ error: "insufficient_points" });
