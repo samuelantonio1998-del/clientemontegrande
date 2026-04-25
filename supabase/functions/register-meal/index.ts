@@ -55,12 +55,12 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-    // Server-side weekday check
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-      return respond({ error: "weekday_only" });
-    }
+    // Determine weekday in Lisbon timezone
+    const lisbonWeekday = new Date().toLocaleString("en-US", {
+      timeZone: "Europe/Lisbon",
+      weekday: "short",
+    });
+    const isWeekend = lisbonWeekday === "Sat" || lisbonWeekday === "Sun";
 
     // Server-side 5-hour cooldown check
     const fiveHoursAgo = new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString();
@@ -87,31 +87,42 @@ serve(async (req) => {
       return respond({ error: "Client not found" });
     }
 
-    // Calculate meals
+    // Calculate Monday of current week (Lisbon time)
+    const today = new Date();
+    const dayOfWeek = today.getDay();
     const monday = new Date(today);
-    monday.setDate(today.getDate() - (dayOfWeek - 1));
+    const offset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    monday.setDate(today.getDate() - offset);
     const mondayStr = monday.toISOString().split("T")[0];
 
+    // Weekend meals: give points but DO NOT count toward 4-meal discount
     let newMeals = profile.consecutive_meals;
-    if (profile.current_week_start !== mondayStr) {
-      newMeals = 1;
-    } else {
-      newMeals += 1;
+    let reachedDiscount = false;
+    if (!isWeekend) {
+      if (profile.current_week_start !== mondayStr) {
+        newMeals = 1;
+      } else {
+        newMeals += 1;
+      }
+      reachedDiscount = newMeals >= 4;
     }
 
-    const reachedDiscount = newMeals >= 4;
     const pointsEarned = 10;
 
     // Insert transaction
+    const description = isWeekend
+      ? `Refeição de fim-de-semana (+10 pontos)`
+      : reachedDiscount
+        ? `Refeição ${newMeals}/4 — desconto desbloqueado!`
+        : `Refeição ${newMeals}/4`;
+
     const { data: txData } = await supabase
       .from("transactions")
       .insert({
         user_id: client_user_id,
         amount: 0,
         points_earned: pointsEarned,
-        description: reachedDiscount
-          ? `Refeição ${newMeals}/4 — desconto desbloqueado!`
-          : `Refeição ${newMeals}/4`,
+        description,
         type: "meal",
       })
       .select("id")
@@ -119,14 +130,16 @@ serve(async (req) => {
 
     // Update profile
     const profileUpdate: Record<string, any> = {
-      consecutive_meals: reachedDiscount ? 0 : newMeals,
-      current_week_start: mondayStr,
-      discount_available: reachedDiscount,
       total_points: profile.total_points + pointsEarned,
     };
 
-    if (reachedDiscount) {
-      profileUpdate.discount_earned_at = new Date().toISOString();
+    if (!isWeekend) {
+      profileUpdate.consecutive_meals = reachedDiscount ? 0 : newMeals;
+      profileUpdate.current_week_start = mondayStr;
+      profileUpdate.discount_available = reachedDiscount;
+      if (reachedDiscount) {
+        profileUpdate.discount_earned_at = new Date().toISOString();
+      }
     }
 
     const newTotal = profile.total_points + pointsEarned;
@@ -146,9 +159,7 @@ serve(async (req) => {
       client_name: profile.display_name,
       client_code: profile.client_code,
       action_type: "meal",
-      description: reachedDiscount
-        ? `Refeição ${newMeals}/4 — desconto desbloqueado!`
-        : `Refeição ${newMeals}/4`,
+      description,
       points_changed: pointsEarned,
       transaction_id: txData?.id || null,
     });
@@ -158,6 +169,7 @@ serve(async (req) => {
       meals: newMeals,
       reachedDiscount,
       pointsEarned,
+      isWeekend,
       transactionId: txData?.id,
     });
   } catch (e) {
