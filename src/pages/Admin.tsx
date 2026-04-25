@@ -134,7 +134,6 @@ const Admin = () => {
       if (data?.error) {
         const msg = data.error === "buffet_not_available" ? "Buffet não disponível"
           : data.error === "insufficient_points" ? "Pontos insuficientes"
-          : data.error === "weekday_only" ? "O buffet só pode ser resgatado em dias úteis (segunda a sexta)"
           : data.error === "must_return_first" ? "O buffet só pode ser usado numa próxima visita"
           : "Erro inesperado";
         setFeedback(msg);
