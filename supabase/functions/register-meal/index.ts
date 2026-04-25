@@ -55,13 +55,6 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-    // Determine weekday in Lisbon timezone
-    const lisbonWeekday = new Date().toLocaleString("en-US", {
-      timeZone: "Europe/Lisbon",
-      weekday: "short",
-    });
-    const isWeekend = lisbonWeekday === "Sat" || lisbonWeekday === "Sun";
-
     // Server-side 5-hour cooldown check
     const fiveHoursAgo = new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString();
     const { data: lastMeals } = await supabase
@@ -87,7 +80,7 @@ serve(async (req) => {
       return respond({ error: "Client not found" });
     }
 
-    // Calculate Monday of current week (Lisbon time)
+    // Calculate Monday of current week
     const today = new Date();
     const dayOfWeek = today.getDay();
     const monday = new Date(today);
@@ -95,26 +88,19 @@ serve(async (req) => {
     monday.setDate(today.getDate() - offset);
     const mondayStr = monday.toISOString().split("T")[0];
 
-    // Weekend meals: give points but DO NOT count toward 4-meal discount
+    // All days count toward the 4-meal weekly discount
     let newMeals = profile.consecutive_meals;
-    let reachedDiscount = false;
-    if (!isWeekend) {
-      if (profile.current_week_start !== mondayStr) {
-        newMeals = 1;
-      } else {
-        newMeals += 1;
-      }
-      reachedDiscount = newMeals >= 4;
+    if (profile.current_week_start !== mondayStr) {
+      newMeals = 1;
+    } else {
+      newMeals += 1;
     }
-
+    const reachedDiscount = newMeals >= 4;
     const pointsEarned = 10;
 
-    // Insert transaction
-    const description = isWeekend
-      ? `Refeição de fim-de-semana (+10 pontos)`
-      : reachedDiscount
-        ? `Refeição ${newMeals}/4 — desconto desbloqueado!`
-        : `Refeição ${newMeals}/4`;
+    const description = reachedDiscount
+      ? `Refeição ${newMeals}/4 — desconto desbloqueado!`
+      : `Refeição ${newMeals}/4`;
 
     const { data: txData } = await supabase
       .from("transactions")
@@ -130,16 +116,14 @@ serve(async (req) => {
 
     // Update profile
     const profileUpdate: Record<string, any> = {
+      consecutive_meals: reachedDiscount ? 0 : newMeals,
+      current_week_start: mondayStr,
+      discount_available: reachedDiscount,
       total_points: profile.total_points + pointsEarned,
     };
 
-    if (!isWeekend) {
-      profileUpdate.consecutive_meals = reachedDiscount ? 0 : newMeals;
-      profileUpdate.current_week_start = mondayStr;
-      profileUpdate.discount_available = reachedDiscount;
-      if (reachedDiscount) {
-        profileUpdate.discount_earned_at = new Date().toISOString();
-      }
+    if (reachedDiscount) {
+      profileUpdate.discount_earned_at = new Date().toISOString();
     }
 
     const newTotal = profile.total_points + pointsEarned;
@@ -169,7 +153,6 @@ serve(async (req) => {
       meals: newMeals,
       reachedDiscount,
       pointsEarned,
-      isWeekend,
       transactionId: txData?.id,
     });
   } catch (e) {

@@ -69,19 +69,15 @@ const Admin = () => {
         body: { client_user_id: clientProfile.user_id },
       });
 
-      if (data?.error === "weekday_only") {
-        setFeedback(t.weekdayOnly as string);
-      } else if (data?.error === "cooldown_active") {
+      if (data?.error === "cooldown_active") {
         setFeedback(t.dailyMealLimit as string);
       } else if (data?.error) {
         setFeedback("Erro inesperado");
       } else if (data?.success) {
         setFeedback(
-          data.isWeekend
-            ? `+10 ${t.points as string} · ${t.weekendMealRegistered as string}`
-            : data.reachedDiscount
-              ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
-              : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
+          data.reachedDiscount
+            ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
+            : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
         );
       } else {
         setFeedback("Erro inesperado");
@@ -138,7 +134,6 @@ const Admin = () => {
       if (data?.error) {
         const msg = data.error === "buffet_not_available" ? "Buffet não disponível"
           : data.error === "insufficient_points" ? "Pontos insuficientes"
-          : data.error === "weekday_only" ? "O buffet só pode ser resgatado em dias úteis (segunda a sexta)"
           : data.error === "must_return_first" ? "O buffet só pode ser usado numa próxima visita"
           : "Erro inesperado";
         setFeedback(msg);
