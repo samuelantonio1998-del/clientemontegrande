@@ -100,6 +100,7 @@ const translations = {
     confirmRedeem: "Aplicar desconto de 10€?",
     confirmRedeemMsg: "O desconto será aplicado a este cliente. Esta ação não pode ser revertida.",
     mealRegistered: (n: number) => `Refeição ${n}/4 registada`,
+    weekendMealRegistered: "Refeição de fim-de-semana (não conta para desconto)",
     mealDescription: (reached: boolean, n: number) =>
       reached ? "4ª refeição — desconto 10€ desbloqueado" : `Refeição ${n}/4 (semana)`,
     mealPointsDesc: "Refeição — pontos",
@@ -357,6 +358,7 @@ const translations = {
     confirmRedeem: "Apply 10€ discount?",
     confirmRedeemMsg: "The discount will be applied to this client. This action cannot be undone.",
     mealRegistered: (n: number) => `Meal ${n}/4 registered`,
+    weekendMealRegistered: "Weekend meal (does not count toward discount)",
     mealDescription: (reached: boolean, n: number) =>
       reached ? "4th meal — 10€ discount unlocked" : `Meal ${n}/4 (week)`,
     mealPointsDesc: "Meal — points",

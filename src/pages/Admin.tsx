@@ -77,9 +77,11 @@ const Admin = () => {
         setFeedback("Erro inesperado");
       } else if (data?.success) {
         setFeedback(
-          data.reachedDiscount
-            ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
-            : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
+          data.isWeekend
+            ? `+10 ${t.points as string} · ${t.weekendMealRegistered as string}`
+            : data.reachedDiscount
+              ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
+              : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
         );
       } else {
         setFeedback("Erro inesperado");
