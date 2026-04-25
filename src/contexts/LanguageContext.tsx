@@ -335,7 +335,7 @@ const translations = {
     tenPointsPerMeal: "10 points per meal",
     weekdayMeal: "Weekday Meal",
     registerMealBtn: "Register Meal",
-    weekdayMealRule: "Each meal = 10 points · 4 meals/week = 10€ discount · 200 points = free buffet (weekdays only)",
+    weekdayMealRule: "Each meal = 10 points · 4 meals/week = 10€ discount · 200 points = free buffet",
     discountRedeemInfo: "When the client is eligible for a discount, a confirmation box will appear. Confirm the discount and apply it using the discount key on the billing computer.",
     clientNotFound: "Client not found",
     codeMustBe6: "Code must be 6 digits",
