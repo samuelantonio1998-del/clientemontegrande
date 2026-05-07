@@ -102,7 +102,7 @@ serve(async (req) => {
       ? `Refeição ${newMeals}/4 — desconto desbloqueado!`
       : `Refeição ${newMeals}/4`;
 
-    const { data: txData } = await supabase
+    const { data: txData, error: txError } = await supabase
       .from("transactions")
       .insert({
         user_id: client_user_id,
@@ -113,6 +113,11 @@ serve(async (req) => {
       })
       .select("id")
       .single();
+
+    if (txError) {
+      console.error("transaction insert error:", txError);
+      return respond({ error: "tx_insert_failed", details: txError.message });
+    }
 
     // Update profile
     const profileUpdate: Record<string, any> = {
@@ -131,13 +136,18 @@ serve(async (req) => {
       profileUpdate.buffet_earned_at = new Date().toISOString();
     }
 
-    await supabase
+    const { error: updErr } = await supabase
       .from("profiles")
       .update(profileUpdate)
       .eq("user_id", client_user_id);
 
+    if (updErr) {
+      console.error("profile update error:", updErr);
+      return respond({ error: "profile_update_failed", details: updErr.message });
+    }
+
     // Log admin action
-    await supabase.from("admin_actions").insert({
+    const { error: aaErr } = await supabase.from("admin_actions").insert({
       admin_id: user.id,
       client_user_id: client_user_id,
       client_name: profile.display_name,
@@ -147,6 +157,7 @@ serve(async (req) => {
       points_changed: pointsEarned,
       transaction_id: txData?.id || null,
     });
+    if (aaErr) console.error("admin_actions insert error:", aaErr);
 
     return respond({
       success: true,

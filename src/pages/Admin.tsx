@@ -72,7 +72,8 @@ const Admin = () => {
       if (data?.error === "cooldown_active") {
         setFeedback(t.dailyMealLimit as string);
       } else if (data?.error) {
-        setFeedback("Erro inesperado");
+        console.error("register-meal error:", data);
+        setFeedback(`Erro: ${data.error}${data.details ? ` — ${data.details}` : ""}`);
       } else if (data?.success) {
         setFeedback(
           data.reachedDiscount
