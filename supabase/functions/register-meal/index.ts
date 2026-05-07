@@ -102,7 +102,7 @@ serve(async (req) => {
       ? `Refeição ${newMeals}/4 — desconto desbloqueado!`
       : `Refeição ${newMeals}/4`;
 
-    const { data: txData } = await supabase
+    const { data: txData, error: txError } = await supabase
       .from("transactions")
       .insert({
         user_id: client_user_id,
@@ -113,6 +113,11 @@ serve(async (req) => {
       })
       .select("id")
       .single();
+
+    if (txError) {
+      console.error("transaction insert error:", txError);
+      return respond({ error: "tx_insert_failed", details: txError.message });
+    }
 
     // Update profile
     const profileUpdate: Record<string, any> = {
