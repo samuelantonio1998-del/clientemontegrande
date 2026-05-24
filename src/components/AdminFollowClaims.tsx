@@ -71,11 +71,19 @@ const AdminFollowClaims = () => {
       .eq("id", claim.id);
 
     if (approved) {
-      // Award points
+      // Award points — fetch current total first, with a safe fallback to 0
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("total_points")
+        .eq("user_id", claim.user_id)
+        .single();
+
+      const currentPoints = Number(profileData?.total_points) || 0;
+
       await supabase
         .from("profiles")
         .update({
-          total_points: (await supabase.from("profiles").select("total_points").eq("user_id", claim.user_id).single()).data?.total_points + pointsToAward,
+          total_points: currentPoints + pointsToAward,
         })
         .eq("user_id", claim.user_id);
 

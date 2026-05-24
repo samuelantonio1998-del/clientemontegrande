@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 const INSTAGRAM_URL = "https://www.instagram.com/restaurante_monte_grande";
 
@@ -109,7 +110,7 @@ const FollowUsCard = () => {
         toast.success(t.followSubmitted as string);
       }
     } catch (err) {
-      console.error("Verification error:", err);
+      logger.error("Verification error:", err);
       setStatus("pending");
       toast.success(t.followSubmitted as string);
     }

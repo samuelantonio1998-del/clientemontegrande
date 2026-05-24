@@ -1,22 +1,15 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { jsonResponse, preflightResponse } from "../_shared/cors.ts";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
+    return preflightResponse(req);
   }
 
   try {
     const authHeader = req.headers.get("authorization");
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Not authenticated" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse(req, { error: "Not authenticated" }, 401);
     }
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
@@ -31,18 +24,19 @@ Deno.serve(async (req) => {
     const token = authHeader.replace("Bearer ", "");
     const { data: { user }, error: authError } = await supabaseAuth.auth.getUser(token);
     if (authError || !user) {
-      return new Response(JSON.stringify({ error: "Invalid token" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse(req, { error: "Invalid token" }, 401);
     }
 
-    const { screenshot_url, claim_id, display_name } = await req.json();
+    let body: { screenshot_url?: string; claim_id?: string; display_name?: string };
+    try {
+      body = await req.json();
+    } catch {
+      return jsonResponse(req, { error: "Invalid JSON" }, 400);
+    }
+
+    const { screenshot_url, claim_id, display_name } = body;
     if (!screenshot_url || !claim_id) {
-      return new Response(JSON.stringify({ error: "Missing parameters" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse(req, { error: "Missing parameters" }, 400);
     }
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
@@ -79,7 +73,8 @@ Deno.serve(async (req) => {
             content: [
               {
                 type: "text",
-                text: `Analyze this Google Reviews screenshot. Check if it shows a posted review with visible star rating for "Monte Grande" or "Restaurante Monte Grande". ${nameInstruction} Reply only with JSON.`,
+                text:
+                  `Analyze this Google Reviews screenshot. Check if it shows a posted review with visible star rating for "Monte Grande" or "Restaurante Monte Grande". ${nameInstruction} Reply only with JSON.`,
               },
               {
                 type: "image_url",
@@ -93,21 +88,25 @@ Deno.serve(async (req) => {
             type: "function",
             function: {
               name: "verify_google_review",
-              description: "Verify if the screenshot shows a valid Google Review with stars and matching name",
+              description:
+                "Verify if the screenshot shows a valid Google Review with stars and matching name",
               parameters: {
                 type: "object",
                 properties: {
                   has_stars: {
                     type: "boolean",
-                    description: "Whether the screenshot shows a star rating (filled stars)",
+                    description:
+                      "Whether the screenshot shows a star rating (filled stars)",
                   },
                   name_matches: {
                     type: "boolean",
-                    description: "Whether the reviewer name matches the expected user name",
+                    description:
+                      "Whether the reviewer name matches the expected user name",
                   },
                   valid: {
                     type: "boolean",
-                    description: "Overall: true only if stars are visible AND name matches (or name check was skipped)",
+                    description:
+                      "Overall: true only if stars are visible AND name matches (or name check was skipped)",
                   },
                   confidence: {
                     type: "string",
@@ -130,10 +129,7 @@ Deno.serve(async (req) => {
 
     if (!aiResponse.ok) {
       console.error("AI gateway error:", aiResponse.status, await aiResponse.text());
-      return new Response(
-        JSON.stringify({ status: "pending", reason: "AI verification unavailable" }),
-        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return jsonResponse(req, { status: "pending", reason: "AI verification unavailable" }, 200);
     }
 
     const aiData = await aiResponse.json();
@@ -167,12 +163,8 @@ Deno.serve(async (req) => {
       .select("id")
       .maybeSingle();
 
-    // If no row was updated, the claim was already processed
     if (!updatedClaim) {
-      return new Response(
-        JSON.stringify({ status: "already_processed", valid }),
-        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return jsonResponse(req, { status: "already_processed", valid }, 200);
     }
 
     // Delete screenshot from storage
@@ -181,7 +173,9 @@ Deno.serve(async (req) => {
       .list(user.id);
 
     if (files && files.length > 0) {
-      const googleFiles = files.filter((f: { name: string }) => f.name.startsWith("google-review"));
+      const googleFiles = files.filter((f: { name: string }) =>
+        f.name.startsWith("google-review")
+      );
       if (googleFiles.length > 0) {
         const paths = googleFiles.map((f: { name: string }) => `${user.id}/${f.name}`);
         await supabase.storage.from("follow-screenshots").remove(paths);
@@ -213,15 +207,9 @@ Deno.serve(async (req) => {
       });
     }
 
-    return new Response(
-      JSON.stringify({ status: newStatus, valid }),
-      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return jsonResponse(req, { status: newStatus, valid }, 200);
   } catch (e) {
     console.error("verify-google-review error:", e);
-    return new Response(
-      JSON.stringify({ error: "An unexpected error occurred" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return jsonResponse(req, { error: "An unexpected error occurred" }, 500);
   }
 });

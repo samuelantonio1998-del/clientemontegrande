@@ -1,14 +1,4 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# App privada de fidelidade — login obrigatório.
+# Não pretendemos aparecer em motores de busca.
 User-agent: *
-Allow: /
+Disallow: /

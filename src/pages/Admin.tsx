@@ -7,6 +7,7 @@ import AdminClientCard from "@/components/AdminClientCard";
 import QRScanner from "@/components/QRScanner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import AdminActionHistory from "@/components/AdminActionHistory";
+import { logger } from "@/lib/logger";
 
 const Admin = () => {
   const { user } = useAuth();
@@ -72,7 +73,7 @@ const Admin = () => {
       if (data?.error === "cooldown_active") {
         setFeedback(t.dailyMealLimit as string);
       } else if (data?.error) {
-        console.error("register-meal error:", data);
+        logger.error("register-meal error:", data);
         setFeedback(`Erro: ${data.error}${data.details ? ` — ${data.details}` : ""}`);
       } else if (data?.success) {
         setFeedback(

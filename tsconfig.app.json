@@ -3,33 +3,29 @@
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleDetection": "force",
     "moduleResolution": "bundler",
     "noEmit": true,
-    "noFallthroughCasesInSwitch": false,
-    "noImplicitAny": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "skipLibCheck": true,
-    "strict": false,
     "target": "ES2020",
-    "types": [
-      "vitest/globals"
-    ],
-    "useDefineForClassFields": true
+    "types": ["vitest/globals"],
+    "useDefineForClassFields": true,
+
+    // Strict mode TOTAL ativado. O codebase so tinha 1 erro real
+    // (corrigido em AdminFollowClaims.tsx). noImplicitAny nao dispara
+    // porque os ": any" existentes sao explicitos - podes tipa-los
+    // gradualmente com os tipos de src/integrations/supabase/types.ts.
+    "strict": true,
+    // Mantemos estas duas a false para nao bloquear o build por codigo
+    // nao usado durante o desenvolvimento. Ativa quando quiseres limpar.
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

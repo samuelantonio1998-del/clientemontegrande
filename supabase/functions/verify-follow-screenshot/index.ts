@@ -1,24 +1,16 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
-};
+import { jsonResponse, preflightResponse } from "../_shared/cors.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+    return preflightResponse(req);
   }
 
   try {
     const authHeader = req.headers.get("authorization");
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Not authenticated" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse(req, { error: "Not authenticated" }, 401);
     }
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
@@ -34,23 +26,24 @@ serve(async (req) => {
     const token = authHeader.replace("Bearer ", "");
     const { data: { user }, error: authError } = await supabaseAuth.auth.getUser(token);
     if (authError || !user) {
-      return new Response(JSON.stringify({ error: "Invalid token" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse(req, { error: "Invalid token" }, 401);
     }
 
-    const { screenshot_url, claim_id } = await req.json();
+    let body: { screenshot_url?: string; claim_id?: string };
+    try {
+      body = await req.json();
+    } catch {
+      return jsonResponse(req, { error: "Invalid JSON" }, 400);
+    }
+
+    const { screenshot_url, claim_id } = body;
     if (!screenshot_url || !claim_id) {
-      return new Response(JSON.stringify({ error: "Missing parameters" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse(req, { error: "Missing parameters" }, 400);
     }
 
     // Generate a signed URL for the screenshot (bucket is private)
     const supabaseForStorage = createClient(supabaseUrl, supabaseServiceKey);
-    const { data: signedUrlData, error: signedUrlError } = await supabaseForStorage.storage
+    const { data: signedUrlData } = await supabaseForStorage.storage
       .from("follow-screenshots")
       .createSignedUrl(screenshot_url, 300); // 5-minute expiry
 
@@ -78,7 +71,8 @@ serve(async (req) => {
               content: [
                 {
                   type: "text",
-                  text: 'Analyze this Instagram screenshot. Is the user following the account "restaurante_monte_grande"? Look for the "A seguir" or "Following" button which indicates they are following. Reply only with JSON.',
+                  text:
+                    'Analyze this Instagram screenshot. Is the user following the account "restaurante_monte_grande"? Look for the "A seguir" or "Following" button which indicates they are following. Reply only with JSON.',
                 },
                 {
                   type: "image_url",
@@ -119,20 +113,14 @@ serve(async (req) => {
             function: { name: "verify_follow" },
           },
         }),
-      }
+      },
     );
 
     if (!aiResponse.ok) {
       const errText = await aiResponse.text();
       console.error("AI gateway error:", aiResponse.status, errText);
       // On AI failure, set to pending for manual review
-      return new Response(
-        JSON.stringify({ status: "pending", reason: "AI verification unavailable" }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
+      return jsonResponse(req, { status: "pending", reason: "AI verification unavailable" }, 200);
     }
 
     const aiData = await aiResponse.json();
@@ -169,21 +157,14 @@ serve(async (req) => {
 
     // If no row was updated, the claim was already processed
     if (!updatedClaim) {
-      return new Response(
-        JSON.stringify({ status: "already_processed", following }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
+      return jsonResponse(req, { status: "already_processed", following }, 200);
     }
 
     // Delete the screenshot from storage
-    const filePath = `${user.id}/instagram-follow`;
     const { data: files } = await supabase.storage
       .from("follow-screenshots")
       .list(user.id);
-    
+
     if (files && files.length > 0) {
       const paths = files.map((f: { name: string }) => `${user.id}/${f.name}`);
       await supabase.storage.from("follow-screenshots").remove(paths);
@@ -200,7 +181,7 @@ serve(async (req) => {
       if (profile) {
         await supabase
           .from("profiles")
-          .update({ total_points: profile.total_points + 10 })
+          .update({ total_points: (Number(profile.total_points) || 0) + 10 })
           .eq("user_id", user.id);
       }
 
@@ -214,21 +195,9 @@ serve(async (req) => {
       });
     }
 
-    return new Response(
-      JSON.stringify({ status: newStatus, following }),
-      {
-        status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
-    );
+    return jsonResponse(req, { status: newStatus, following }, 200);
   } catch (e) {
     console.error("verify-follow error:", e);
-    return new Response(
-      JSON.stringify({ error: "An unexpected error occurred" }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
-    );
+    return jsonResponse(req, { error: "An unexpected error occurred" }, 500);
   }
 });
