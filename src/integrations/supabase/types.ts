@@ -560,6 +560,10 @@ export type Database = {
           read_ct: number
         }[]
       }
+      register_meal_atomic: {
+        Args: { _admin_id: string; _client_user_id: string }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin" | "user"
