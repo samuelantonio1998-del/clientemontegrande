@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
 
     if (error) {
       console.error("register_meal_atomic RPC error:", error);
-      return jsonResponse(req, { error: "internal", details: error.message }, 500);
+      return jsonResponse(req, { error: "internal" }, 500);
     }
 
     // 4. Traduzir códigos de erro do SQL em HTTP status codes apropriados.
