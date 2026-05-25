@@ -74,7 +74,7 @@ const Admin = () => {
         setFeedback(t.dailyMealLimit as string);
       } else if (data?.error) {
         logger.error("register-meal error:", data);
-        setFeedback(`Erro: ${data.error}${data.details ? ` — ${data.details}` : ""}`);
+        setFeedback("Erro ao registar refeição");
       } else if (data?.success) {
         setFeedback(
           data.reachedDiscount
