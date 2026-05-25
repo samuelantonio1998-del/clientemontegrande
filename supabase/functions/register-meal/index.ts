@@ -1,173 +1,77 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getCorsHeaders, jsonResponse, preflightResponse } from "../_shared/cors.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
-};
-
-function respond(body: Record<string, unknown>) {
-  return new Response(JSON.stringify(body), {
-    status: 200,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
-  });
-}
-
-serve(async (req) => {
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+    return preflightResponse(req);
   }
 
   try {
-    const authHeader = req.headers.get("authorization");
+    const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return respond({ error: "Not authenticated" });
+      return jsonResponse(req, { error: "Not authenticated" }, 401);
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-    const supabaseAuth = createClient(supabaseUrl, serviceRoleKey);
+    // 1. Identificar o admin a partir do JWT
+    const supabase = createClient(supabaseUrl, serviceRoleKey);
     const token = authHeader.replace("Bearer ", "");
     const {
-      data: { user },
+      data: { user: admin },
       error: authError,
-    } = await supabaseAuth.auth.getUser(token);
+    } = await supabase.auth.getUser(token);
 
-    if (authError || !user) {
-      return respond({ error: "Invalid token" });
+    if (authError || !admin) {
+      return jsonResponse(req, { error: "Invalid token" }, 401);
     }
 
-    const { data: isAdmin } = await supabaseAuth.rpc("has_role", {
-      _user_id: user.id,
-      _role: "admin",
+    // 2. Parse e validar body
+    let body: { client_user_id?: string };
+    try {
+      body = await req.json();
+    } catch {
+      return jsonResponse(req, { error: "Invalid JSON" }, 400);
+    }
+
+    const { client_user_id } = body;
+    if (!client_user_id || typeof client_user_id !== "string") {
+      return jsonResponse(req, { error: "Missing client_user_id" }, 400);
+    }
+
+    // 3. Chamar a função SQL atómica.
+    //    Toda a lógica (autorização admin, cooldown, lock, insert, update)
+    //    corre dentro de uma única transação PostgreSQL.
+    const { data, error } = await supabase.rpc("register_meal_atomic", {
+      _client_user_id: client_user_id,
+      _admin_id: admin.id,
     });
 
-    if (!isAdmin) {
-      return respond({ error: "Forbidden" });
+    if (error) {
+      console.error("register_meal_atomic RPC error:", error);
+      return jsonResponse(req, { error: "internal", details: error.message }, 500);
     }
 
-    const { client_user_id } = await req.json();
-    if (!client_user_id) {
-      return respond({ error: "Missing client_user_id" });
+    // 4. Traduzir códigos de erro do SQL em HTTP status codes apropriados.
+    const result = data as Record<string, unknown>;
+    if (result.error) {
+      const errCode = result.error as string;
+      switch (errCode) {
+        case "forbidden":
+          return jsonResponse(req, { error: errCode }, 403);
+        case "client_not_found":
+          return jsonResponse(req, { error: errCode }, 404);
+        case "cooldown_active":
+          return jsonResponse(req, { error: errCode }, 429);
+        default:
+          return jsonResponse(req, { error: errCode }, 400);
+      }
     }
 
-    const supabase = createClient(supabaseUrl, serviceRoleKey);
-
-    // Server-side 5-hour cooldown check
-    const fiveHoursAgo = new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString();
-    const { data: lastMeals } = await supabase
-      .from("transactions")
-      .select("created_at")
-      .eq("user_id", client_user_id)
-      .eq("type", "meal")
-      .gte("created_at", fiveHoursAgo)
-      .limit(1);
-
-    if (lastMeals && lastMeals.length > 0) {
-      return respond({ error: "cooldown_active" });
-    }
-
-    // Get current profile
-    const { data: profile, error: profileError } = await supabase
-      .from("profiles")
-      .select("user_id, display_name, client_code, consecutive_meals, current_week_start, total_points")
-      .eq("user_id", client_user_id)
-      .single();
-
-    if (profileError || !profile) {
-      return respond({ error: "Client not found" });
-    }
-
-    // Calculate Monday of current week
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    const monday = new Date(today);
-    const offset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-    monday.setDate(today.getDate() - offset);
-    const mondayStr = monday.toISOString().split("T")[0];
-
-    // All days count toward the 4-meal weekly discount
-    let newMeals = profile.consecutive_meals;
-    if (profile.current_week_start !== mondayStr) {
-      newMeals = 1;
-    } else {
-      newMeals += 1;
-    }
-    const reachedDiscount = newMeals >= 4;
-    const pointsEarned = 10;
-
-    const description = reachedDiscount
-      ? `Refeição ${newMeals}/4 — desconto desbloqueado!`
-      : `Refeição ${newMeals}/4`;
-
-    const { data: txData, error: txError } = await supabase
-      .from("transactions")
-      .insert({
-        user_id: client_user_id,
-        amount: 0,
-        points_earned: pointsEarned,
-        description,
-        type: "meal",
-      })
-      .select("id")
-      .single();
-
-    if (txError) {
-      console.error("transaction insert error:", txError);
-      return respond({ error: "tx_insert_failed", details: txError.message });
-    }
-
-    // Update profile
-    const profileUpdate: Record<string, any> = {
-      consecutive_meals: reachedDiscount ? 0 : newMeals,
-      current_week_start: mondayStr,
-      discount_available: reachedDiscount,
-      total_points: profile.total_points + pointsEarned,
-    };
-
-    if (reachedDiscount) {
-      profileUpdate.discount_earned_at = new Date().toISOString();
-    }
-
-    const newTotal = profile.total_points + pointsEarned;
-    if (newTotal >= 200 && profile.total_points < 200) {
-      profileUpdate.buffet_earned_at = new Date().toISOString();
-    }
-
-    const { error: updErr } = await supabase
-      .from("profiles")
-      .update(profileUpdate)
-      .eq("user_id", client_user_id);
-
-    if (updErr) {
-      console.error("profile update error:", updErr);
-      return respond({ error: "profile_update_failed", details: updErr.message });
-    }
-
-    // Log admin action
-    const { error: aaErr } = await supabase.from("admin_actions").insert({
-      admin_id: user.id,
-      client_user_id: client_user_id,
-      client_name: profile.display_name,
-      client_code: profile.client_code,
-      action_type: "meal",
-      description,
-      points_changed: pointsEarned,
-      transaction_id: txData?.id || null,
-    });
-    if (aaErr) console.error("admin_actions insert error:", aaErr);
-
-    return respond({
-      success: true,
-      meals: newMeals,
-      reachedDiscount,
-      pointsEarned,
-      transactionId: txData?.id,
-    });
+    return jsonResponse(req, result, 200);
   } catch (e) {
     console.error("register-meal error:", e);
-    return respond({ error: "An unexpected error occurred" });
+    return jsonResponse(req, { error: "An unexpected error occurred" }, 500);
   }
 });

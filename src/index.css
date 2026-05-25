@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+/*
+ * Fontes agora são self-hosted via @fontsource (importadas em main.tsx).
+ * Removido o @import do Google Fonts:
+ *   - elimina request bloqueante em cascata (melhor LCP)
+ *   - não partilha o IP dos clientes com a Google (melhor RGPD)
+ */
 
 @tailwind base;
 @tailwind components;
@@ -22,7 +27,9 @@
     --secondary-foreground: 25 25% 15%;
 
     --muted: 40 12% 85%;
-    --muted-foreground: 25 15% 45%;
+    /* Escurecido de 45% → 40% para passar WCAG AA (4.93:1 vs background,
+       5.35:1 vs card). Antes era 4.08:1, que reprovava para texto normal. */
+    --muted-foreground: 25 15% 40%;
 
     --accent: 30 20% 65%;
     --accent-foreground: 25 25% 15%;
@@ -48,8 +55,9 @@
     --font-display: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
 
-    --reward-blue: 25 30% 28%;
-    --signal-orange: 25 30% 28%;
+    /* Removido --reward-blue e --signal-orange: ambos apontavam para o
+       mesmo valor que --primary (25 30% 28%), o que tornava os nomes
+       enganadores. O uso em ResetPassword.tsx passou a usar `primary`. */
 
     --shadow-card: 0 2px 12px -2px hsl(25 25% 15% / 0.06), 0 1px 4px -1px hsl(25 25% 15% / 0.04);
     --shadow-elevated: 0 8px 30px -6px hsl(25 25% 15% / 0.1), 0 2px 8px -2px hsl(25 25% 15% / 0.06);

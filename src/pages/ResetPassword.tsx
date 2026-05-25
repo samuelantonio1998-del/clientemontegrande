@@ -114,9 +114,10 @@ const ResetPassword = () => {
               </label>
               <input
                 type="password"
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-card border-2 border-foreground px-3 py-2 font-mono text-sm text-foreground focus:outline-none focus:border-signal-orange"
+                className="w-full bg-card border-2 border-foreground px-3 py-2 font-mono text-sm text-foreground focus:outline-none focus:border-primary"
                 required
                 minLength={6}
               />
@@ -127,9 +128,10 @@ const ResetPassword = () => {
               </label>
               <input
                 type="password"
+                autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-card border-2 border-foreground px-3 py-2 font-mono text-sm text-foreground focus:outline-none focus:border-signal-orange"
+                className="w-full bg-card border-2 border-foreground px-3 py-2 font-mono text-sm text-foreground focus:outline-none focus:border-primary"
                 required
                 minLength={6}
               />
@@ -142,7 +144,7 @@ const ResetPassword = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-signal-orange text-primary-foreground font-mono text-xs uppercase tracking-[0.3em] border-2 border-foreground disabled:opacity-50"
+              className="w-full py-3 bg-primary text-primary-foreground font-mono text-xs uppercase tracking-[0.3em] border-2 border-foreground disabled:opacity-50"
             >
               {loading ? "..." : (t.changePassword as string)}
             </button>

@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 const GOOGLE_REVIEW_URL =
   "https://www.google.com/maps/place/Restaurante+Monte+Grande/@39.7454814,-8.8919865,705m/data=!3m2!1e3!4b1!4m10!1m3!3m2!9m1!1b1!3m5!1s0xd220c5985ad0ce9:0x4542b2010e667489!8m2!3d39.7454773!4d-8.8894116!16s%2Fg%2F11clwn7l53?entry=ttu";
@@ -120,7 +121,7 @@ const GoogleReviewCard = () => {
         toast.success(t.followSubmitted as string);
       }
     } catch (err) {
-      console.error("Google review verification error:", err);
+      logger.error("Google review verification error:", err);
       setStatus("pending");
       toast.success(t.followSubmitted as string);
     }

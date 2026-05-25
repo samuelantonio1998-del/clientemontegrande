@@ -28,41 +28,57 @@ const BirthDateInput = ({ value, onChange }: { value: string; onChange: (val: st
 
   const inputClass = "bg-card border border-border rounded-xl px-2 py-3 text-sm text-foreground text-center focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200";
 
+  // Limites razoáveis: maiores de idade até 120 anos.
+  const currentYear = new Date().getFullYear();
+  const minYear = currentYear - 120;
+  const maxYear = currentYear - 18;
+
   return (
-    <div className="flex items-center gap-2">
-      <input
-        type="text"
-        inputMode="numeric"
-        placeholder="DD"
-        maxLength={2}
-        value={day}
-        onChange={(e) => update(e.target.value, month, year)}
-        className={`${inputClass} w-14`}
-        required
-      />
-      <span className="text-muted-foreground">/</span>
-      <input
-        type="text"
-        inputMode="numeric"
-        placeholder="MM"
-        maxLength={2}
-        value={month}
-        onChange={(e) => update(day, e.target.value, year)}
-        className={`${inputClass} w-14`}
-        required
-      />
-      <span className="text-muted-foreground">/</span>
-      <input
-        type="text"
-        inputMode="numeric"
-        placeholder="AAAA"
-        maxLength={4}
-        value={year}
-        onChange={(e) => update(day, month, e.target.value)}
-        className={`${inputClass} w-20`}
-        required
-      />
-    </div>
+    <fieldset className="border-0 p-0 m-0">
+      <legend className="sr-only">Data de nascimento</legend>
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          inputMode="numeric"
+          autoComplete="bday-day"
+          aria-label="Dia"
+          placeholder="DD"
+          maxLength={2}
+          value={day}
+          onChange={(e) => update(e.target.value, month, year)}
+          className={`${inputClass} w-14`}
+          required
+        />
+        <span className="text-muted-foreground" aria-hidden="true">/</span>
+        <input
+          type="text"
+          inputMode="numeric"
+          autoComplete="bday-month"
+          aria-label="Mês"
+          placeholder="MM"
+          maxLength={2}
+          value={month}
+          onChange={(e) => update(day, e.target.value, year)}
+          className={`${inputClass} w-14`}
+          required
+        />
+        <span className="text-muted-foreground" aria-hidden="true">/</span>
+        <input
+          type="text"
+          inputMode="numeric"
+          autoComplete="bday-year"
+          aria-label="Ano"
+          placeholder="AAAA"
+          maxLength={4}
+          min={minYear}
+          max={maxYear}
+          value={year}
+          onChange={(e) => update(day, month, e.target.value)}
+          className={`${inputClass} w-20`}
+          required
+        />
+      </div>
+    </fieldset>
   );
 };
 const LOCKOUT_MS = 60_000;
@@ -261,6 +277,7 @@ const Auth = () => {
                   <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">{t.email as string}</label>
                    <input
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
@@ -285,6 +302,7 @@ const Auth = () => {
                   <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">{t.name as string}</label>
                   <input
                   type="text"
+                  autoComplete="name"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
                   className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
@@ -301,6 +319,7 @@ const Auth = () => {
                 <input
                   id="auth-email"
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200 text-center"
@@ -313,6 +332,7 @@ const Auth = () => {
                   <input
                     id="auth-password"
                     type={showPassword ? "text" : "password"}
+                    autoComplete={isLogin ? "current-password" : "new-password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full bg-card border border-border rounded-xl px-4 py-3 pr-12 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"

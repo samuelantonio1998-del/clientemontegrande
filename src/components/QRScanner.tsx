@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import { X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { logger } from "@/lib/logger";
 
 interface QRScannerProps {
   onScan: (code: string) => void;
@@ -93,7 +94,7 @@ const QRScanner = ({ onScan, onClose }: QRScannerProps) => {
 
       await scanner.start(selectedSource, scanConfig, handleDecoded, () => {});
     } catch (startError) {
-      console.error("[QRScanner] camera start error", startError);
+      logger.error("[QRScanner] camera start error", startError);
       if (mountedRef.current) {
         setError(getCameraErrorMessage(startError));
       }

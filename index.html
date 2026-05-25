@@ -1,35 +1,54 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-PT">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" href="/src/assets/logo-mg-horizontal-bege.svg" as="image" type="image/svg+xml" fetchpriority="high">
-    <!-- TODO: Set the document title to the name of your application -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- App é privada (login obrigatório) — não indexar -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
+
     <title>Cliente Qta. Monte Grande</title>
-    <meta name="description" content="Quanto mais visita, mais ganha — transforme cada refeição em recompensas !">
+    <meta name="description" content="Quanto mais visita, mais ganha — transforme cada refeição em recompensas!" />
     <meta name="author" content="Quinta Monte Grande, LDA." />
 
-    <!-- TODO: Update og:title to match your application name -->
-    
-    
+    <!-- Cor da barra do browser em mobile (HSL primary do design system) -->
+    <meta name="theme-color" content="#5d4632" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Monte Grande" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Favicons e PWA manifest -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Performance: pré-conectar a Google Fonts (mantemos até fazermos self-host) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Open Graph / Twitter (úteis se alguém colar o URL num chat,
+         mesmo não querendo SEO) -->
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/npzODRrynYXsQ1r4cLaF0iWmZKo2/social-images/social-1773797993479-Captura_de_ecrã_2026-03-18,_às_01.36.03.webp">
+    <meta property="og:title" content="Cliente Qta. Monte Grande" />
+    <meta property="og:description" content="Quanto mais visita, mais ganha — transforme cada refeição em recompensas!" />
+    <meta property="og:image" content="/og-image.webp" />
+    <meta property="og:locale" content="pt_PT" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@QtaMGrande" />
-    <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/npzODRrynYXsQ1r4cLaF0iWmZKo2/social-images/social-1773797993479-Captura_de_ecrã_2026-03-18,_às_01.36.03.webp">
-    
-  
-  
-  
-  <meta property="og:title" content="Cliente Qta. Monte Grande">
-  <meta name="twitter:title" content="Cliente Qta. Monte Grande">
-  <meta property="og:description" content="Quanto mais visita, mais ganha — transforme cada refeição em recompensas !">
-  <meta name="twitter:description" content="Quanto mais visita, mais ganha — transforme cada refeição em recompensas !">
-</head>
+    <meta name="twitter:title" content="Cliente Qta. Monte Grande" />
+    <meta name="twitter:description" content="Quanto mais visita, mais ganha — transforme cada refeição em recompensas!" />
+    <meta name="twitter:image" content="/og-image.webp" />
+  </head>
 
   <body>
     <div id="root"></div>
+    <noscript>
+      Esta aplicação requer JavaScript para funcionar. Por favor, ative o JavaScript no seu browser.
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
