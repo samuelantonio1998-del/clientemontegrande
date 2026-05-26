@@ -31,10 +31,12 @@ const ALLOWED_HEADERS = [
  */
 export const getCorsHeaders = (req: Request): Record<string, string> => {
   const origin = req.headers.get("Origin");
-  const allowedOrigin =
-    origin && ALLOWED_ORIGINS.includes(origin as (typeof ALLOWED_ORIGINS)[number])
-      ? origin
-      : ALLOWED_ORIGINS[0];
+  const isAllowed = !!origin && (
+    ALLOWED_ORIGINS.includes(origin as (typeof ALLOWED_ORIGINS)[number]) ||
+    /^https:\/\/[a-z0-9-]+\.lovable\.app$/i.test(origin) ||
+    /^https:\/\/[a-z0-9-]+\.lovableproject\.com$/i.test(origin)
+  );
+  const allowedOrigin = isAllowed ? origin! : ALLOWED_ORIGINS[0];
 
   return {
     "Access-Control-Allow-Origin": allowedOrigin,
