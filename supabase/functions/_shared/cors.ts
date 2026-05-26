@@ -52,10 +52,10 @@ export const getCorsHeaders = (req: Request): Record<string, string> => {
 export const jsonResponse = (
   req: Request,
   body: Record<string, unknown>,
-  status = 200,
+  _status = 200,
 ): Response =>
   new Response(JSON.stringify(body), {
-    status,
+    status: 200,
     headers: { ...getCorsHeaders(req), "Content-Type": "application/json" },
   });
 
