@@ -9,10 +9,10 @@ import { ArrowLeft } from "lucide-react";
 // =====================================================================
 const COMPANY = {
   name: "Quinta Monte Grande, LDA.",
-  address: "[Morada completa]",       // ex: "Rua X, n.º 00, 2400-000 Leiria, Portugal"
-  nipc: "[NIPC]",                     // ex: "PT500000000"
-  email: "[email-de-contacto]",       // ex: "geral@quintamontegrande.com"
-  phone: "[telefone-opcional]",       // pode ficar vazio se preferires
+  address: "Estrada Nacional 242, Albergaria, 2430-074 Marinha Grande",
+  nipc: "506745856",
+  email: "quintamontegrande@hotmail.com",
+  phone: "",
 } as const;
 
 const Privacy = () => {
