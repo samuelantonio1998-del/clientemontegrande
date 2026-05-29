@@ -41,13 +41,26 @@ serve(async (req) => {
       return jsonResponse(req, { error: "Missing parameters" }, 400);
     }
 
+    if (
+      typeof screenshot_url !== "string" ||
+      screenshot_url.includes("://") ||
+      screenshot_url.includes("..") ||
+      screenshot_url.startsWith("/")
+    ) {
+      return jsonResponse(req, { error: "Invalid screenshot path" }, 400);
+    }
+
     // Generate a signed URL for the screenshot (bucket is private)
     const supabaseForStorage = createClient(supabaseUrl, supabaseServiceKey);
-    const { data: signedUrlData } = await supabaseForStorage.storage
+    const { data: signedUrlData, error: signedUrlError } = await supabaseForStorage.storage
       .from("follow-screenshots")
       .createSignedUrl(screenshot_url, 300); // 5-minute expiry
 
-    const imageUrl = signedUrlData?.signedUrl || screenshot_url;
+    if (signedUrlError || !signedUrlData?.signedUrl) {
+      return jsonResponse(req, { error: "Screenshot not found" }, 404);
+    }
+
+    const imageUrl = signedUrlData.signedUrl;
 
     // Use Gemini to analyze the screenshot
     const aiResponse = await fetch(
