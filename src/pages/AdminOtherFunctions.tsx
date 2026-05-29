@@ -22,10 +22,13 @@ const AdminOtherFunctions = () => {
   const [exportPin, setExportPin] = useState("");
   const [feedback, setFeedback] = useState("");
 
-  const handleUnlock = () => {
-    if (pinInput === ADMIN_PIN) {
+  const handleUnlock = async () => {
+    setPinError("");
+    const { data, error } = await supabase.functions.invoke("verify-admin-pin", {
+      body: { pin: pinInput },
+    });
+    if (!error && (data as any)?.ok) {
       setUnlocked(true);
-      setPinError("");
     } else {
       setPinError("PIN incorreto");
       setPinInput("");
