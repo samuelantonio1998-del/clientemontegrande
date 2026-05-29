@@ -62,7 +62,10 @@ const AdminAds = () => {
   };
 
   const confirmPin = async () => {
-    if (pinValue !== ADS_PIN) {
+    const { data, error } = await supabase.functions.invoke("verify-admin-pin", {
+      body: { pin: pinValue },
+    });
+    if (error || !(data as any)?.ok) {
       setPinError(true);
       return;
     }
