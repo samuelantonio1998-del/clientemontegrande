@@ -4,7 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Plus, Trash2, ExternalLink, Eye, EyeOff, Mail } from "lucide-react";
 import { toast } from "sonner";
 
-const ADS_PIN = "0866";
+
 
 interface Ad {
   id: string;
