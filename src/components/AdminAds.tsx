@@ -4,7 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Plus, Trash2, ExternalLink, Eye, EyeOff, Mail } from "lucide-react";
 import { toast } from "sonner";
 
-const ADS_PIN = "0866";
+
 
 interface Ad {
   id: string;
@@ -62,7 +62,10 @@ const AdminAds = () => {
   };
 
   const confirmPin = async () => {
-    if (pinValue !== ADS_PIN) {
+    const { data, error } = await supabase.functions.invoke("verify-admin-pin", {
+      body: { pin: pinValue },
+    });
+    if (error || !(data as any)?.ok) {
       setPinError(true);
       return;
     }
