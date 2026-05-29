@@ -9,7 +9,7 @@ import AdminReports from "@/components/AdminReports";
 import AdminInactiveUsers from "@/components/AdminInactiveUsers";
 import ConfirmDialog from "@/components/ConfirmDialog";
 
-const ADMIN_PIN = "0866";
+
 
 const AdminOtherFunctions = () => {
   const { user } = useAuth();
