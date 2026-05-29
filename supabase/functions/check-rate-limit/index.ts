@@ -74,8 +74,10 @@ Deno.serve(async (req) => {
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
+  const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim() || 'unknown'
+
   const { data: allowed, error } = await supabase.rpc('check_rate_limit', {
-    p_identifier: cleanIdentifier,
+    p_identifier: `${ip}:${cleanIdentifier}`,
     p_action: cleanAction,
     p_max_requests: config.maxRequests,
     p_window_seconds: config.windowSeconds,
