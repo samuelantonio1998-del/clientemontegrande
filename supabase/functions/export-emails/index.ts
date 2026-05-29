@@ -77,11 +77,16 @@ Deno.serve(async (req) => {
     }
 
     // Build CSV
-    const csvRows = ["Email,Nome,Data de Registo"];
+    const escapeCsvCell = (value: string): string => {
+      let v = value ?? "";
+      if (/^[=+\-@\t\r]/.test(v)) v = "'" + v;
+      v = v.replace(/"/g, '""');
+      return `"${v}"`;
+    };
+    const csvRows = [[escapeCsvCell("Email"), escapeCsvCell("Nome"), escapeCsvCell("Data de Registo")].join(",")];
     for (const u of allUsers) {
-      const escapedName = u.name.replace(/"/g, '""');
       const date = u.created ? new Date(u.created).toLocaleDateString("pt-PT") : "";
-      csvRows.push(`${u.email},"${escapedName}",${date}`);
+      csvRows.push([escapeCsvCell(u.email), escapeCsvCell(u.name), escapeCsvCell(date)].join(","));
     }
 
     // CSV response — get CORS headers manually since we're not returning JSON
