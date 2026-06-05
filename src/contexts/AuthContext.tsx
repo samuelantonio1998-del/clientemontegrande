@@ -23,16 +23,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const tryAttachReferral = async (sess: Session | null) => {
+      if (!sess?.user) return;
+      const code = localStorage.getItem("pending_referral_code");
+      if (!code) return;
+      localStorage.removeItem("pending_referral_code");
+      try {
+        await supabase.rpc("attach_referral", { _code: code });
+      } catch (e) {
+        console.error("attach_referral failed", e);
+      }
+    };
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
         setLoading(false);
+        tryAttachReferral(session);
       }
     );
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
+      tryAttachReferral(session);
     });
 
     return () => subscription.unsubscribe();
