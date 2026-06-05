@@ -388,6 +388,7 @@ const Auth = () => {
 
               <button
                 onClick={async () => {
+                  if (refCode) localStorage.setItem("pending_referral_code", refCode);
                   const { error } = await lovable.auth.signInWithOAuth("google", {
                     redirect_uri: window.location.origin
                   });
@@ -405,6 +406,7 @@ const Auth = () => {
 
               <button
                 onClick={async () => {
+                  if (refCode) localStorage.setItem("pending_referral_code", refCode);
                   const { error } = await lovable.auth.signInWithOAuth("apple", {
                     redirect_uri: window.location.origin
                   });
