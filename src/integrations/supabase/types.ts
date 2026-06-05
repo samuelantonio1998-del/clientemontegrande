@@ -508,6 +508,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      attach_referral: { Args: { _code: string }; Returns: Json }
       check_rate_limit: {
         Args: {
           p_action: string
