@@ -195,14 +195,6 @@ const Index = () => {
           </div>
         </header>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-        >
-          <ReferralButton referralCode={referralCode} />
-        </motion.div>
-
         <BirthdayBanner birthDate={birthDate} />
 
         <motion.div
@@ -216,12 +208,21 @@ const Index = () => {
         </motion.div>
 
         <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
+        >
+          <ReferralButton referralCode={referralCode} />
+        </motion.div>
+
+        <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
         >
           <AdBanner />
         </motion.div>
+
 
         {totalSavings > 0 && (
           <motion.section
