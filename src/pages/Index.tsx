@@ -203,6 +203,9 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
         >
+          <p className="px-5 pt-4 text-center text-sm text-muted-foreground tracking-wide">
+            Apresente o QR Code ao balcão para ganhar pontos
+          </p>
           <ClientQRCode clientCode={clientCode} />
           <MealCounter meals={meals} discountAvailable={discountAvailable} buffetAvailable={buffetAvailable} />
         </motion.div>
