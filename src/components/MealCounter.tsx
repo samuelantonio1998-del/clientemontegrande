@@ -89,7 +89,7 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
       )}
 
       {/* Discount rules info */}
-      <div className="mx-4 mt-3 relative pt-4">
+      <div className="mx-4 mt-3 relative pt-4 pb-4 px-2">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-px bg-border" />
         <div className="space-y-2">
           <div className="flex items-start gap-2">
