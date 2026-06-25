@@ -104,6 +104,10 @@ const translations = {
     mealDescription: (reached: boolean, n: number) =>
       reached ? "4ª refeição — desconto 10€ desbloqueado" : `Refeição ${n}/4 (semana)`,
     mealPointsDesc: "Refeição — pontos",
+    discountRedeemedDesc: "Desconto 10€ utilizado",
+    buffetRedeemedDesc: "Buffet grátis utilizado",
+    discountRedeemedToast: "Parabéns! O seu desconto de 10€ foi utilizado. 🎉",
+    buffetRedeemedToast: "Parabéns! O seu buffet grátis foi utilizado. 🎉",
 
     // QRScanner
     scannerQR: "scanner qr",
