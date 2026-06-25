@@ -356,6 +356,8 @@ const translations = {
     buffetAvailable: "Free Buffet Available",
     buffetRedeemHint: "Ask staff to apply",
     drinksExcluded: "Drinks not included",
+    discountRule1: "Discounts can only be used on a future visit after being earned.",
+    discountRule2: "It is not possible to accumulate or use multiple discounts at the same time.",
     discountRulesInfo: "Discounts can only be used on a future visit after being earned. It is not possible to accumulate or use multiple discounts at the same time.",
     buffetRedeemed: "Free buffet applied successfully!",
     buffet200Active: "Free buffet active",
