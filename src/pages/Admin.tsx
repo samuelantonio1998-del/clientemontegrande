@@ -101,20 +101,30 @@ const Admin = () => {
     setActionLoading(true);
 
     try {
-      const { data } = await supabase.functions.invoke("redeem-benefit", {
+      const { data, error } = await supabase.functions.invoke("redeem-benefit", {
         body: { benefit_type: "discount", client_user_id: clientProfile.user_id },
       });
 
-      if (data?.error) {
+      if (error) {
+        logger.error("redeem-benefit invoke error:", error);
+        setFeedback(`Erro: ${error.message || "falha de rede"}`);
+      } else if (data?.error) {
         const msg = data.error === "discount_not_available" ? "Desconto não disponível"
           : data.error === "must_return_first" ? "O desconto só pode ser usado numa próxima visita"
-          : "Erro inesperado";
+          : data.error === "Forbidden" ? "Sem permissão (não é admin)"
+          : data.error === "Unauthorized" ? "Sessão expirada — faça login novamente"
+          : data.error === "Client not found" ? "Cliente não encontrado"
+          : `Erro: ${data.error}`;
         setFeedback(msg);
-      } else {
+      } else if (data?.success) {
         setFeedback(t.discountRedeemed as string);
+      } else {
+        logger.error("redeem-benefit unexpected response:", data);
+        setFeedback("Resposta inesperada do servidor");
       }
-    } catch {
-      setFeedback("Erro inesperado");
+    } catch (err) {
+      logger.error("redeem-benefit exception:", err);
+      setFeedback(`Erro inesperado: ${(err as Error)?.message || "desconhecido"}`);
     }
 
     await refreshClient();
@@ -129,21 +139,30 @@ const Admin = () => {
     setActionLoading(true);
 
     try {
-      const { data } = await supabase.functions.invoke("redeem-benefit", {
+      const { data, error } = await supabase.functions.invoke("redeem-benefit", {
         body: { benefit_type: "buffet", client_user_id: clientProfile.user_id },
       });
 
-      if (data?.error) {
+      if (error) {
+        logger.error("redeem-benefit invoke error:", error);
+        setFeedback(`Erro: ${error.message || "falha de rede"}`);
+      } else if (data?.error) {
         const msg = data.error === "buffet_not_available" ? "Buffet não disponível"
           : data.error === "insufficient_points" ? "Pontos insuficientes"
           : data.error === "must_return_first" ? "O buffet só pode ser usado numa próxima visita"
-          : "Erro inesperado";
+          : data.error === "Forbidden" ? "Sem permissão (não é admin)"
+          : data.error === "Unauthorized" ? "Sessão expirada — faça login novamente"
+          : `Erro: ${data.error}`;
         setFeedback(msg);
-      } else {
+      } else if (data?.success) {
         setFeedback(t.buffetRedeemed as string);
+      } else {
+        logger.error("redeem-benefit unexpected response:", data);
+        setFeedback("Resposta inesperada do servidor");
       }
-    } catch {
-      setFeedback("Erro inesperado");
+    } catch (err) {
+      logger.error("redeem-benefit exception:", err);
+      setFeedback(`Erro inesperado: ${(err as Error)?.message || "desconhecido"}`);
     }
 
     await refreshClient();
@@ -151,6 +170,7 @@ const Admin = () => {
     actionLock.current = false;
     setActionLoading(false);
   };
+
 
   const refreshClient = async () => {
     if (!clientProfile) return;
