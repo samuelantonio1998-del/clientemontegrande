@@ -1,5 +1,5 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Gift } from "lucide-react";
+import { Gift, CheckCircle2, Info } from "lucide-react";
 
 interface MealCounterProps {
   meals: number;
@@ -14,12 +14,29 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
     <div className="space-y-4">
       {/* Meal counter */}
       <div className="border-t border-border p-6">
-        <h2 className="font-display text-lg text-foreground mb-2">
+        <h2 className="font-display text-lg text-foreground mb-4">
           {t.weekMeals as string}
         </h2>
-        <p className="text-xs text-muted-foreground text-center mb-4">
-          {t.weekMealsSubtitle as string}
-        </p>
+
+        {/* Top info pills */}
+        <div className="grid grid-cols-1 gap-3 mb-6">
+          <div className="flex items-start gap-3 p-3 bg-card/50 rounded-2xl border border-border/40">
+            <div className="mt-0.5 shrink-0 w-5 h-5 flex items-center justify-center rounded-full border border-foreground/20">
+              <CheckCircle2 className="w-3 h-3 text-foreground" strokeWidth={2.5} />
+            </div>
+            <p className="text-sm leading-snug text-foreground">
+              <span className="font-semibold">{t.weekMealsObjetivo as string}</span>
+            </p>
+          </div>
+          <div className="flex items-start gap-3 p-3 bg-card/50 rounded-2xl border border-border/40">
+            <div className="mt-0.5 shrink-0 w-5 h-5 flex items-center justify-center rounded-full border border-foreground/20">
+              <Info className="w-3 h-3 text-foreground" strokeWidth={2} />
+            </div>
+            <p className="text-sm leading-snug text-muted-foreground">
+              {t.weekMealsFallback as string}
+            </p>
+          </div>
+        </div>
 
         <div className="flex gap-4 justify-center mb-6">
           {[0, 1, 2, 3].map((i) => (
@@ -72,10 +89,22 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
       )}
 
       {/* Discount rules info */}
-      <div className="mx-4 mt-3">
-        <p className="text-xs text-muted-foreground text-center leading-relaxed">
-          {t.discountRulesInfo as string}
-        </p>
+      <div className="mx-4 mt-3 relative pt-4">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-px bg-border" />
+        <div className="space-y-2">
+          <div className="flex items-start gap-2">
+            <div className="mt-1.5 shrink-0 w-1 h-1 bg-muted-foreground/40 rounded-full" />
+            <p className="text-[11px] leading-tight text-muted-foreground italic">
+              {t.discountRule1 as string}
+            </p>
+          </div>
+          <div className="flex items-start gap-2">
+            <div className="mt-1.5 shrink-0 w-1 h-1 bg-muted-foreground/40 rounded-full" />
+            <p className="text-[11px] leading-tight text-muted-foreground italic">
+              {t.discountRule2 as string}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
