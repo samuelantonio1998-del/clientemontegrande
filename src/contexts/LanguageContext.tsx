@@ -93,6 +93,7 @@ const translations = {
     drinksExcluded: "Bebidas não incluídas",
     discountRule1: "Os descontos só podem ser utilizados numa compra futura após serem ganhos.",
     discountRule2: "Não é possível acumular nem utilizar múltiplos descontos em simultâneo.",
+    discountRulesInfo: "Os descontos só podem ser utilizados numa compra futura após serem ganhos. Não é possível acumular nem utilizar múltiplos descontos em simultâneo.",
     buffetRedeemed: "Buffet grátis aplicado com sucesso!",
     buffet200Active: "Buffet grátis ativo",
     redeemBuffet: "Aplicar Buffet Grátis",
