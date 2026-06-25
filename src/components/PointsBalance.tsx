@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { MoreHorizontal, CheckCircle, Star, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { MoreHorizontal, CheckCircle, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import ReviewDialog from "@/components/ReviewDialog";
@@ -17,27 +17,6 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   const [reviewedIds, setReviewedIds] = useState<Set<string>>(new Set());
   const [reviewTxId, setReviewTxId] = useState<string | null>(null);
 
-  const nextExpiry = useMemo(() => {
-    const now = new Date();
-    const upcoming = transactions
-      .filter((tx) => tx.expires_at && !tx.expired && tx.points > 0 && new Date(tx.expires_at) > now)
-      .sort((a, b) => new Date(a.expires_at!).getTime() - new Date(b.expires_at!).getTime());
-
-    if (upcoming.length === 0) return null;
-
-    const nextDate = new Date(upcoming[0].expires_at!);
-    const sameDay = upcoming.filter((tx) => {
-      const d = new Date(tx.expires_at!);
-      return d.toDateString() === nextDate.toDateString();
-    });
-    const totalExpiring = sameDay.reduce((sum, tx) => sum + tx.points, 0);
-
-    return {
-      date: nextDate,
-      points: totalExpiring,
-      formatted: `${nextDate.getDate().toString().padStart(2, "0")}/${(nextDate.getMonth() + 1).toString().padStart(2, "0")}/${nextDate.getFullYear()}`,
-    };
-  }, [transactions]);
 
   useEffect(() => {
     const fetchReviewed = async () => {
@@ -101,14 +80,6 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
         </span>
       </div>
 
-      {nextExpiry && (
-        <div className="flex items-center gap-1.5 mt-3 mb-6 text-xs text-muted-foreground px-1">
-          <Clock className="w-3 h-3" />
-          <span>
-            {(t.pointsExpireAt as (pts: number, date: string) => string)(nextExpiry.points, nextExpiry.formatted)}
-          </span>
-        </div>
-      )}
 
       <div className="border-t border-border pt-4 mt-5">
         <h3 className="font-display text-lg text-foreground mb-4">
