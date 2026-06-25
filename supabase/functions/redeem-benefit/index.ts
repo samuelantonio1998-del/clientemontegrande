@@ -147,6 +147,15 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { error: "update_failed" }, 500);
     }
 
+    // Histórico do cliente
+    await supabase.from("transactions").insert({
+      user_id: client_user_id,
+      amount: 0,
+      points_earned: -BUFFET_POINTS_COST,
+      type: "redeem_buffet",
+      description: "Buffet grátis resgatado",
+    });
+
     await supabase.from("admin_actions").insert({
       admin_id: user.id,
       client_user_id,
