@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { MoreHorizontal, CheckCircle, Star, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { MoreHorizontal, CheckCircle, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import ReviewDialog from "@/components/ReviewDialog";
