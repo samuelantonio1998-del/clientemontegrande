@@ -289,7 +289,8 @@ const translations = {
 
     discountAvailable: "10€ Discount Available",
     weekMeals: "Meals This Week",
-    weekMealsSubtitle: "To get the discount, you must complete 4 meals in the same week. If you don't complete the week, you'll accumulate points.",
+    weekMealsObjetivo: "Complete 4 meals in the same week to get the discount.",
+    weekMealsFallback: "If you don't complete the week, you'll accumulate points for the future.",
     useDiscount: "Use 10€ Discount",
     redeemDiscount: "Apply 10€ Discount",
     discountRedeemHint: "Valid on your next visit — ask staff to apply",
