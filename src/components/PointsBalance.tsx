@@ -17,27 +17,6 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   const [reviewedIds, setReviewedIds] = useState<Set<string>>(new Set());
   const [reviewTxId, setReviewTxId] = useState<string | null>(null);
 
-  const nextExpiry = useMemo(() => {
-    const now = new Date();
-    const upcoming = transactions
-      .filter((tx) => tx.expires_at && !tx.expired && tx.points > 0 && new Date(tx.expires_at) > now)
-      .sort((a, b) => new Date(a.expires_at!).getTime() - new Date(b.expires_at!).getTime());
-
-    if (upcoming.length === 0) return null;
-
-    const nextDate = new Date(upcoming[0].expires_at!);
-    const sameDay = upcoming.filter((tx) => {
-      const d = new Date(tx.expires_at!);
-      return d.toDateString() === nextDate.toDateString();
-    });
-    const totalExpiring = sameDay.reduce((sum, tx) => sum + tx.points, 0);
-
-    return {
-      date: nextDate,
-      points: totalExpiring,
-      formatted: `${nextDate.getDate().toString().padStart(2, "0")}/${(nextDate.getMonth() + 1).toString().padStart(2, "0")}/${nextDate.getFullYear()}`,
-    };
-  }, [transactions]);
 
   useEffect(() => {
     const fetchReviewed = async () => {
