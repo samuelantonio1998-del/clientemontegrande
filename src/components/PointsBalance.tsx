@@ -61,7 +61,9 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   };
 
   // Translate known backend descriptions
-  const translateDescription = (desc: string): string => {
+  const translateDescription = (desc: string, type?: string): string => {
+    if (type === "redeem_discount") return t.discountRedeemedDesc as string;
+    if (type === "redeem_buffet") return t.buffetRedeemedDesc as string;
     // "Refeição X/4 (semana)" → translated
     const mealMatch = desc.match(/^Refeição (\d)\/4 \(semana\)$/);
     if (mealMatch) {
@@ -115,6 +117,7 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
 
         <div className="space-y-0 overflow-hidden">
           {visible.map((tx) => {
+            const isRedeem = tx.type === "redeem_discount" || tx.type === "redeem_buffet";
             const isReviewed = reviewedIds.has(tx.id);
             return (
               <div
@@ -122,10 +125,10 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                 className="flex items-center py-3 border-b border-border text-sm gap-3 min-w-0"
               >
                 <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                  <span className="text-foreground truncate">{translateDescription(tx.description)}</span>
+                  <span className="text-foreground truncate">{translateDescription(tx.description, tx.type)}</span>
                   <span className="text-muted-foreground text-xs">{tx.date}</span>
                 </div>
-                {isReviewed ? (
+                {!isRedeem && (isReviewed ? (
                   <CheckCircle className="w-4 h-4 text-primary shrink-0" />
                 ) : (
                   <button
@@ -137,13 +140,17 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
                       {t.rate as string} <span className="text-primary font-semibold">+5 {t.pts as string}</span>
                     </span>
                   </button>
-                )}
+                ))}
                 <div className="flex flex-col items-end gap-0.5 shrink-0 ml-auto">
                     {tx.type === "points" ? (
                       <>
                         <span className="text-foreground">{tx.amount.toFixed(2)}€</span>
                         <span className="text-primary font-semibold">+{tx.points} {t.pts as string}</span>
                       </>
+                    ) : tx.type === "redeem_discount" ? (
+                      <span className="text-primary font-semibold">-10€</span>
+                    ) : tx.type === "redeem_buffet" ? (
+                      <span className="text-primary font-semibold">-200 {t.pts as string}</span>
                     ) : (
                       <span className="text-primary font-semibold">{t.meal as string}</span>
                     )}

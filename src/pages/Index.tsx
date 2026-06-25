@@ -148,7 +148,15 @@ const Index = () => {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "transactions", filter: `user_id=eq.${user.id}` },
-        () => fetchData()
+        (payload: any) => {
+          const newType = payload?.new?.type;
+          if (newType === "redeem_discount") {
+            toast.success(t.discountRedeemedToast as string);
+          } else if (newType === "redeem_buffet") {
+            toast.success(t.buffetRedeemedToast as string);
+          }
+          fetchData();
+        }
       )
       .subscribe();
 

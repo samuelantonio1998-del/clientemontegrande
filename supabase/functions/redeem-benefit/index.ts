@@ -98,6 +98,15 @@ Deno.serve(async (req) => {
         return jsonResponse(req, { error: "update_failed" }, 500);
       }
 
+      // Histórico do cliente (transação informativa, sem pontos)
+      await supabase.from("transactions").insert({
+        user_id: client_user_id,
+        amount: DISCOUNT_VALUE_EUR,
+        points_earned: 0,
+        type: "redeem_discount",
+        description: "Desconto 10€ resgatado",
+      });
+
       // Best-effort log (não falhar o resgate se o log falhar)
       await supabase.from("admin_actions").insert({
         admin_id: user.id,
@@ -137,6 +146,15 @@ Deno.serve(async (req) => {
       console.error("redeem buffet update error:", updErr);
       return jsonResponse(req, { error: "update_failed" }, 500);
     }
+
+    // Histórico do cliente
+    await supabase.from("transactions").insert({
+      user_id: client_user_id,
+      amount: 0,
+      points_earned: -BUFFET_POINTS_COST,
+      type: "redeem_buffet",
+      description: "Buffet grátis resgatado",
+    });
 
     await supabase.from("admin_actions").insert({
       admin_id: user.id,
