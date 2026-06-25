@@ -61,7 +61,9 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   };
 
   // Translate known backend descriptions
-  const translateDescription = (desc: string): string => {
+  const translateDescription = (desc: string, type?: string): string => {
+    if (type === "redeem_discount") return t.discountRedeemedDesc as string;
+    if (type === "redeem_buffet") return t.buffetRedeemedDesc as string;
     // "Refeição X/4 (semana)" → translated
     const mealMatch = desc.match(/^Refeição (\d)\/4 \(semana\)$/);
     if (mealMatch) {
