@@ -61,11 +61,22 @@ const AdminActionHistory = ({ refreshKey }: AdminActionHistoryProps) => {
           .single();
 
         if (profile) {
+          const actionAt = new Date(action.created_at).getTime();
+          const discountEarnedAt = profile.discount_earned_at ? new Date(profile.discount_earned_at).getTime() : 0;
+          const buffetEarnedAt = profile.buffet_earned_at ? new Date(profile.buffet_earned_at).getTime() : 0;
+          // If discount/buffet were unlocked at or after this action, this meal caused it → revert flag too
+          const wasDiscountMeal = discountEarnedAt >= actionAt && profile.discount_available;
+          const wasBuffetMeal = buffetEarnedAt >= actionAt && profile.buffet_available;
+
+          const newConsecutive = wasDiscountMeal ? 3 : Math.max(0, profile.consecutive_meals - 1);
+
           await supabase
             .from("profiles")
             .update({
               total_points: Math.max(0, profile.total_points - action.points_changed),
-              consecutive_meals: Math.max(0, profile.consecutive_meals - 1),
+              consecutive_meals: newConsecutive,
+              ...(wasDiscountMeal && { discount_available: false, discount_earned_at: null }),
+              ...(wasBuffetMeal && { buffet_available: false, buffet_earned_at: null }),
             })
             .eq("user_id", action.client_user_id);
         }

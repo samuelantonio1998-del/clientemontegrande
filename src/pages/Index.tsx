@@ -302,7 +302,7 @@ const DeleteAccountSection = () => {
         headers: { Authorization: `Bearer ${session.access_token}` },
       });
 
-      if (res.error) {
+      if (res.error || (res.data && (res.data as any).error)) {
         toast.error(t.deleteAccountError as string);
       } else {
         toast.success(t.accountDeleted as string);
