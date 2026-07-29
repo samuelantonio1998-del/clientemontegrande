@@ -52,7 +52,7 @@ const AdminActionHistory = ({ refreshKey }: AdminActionHistoryProps) => {
 
     try {
       // Reverse the points on the profile
-      if (action.action_type === "meal") {
+      if (action.action_type === "meal" || action.action_type === "register_meal") {
         // Get current profile
         const { data: profile } = await supabase
           .from("profiles")
@@ -151,6 +151,7 @@ const AdminActionHistory = ({ refreshKey }: AdminActionHistoryProps) => {
   const getActionLabel = (action: AdminAction) => {
     const labels: Record<string, string> = {
       meal: t.weekdayMeal as string,
+      register_meal: t.weekdayMeal as string,
       redeem_discount: t.redeemDiscount as string,
       redeem_buffet: t.redeemBuffet as string,
     };
