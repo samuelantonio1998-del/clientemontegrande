@@ -1,30 +1,21 @@
 ## Problema
 
-A edge function `register-meal` chama `supabase.rpc("register_meal_atomic", ...)`, mas essa função SQL **não existe** na base de dados (confirmado via `pg_proc`). Resultado: o RPC falha, a edge devolve 500, e nem a refeição da semana nem a transação são gravadas.
+O `handleUndo` em `src/components/AdminActionHistory.tsx` compara `action.action_type === "meal"`, mas a função `register_meal_atomic` insere em `admin_actions` com `action_type = 'register_meal'`. Resultado: ao anular uma refeição, nenhum ramo de reversão corre — os pontos, o `consecutive_meals` e as flags `discount_available` / `buffet_available` ficam intactos; só a linha fica marcada como `undone`.
 
-## Solução
+O mesmo se aplica ao label: `getActionLabel` mapeia `meal`, `redeem_discount`, `redeem_buffet`, pelo que uma refeição aparece no histórico com o texto cru `register_meal`.
 
-Criar via migration a função `public.register_meal_atomic(_client_user_id uuid, _admin_id uuid)` — toda a lógica numa única transação atómica:
+## Correção
 
-1. **Autorização**: `has_role(_admin_id, 'admin')`. Senão → `{ error: 'forbidden' }`.
-2. **Lock do perfil** do cliente (`SELECT ... FOR UPDATE`). Se não existir → `{ error: 'client_not_found' }`.
-3. **Cooldown**: se existir transação `type='meal'` para este utilizador nas últimas ~20h → `{ error: 'cooldown_active' }`.
-4. **Reset semanal**: se `current_week_start` for nulo ou anterior à segunda-feira da semana atual, repor `consecutive_meals = 0` e `current_week_start = monday(now())`.
-5. **Incrementar** `consecutive_meals += 1` e somar `+10` a `total_points`.
-6. Se `consecutive_meals` chegar a 4 → `discount_available = true`, `discount_earned_at = now()`, e marcar `reachedDiscount = true` no retorno.
-7. **Inserir transação** (`type='meal'`, `amount=0`, `points_earned=10`, `description='Refeição N/4'`).
-8. **Inserir admin_action** (`action_type='register_meal'`, `points_changed=10`, refs do cliente e da transação).
-9. Devolver `{ success: true, meals, reachedDiscount, points }`.
+1. **`src/components/AdminActionHistory.tsx`**
+   - Tratar `register_meal` e `meal` como o mesmo tipo no `handleUndo` (o ramo já existente, com a reversão de `discount_available`/`discount_earned_at`, `buffet_available`/`buffet_earned_at` e `consecutive_meals`).
+   - Acrescentar `register_meal` ao mapa de `getActionLabel` (mesmo texto de "refeição").
+   - Confirmar que os tipos de resgate gravados pela edge function `redeem-benefit` coincidem com `redeem_discount` / `redeem_buffet` usados aqui; alinhar se divergirem.
 
-Definir como `SECURITY DEFINER`, `SET search_path = public`, e `REVOKE EXECUTE ... FROM anon, authenticated` (a edge chama com service_role, ignora o REVOKE) — isto também elimina os warnings do linter sobre `SECURITY DEFINER` executável publicamente.
-
-## Verificação
-
-1. `SELECT proname FROM pg_proc WHERE proname='register_meal_atomic';` → 1 linha.
-2. No painel Admin: pesquisar cliente, registar refeição → toast "+10 pontos · Refeição N/4", `profiles.consecutive_meals` e `current_week_start` atualizados, nova linha em `transactions` e `admin_actions`.
-3. Repetir no mesmo dia → resposta `cooldown_active`.
+2. **Verificação**
+   - Consultar os valores distintos de `action_type` existentes em `admin_actions` para garantir que não fica nenhum tipo sem tratamento.
+   - Registar uma refeição de teste no painel Admin, anular, e confirmar na base de dados que `total_points`, `consecutive_meals` e as flags voltaram ao estado anterior.
 
 ## Notas
 
-- Sem alterações a `Admin.tsx` nem a `register-meal/index.ts` — o contrato de resposta já está correto no cliente.
-- Aproveito para remover o campo `details` do erro devolvido ao cliente em `register-meal/index.ts` (mantendo `console.error` server-side), resolvendo o warning de info-leakage.
+- Sem alterações à base de dados: a correção é só de mapeamento no cliente.
+- A reversão da transação associada continua fora de âmbito (RLS nega DELETE em `transactions`); os pontos são revertidos no perfil, a linha histórica permanece.
