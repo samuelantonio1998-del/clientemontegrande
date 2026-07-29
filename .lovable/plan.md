@@ -1,21 +1,27 @@
-## Problema
+## Objetivo
 
-O `handleUndo` em `src/components/AdminActionHistory.tsx` compara `action.action_type === "meal"`, mas a função `register_meal_atomic` insere em `admin_actions` com `action_type = 'register_meal'`. Resultado: ao anular uma refeição, nenhum ramo de reversão corre — os pontos, o `consecutive_meals` e as flags `discount_available` / `buffet_available` ficam intactos; só a linha fica marcada como `undone`.
+Regularizar o desconto de 10€ da cliente **Neuza Lopes** (código 695742), que já foi entregue no restaurante mas continua marcado como disponível na conta.
 
-O mesmo se aplica ao label: `getActionLabel` mapeia `meal`, `redeem_discount`, `redeem_buffet`, pelo que uma refeição aparece no histórico com o texto cru `register_meal`.
+## Estado atual verificado
 
-## Correção
+- `discount_available = true`, ganho a 05/07/2026
+- `total_savings = 0`
+- Sem qualquer transação de resgate no histórico (a última entrada é "Refeição 3/4" a 03/07)
 
-1. **`src/components/AdminActionHistory.tsx`**
-   - Tratar `register_meal` e `meal` como o mesmo tipo no `handleUndo` (o ramo já existente, com a reversão de `discount_available`/`discount_earned_at`, `buffet_available`/`buffet_earned_at` e `consecutive_meals`).
-   - Acrescentar `register_meal` ao mapa de `getActionLabel` (mesmo texto de "refeição").
-   - Confirmar que os tipos de resgate gravados pela edge function `redeem-benefit` coincidem com `redeem_discount` / `redeem_buffet` usados aqui; alinhar se divergirem.
+## Ações
 
-2. **Verificação**
-   - Consultar os valores distintos de `action_type` existentes em `admin_actions` para garantir que não fica nenhum tipo sem tratamento.
-   - Registar uma refeição de teste no painel Admin, anular, e confirmar na base de dados que `total_points`, `consecutive_meals` e as flags voltaram ao estado anterior.
+1. **Atualizar o perfil** desta cliente:
+   - `discount_available` → falso
+   - `discount_earned_at` → vazio
+   - `total_savings` → 10 (0 + 10€)
 
-## Notas
+2. **Criar entrada no histórico do cliente** (tabela de transações):
+   - tipo `redeem_discount`, valor 10€, 0 pontos, descrição "Desconto 10€ resgatado", data de **27/07/2026**
 
-- Sem alterações à base de dados: a correção é só de mapeamento no cliente.
-- A reversão da transação associada continua fora de âmbito (RLS nega DELETE em `transactions`); os pontos são revertidos no perfil, a linha histórica permanece.
+3. **Registar no histórico de admin** a ação `redeem_discount` para a cliente, também com data de 27/07/2026, para ficar rasto da regularização.
+
+## Notas técnicas
+
+A alteração ao perfil precisa de correr como `service_role` na mesma transação, porque o trigger `restrict_profile_update` reverte alterações a `discount_available`, `total_savings` e `discount_earned_at` feitas fora desse contexto. Nada de pontos é alterado (`total_points` mantém-se em 90).
+
+Isto é uma correção pontual de dados desta cliente — não altera código nem a lógica de resgate.
