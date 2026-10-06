@@ -17,6 +17,7 @@ interface AdminAction {
   transaction_id: string | null;
   created_at: string;
   undone: boolean;
+  people_count?: number | null;
 }
 
 interface AdminActionHistoryProps {
@@ -149,6 +150,12 @@ const AdminActionHistory = ({ refreshKey }: AdminActionHistoryProps) => {
   };
 
   const getActionLabel = (action: AdminAction) => {
+    if (action.action_type === "register_meal" && action.description) {
+      const n = action.people_count ?? 1;
+      return n > 1
+        ? `${action.description} (${(t.peopleCountLabel as (n: number) => string)(n)})`
+        : action.description;
+    }
     const labels: Record<string, string> = {
       meal: t.weekdayMeal as string,
       register_meal: t.weekdayMeal as string,

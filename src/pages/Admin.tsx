@@ -8,6 +8,15 @@ import QRScanner from "@/components/QRScanner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import AdminActionHistory from "@/components/AdminActionHistory";
 import { logger } from "@/lib/logger";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Admin = () => {
   const { user } = useAuth();
@@ -20,6 +29,7 @@ const Admin = () => {
   const [showScanner, setShowScanner] = useState(false);
   const actionLock = useRef(false);
   const [showConfirmMeal, setShowConfirmMeal] = useState(false);
+  const [peopleCount, setPeopleCount] = useState(1);
   const [showConfirmRedeem, setShowConfirmRedeem] = useState(false);
   const [showConfirmBuffet, setShowConfirmBuffet] = useState(false);
   const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
@@ -60,14 +70,24 @@ const Admin = () => {
     await searchClientByCode(clientCode.trim());
   };
 
-  const registerWeekdayMeal = async () => {
+  const openMealDialog = () => {
+    setPeopleCount(1);
+    setShowConfirmMeal(true);
+  };
+
+  const confirmMeal = () => {
+    setShowConfirmMeal(false);
+    registerWeekdayMeal(peopleCount);
+  };
+
+  const registerWeekdayMeal = async (people: number) => {
     if (!clientProfile || actionLock.current) return;
     actionLock.current = true;
     setActionLoading(true);
 
     try {
       const { data } = await supabase.functions.invoke("register-meal", {
-        body: { client_user_id: clientProfile.user_id },
+        body: { client_user_id: clientProfile.user_id, people_count: people },
       });
 
       if (data?.error === "cooldown_active") {
@@ -78,8 +98,8 @@ const Admin = () => {
       } else if (data?.success) {
         setFeedback(
           data.reachedDiscount
-            ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
-            : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
+            ? `+${data.pointsEarned ?? 10} ${t.points as string} · ${t.discountUnlocked as string}`
+            : `+${data.pointsEarned ?? 10} ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
         );
       } else {
         setFeedback("Erro inesperado");
@@ -228,7 +248,7 @@ const Admin = () => {
       {clientProfile && (
         <AdminClientCard
           profile={clientProfile}
-          onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
+          onRegisterWeekdayMeal={openMealDialog}
           onRedeemDiscount={() => setShowConfirmRedeem(true)}
           onRedeemBuffet={() => setShowConfirmBuffet(true)}
           actionLoading={actionLoading}
@@ -238,16 +258,61 @@ const Admin = () => {
 
       <AdminActionHistory refreshKey={historyRefreshKey} />
 
-      <ConfirmDialog
-        open={showConfirmMeal}
-        title={t.confirmMeal as string}
-        message={t.confirmMealMsg as string}
-        onConfirm={() => {
-          setShowConfirmMeal(false);
-          registerWeekdayMeal();
-        }}
-        onCancel={() => setShowConfirmMeal(false)}
-      />
+      <Dialog open={showConfirmMeal} onOpenChange={setShowConfirmMeal}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl text-center">
+              {t.howManyPeople as string}
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              {t.howManyPeopleMsg as string}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center justify-center gap-3 py-2">
+            <button
+              type="button"
+              onClick={() => setPeopleCount((n) => Math.max(1, n - 1))}
+              className="w-12 h-12 border border-border text-2xl text-foreground hover:bg-muted"
+              aria-label="-1"
+            >
+              −
+            </button>
+            <input
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={20}
+              step={1}
+              value={peopleCount}
+              onChange={(e) => {
+                const v = parseInt(e.target.value, 10);
+                setPeopleCount(Number.isNaN(v) ? 1 : Math.min(20, Math.max(1, v)));
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") confirmMeal();
+              }}
+              aria-label={t.howManyPeople as string}
+              className="w-24 h-16 text-center text-4xl font-semibold bg-background border border-border text-foreground focus:outline-none focus:border-foreground"
+            />
+            <button
+              type="button"
+              onClick={() => setPeopleCount((n) => Math.min(20, n + 1))}
+              className="w-12 h-12 border border-border text-2xl text-foreground hover:bg-muted"
+              aria-label="+1"
+            >
+              +
+            </button>
+          </div>
+          <DialogFooter className="flex-row gap-2 sm:justify-center">
+            <Button variant="outline" className="flex-1" onClick={() => setShowConfirmMeal(false)}>
+              {t.cancel as string}
+            </Button>
+            <Button className="flex-1" onClick={confirmMeal} autoFocus>
+              {t.confirm as string}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <ConfirmDialog
         open={showConfirmRedeem}
