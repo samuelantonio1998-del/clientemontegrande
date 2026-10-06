@@ -16,6 +16,31 @@ const testMessage = (v: Vars) =>
   "Ola " + (typeof v.nome === "string" && v.nome ? v.nome : "cliente") +
   ", este e um email de teste do sistema de fidelidade do Restaurante Monte Grande.";
 
+const nomeOf = (v: Vars) => (typeof v.nome === "string" && v.nome.trim() ? v.nome.trim().slice(0, 100) : "cliente");
+const numOf = (x: unknown) => {
+  const n = typeof x === "number" ? x : typeof x === "string" ? Number(x) : NaN;
+  return Number.isFinite(n) ? String(Math.round(n * 10) / 10) : "";
+};
+
+const FOOTER_TEXT = "Restaurante Monte Grande, Albergaria, Marinha Grande";
+
+const layout = (paragraphs: string[]) =>
+  `<div style="background:#ede7d9;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;color:#5d4632">` +
+  `<div style="max-width:560px;margin:0 auto;background:#ede7d9;border-radius:16px;padding:28px 24px">` +
+  `<div style="text-align:center;font-family:Georgia,'Playfair Display',serif;font-size:20px;letter-spacing:3px;font-weight:bold;color:#5d4632;border-bottom:1px solid #5d463233;padding-bottom:16px;margin-bottom:20px">MONTE GRANDE RESTAURANTE</div>` +
+  paragraphs.map((p) => `<p style="font-size:16px;line-height:1.6;margin:0 0 14px">${escapeHtml(p)}</p>`).join("") +
+  `<div style="border-top:1px solid #5d463233;margin-top:24px;padding-top:14px;text-align:center;font-size:12px;color:#5d4632b3">${escapeHtml(FOOTER_TEXT)}<br/><a href="#" style="color:#5d4632b3">Deixar de receber estes emails</a></div>` +
+  `</div></div>`;
+
+const textLayout = (paragraphs: string[]) =>
+  ["MONTE GRANDE RESTAURANTE", "", ...paragraphs.flatMap((p) => [p, ""]), "--", FOOTER_TEXT, "Deixar de receber estes emails: #"].join("\n");
+
+const simple = (subject: (v: Vars) => string, body: (v: Vars) => string[]): Template => ({
+  subject,
+  html: (v) => layout(body(v)),
+  text: (v) => textLayout(body(v)),
+});
+
 const TEMPLATES: Record<string, Template> = {
   test: {
     subject: () => "Teste do Monte Grande",
@@ -23,6 +48,51 @@ const TEMPLATES: Record<string, Template> = {
     html: (v) =>
       `<div style='font-family:sans-serif;color:#5d4632;background:#ede7d9;padding:24px;border-radius:8px'><h2>Monte Grande</h2><p>${escapeHtml(testMessage(v))}</p></div>`,
   },
+  buffet_available: simple(
+    (v) => `O teu buffet grátis está à espera, ${nomeOf(v)}!`,
+    (v) => [
+      `Olá ${nomeOf(v)},`,
+      `Já tens ${numOf(v.pontos) || "200"} pontos acumulados — o teu buffet grátis está pronto para ser levantado!`,
+      "Passa por cá num dia útil e pede ao balcão para usar a tua oferta. Bebidas não incluídas.",
+      "Até já!",
+    ],
+  ),
+  discount_available: simple(
+    (v) => `Tens 10€ de desconto à espera, ${nomeOf(v)}!`,
+    (v) => [
+      `Olá ${nomeOf(v)},`,
+      "Fizeste a tua 4.ª refeição desta semana (4/4) e ganhaste 10€ de desconto!",
+      "Podes usá-lo na tua próxima visita — é só mostrares o teu QR code ao balcão.",
+      "Obrigado pela preferência!",
+    ],
+  ),
+  points_milestone: simple(
+    (v) => `Faltam-te só ${numOf(v.faltam) || "alguns"} pontos para o buffet, ${nomeOf(v)}!`,
+    (v) => [
+      `Olá ${nomeOf(v)},`,
+      `Estás quase lá! Faltam-te só ${numOf(v.faltam) || "alguns"} pontos para o teu buffet grátis.`,
+      "Cada refeição conta — mais umas visitas e o buffet é teu.",
+      "Esperamos por ti!",
+    ],
+  ),
+  birthday: simple(
+    (v) => `Parabéns ${nomeOf(v)}! Vem festejar connosco`,
+    (v) => [
+      `Olá ${nomeOf(v)},`,
+      "Toda a equipa do Monte Grande deseja-te um feliz aniversário!",
+      "Para festejar, oferecemos-te uma sobremesa grátis quando nos visitares este mês.",
+      "Vem celebrar connosco!",
+    ],
+  ),
+  inactive: simple(
+    (v) => `Já há tempos que não te vemos, ${nomeOf(v)}`,
+    (v) => [
+      `Olá ${nomeOf(v)},`,
+      "Temos saudades tuas! Já há algum tempo que não passas pelo Monte Grande.",
+      "Volta para uma refeição — os teus pontos continuam à tua espera.",
+      "Até breve!",
+    ],
+  ),
 };
 
 const isEmail = (s: unknown) =>
