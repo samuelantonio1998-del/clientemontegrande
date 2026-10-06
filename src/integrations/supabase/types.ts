@@ -50,6 +50,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          people_count: number
           points_changed: number
           transaction_id: string | null
           undone: boolean
@@ -63,6 +64,7 @@ export type Database = {
           created_at?: string
           description: string
           id?: string
+          people_count?: number
           points_changed?: number
           transaction_id?: string | null
           undone?: boolean
@@ -76,6 +78,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          people_count?: number
           points_changed?: number
           transaction_id?: string | null
           undone?: boolean
@@ -564,7 +567,11 @@ export type Database = {
         }[]
       }
       register_meal_atomic: {
-        Args: { _admin_id: string; _client_user_id: string }
+        Args: {
+          _admin_id: string
+          _client_user_id: string
+          _people_count?: number
+        }
         Returns: Json
       }
     }
