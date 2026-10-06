@@ -179,7 +179,7 @@ Deno.serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "noreply@clientequintamontegrande.com",
+        from: "Monte Grande <noreply@clientequintamontegrande.com>",
         to,
         subject: tpl.subject(vars),
         html: tpl.html(vars),
@@ -193,6 +193,23 @@ Deno.serve(async (req) => {
     }
 
     const data = await res.json();
+
+    // Log successful send (service role). Optional body.user_id links to a user.
+    try {
+      const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const logUserId = typeof body?.user_id === "string" && uuidRe.test(body.user_id) ? body.user_id : null;
+      const admin = createClient(supabaseUrl, serviceKey);
+      const { error: logErr } = await admin.from("email_log").insert({
+        user_id: logUserId,
+        template,
+        resend_id: data.id ?? null,
+        status: "sent",
+      });
+      if (logErr) console.error("email_log insert failed", logErr);
+    } catch (logEx) {
+      console.error("email_log insert exception", logEx);
+    }
+
     return jsonResponse(req, { success: true, resendId: data.id }, 200);
   } catch (e) {
     console.error("send-email failure", e);
