@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     }
 
     // 2. Parse e validar body
-    let body: { client_user_id?: string };
+    let body: { client_user_id?: string; people_count?: unknown };
     try {
       body = await req.json();
     } catch {
@@ -40,12 +40,22 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { error: "Missing client_user_id" }, 400);
     }
 
+    let people_count = 1;
+    if (body.people_count !== undefined && body.people_count !== null) {
+      const pc = body.people_count;
+      if (typeof pc !== "number" || !Number.isInteger(pc) || pc < 1 || pc > 20) {
+        return jsonResponse(req, { error: "invalid_people_count" }, 400);
+      }
+      people_count = pc;
+    }
+
     // 3. Chamar a função SQL atómica.
     //    Toda a lógica (autorização admin, cooldown, lock, insert, update)
     //    corre dentro de uma única transação PostgreSQL.
     const { data, error } = await supabase.rpc("register_meal_atomic", {
       _client_user_id: client_user_id,
       _admin_id: admin.id,
+      _people_count: people_count,
     });
 
     if (error) {
