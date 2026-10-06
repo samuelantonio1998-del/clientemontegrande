@@ -132,6 +132,10 @@ const translations = {
 
     // Confirm
     cancel: "Cancelar",
+    howManyPeople: "Quantas pessoas?",
+    howManyPeopleMsg: "Cada pessoa dá 10 pontos (até ao limite de 200).",
+    confirm: "Confirmar",
+    peopleCountLabel: (n: number) => `${n} pessoas`,
     confirm: "Confirmar",
     confirmMeal: "Confirmar registo de refeição?",
     confirmMealMsg: "Serão atribuídos 10 pontos a este cliente.",
@@ -394,6 +398,10 @@ const translations = {
     checkEmailVerification: "Check your email to activate your account.",
 
     cancel: "Cancel",
+    howManyPeople: "How many people?",
+    howManyPeopleMsg: "Each person earns 10 points (up to the 200 limit).",
+    confirm: "Confirm",
+    peopleCountLabel: (n: number) => `${n} people`,
     confirm: "Confirm",
     confirmMeal: "Confirm meal registration?",
     confirmMealMsg: "10 points will be assigned to this client.",
