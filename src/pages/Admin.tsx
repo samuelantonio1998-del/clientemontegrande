@@ -98,8 +98,8 @@ const Admin = () => {
       } else if (data?.success) {
         setFeedback(
           data.reachedDiscount
-            ? `+10 ${t.points as string} · ${t.discountUnlocked as string}`
-            : `+10 ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
+            ? `+${data.pointsEarned ?? 10} ${t.points as string} · ${t.discountUnlocked as string}`
+            : `+${data.pointsEarned ?? 10} ${t.points as string} · ${(t.mealRegistered as (n: number) => string)(data.meals)}`
         );
       } else {
         setFeedback("Erro inesperado");
@@ -248,7 +248,7 @@ const Admin = () => {
       {clientProfile && (
         <AdminClientCard
           profile={clientProfile}
-          onRegisterWeekdayMeal={() => setShowConfirmMeal(true)}
+          onRegisterWeekdayMeal={openMealDialog}
           onRedeemDiscount={() => setShowConfirmRedeem(true)}
           onRedeemBuffet={() => setShowConfirmBuffet(true)}
           actionLoading={actionLoading}
