@@ -132,6 +132,33 @@ export type Database = {
         }
         Relationships: []
       }
+      email_log: {
+        Row: {
+          id: string
+          resend_id: string | null
+          sent_at: string | null
+          status: string | null
+          template: string
+          user_id: string | null
+        }
+        Insert: {
+          id?: string
+          resend_id?: string | null
+          sent_at?: string | null
+          status?: string | null
+          template: string
+          user_id?: string | null
+        }
+        Update: {
+          id?: string
+          resend_id?: string | null
+          sent_at?: string | null
+          status?: string | null
+          template?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
