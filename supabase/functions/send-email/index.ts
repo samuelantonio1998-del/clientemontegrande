@@ -29,12 +29,7 @@ const HEADER_IMG =
   `<img src="https://clientequintamontegrande.com/email-header.png" alt="Monte Grande Restaurante" width="450" style="display:block;margin:0 auto 16px;max-width:100%;height:auto;" />`;
 
 const layout = (paragraphs: string[]) =>
-  `<div style="background:#ede7d9;padding:24px 12px;${BODY_FONT}color:#5d4632">` +
-  `<div style="max-width:560px;margin:0 auto;background:#ede7d9;border-radius:8px;padding:24px;color:#5d4632;${BODY_FONT}">` +
-  HEADER_IMG +
-  paragraphs.map((p) => `<p style="${BODY_FONT}font-size:16px;margin:0 0 14px;color:#5d4632">${escapeHtml(p)}</p>`).join("") +
-  `<div style="border-top:1px solid #5d463233;margin-top:24px;padding-top:14px;text-align:center;font-size:12px;color:#5d4632b3;${BODY_FONT}">${escapeHtml(FOOTER_TEXT)}<br/><a href="#" style="color:#5d4632b3;${BODY_FONT}">Deixar de receber estes emails</a></div>` +
-  `</div></div>`;
+  wrapEmail(paragraphs.map((p) => `<p style="font-size:16px;margin:0 0 14px;">${escapeHtml(p)}</p>`).join("\n    "));
 
 const textLayout = (paragraphs: string[]) =>
   ["MONTE GRANDE RESTAURANTE", "", ...paragraphs.flatMap((p) => [p, ""]), "--", FOOTER_TEXT, "Deixar de receber estes emails: #"].join("\n");
@@ -45,12 +40,70 @@ const simple = (subject: (v: Vars) => string, body: (v: Vars) => string[]): Temp
   text: (v) => textLayout(body(v)),
 });
 
+const wrapEmail = (bodyHtml: string): string => `<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<title>Monte Grande</title>
+<style>
+  :root { color-scheme: light only; supported-color-schemes: light; }
+  body { margin:0; padding:0; background-color:#ede7d9 !important; }
+  .mg-container {
+    background-color:#ede7d9 !important;
+    color:#5d4632 !important;
+    max-width:600px; margin:0 auto; padding:24px; border-radius:8px;
+    font-family:'Aaux Next','Inter','Helvetica Neue',Arial,sans-serif;
+    line-height:1.6;
+  }
+  .mg-container p, .mg-container a, .mg-container span,
+  .mg-container div, .mg-container td { color:#5d4632 !important; }
+  .mg-container h1, .mg-container h2, .mg-container h3 {
+    font-family:'IvyMode','Playfair Display',Georgia,serif;
+    color:#5d4632 !important;
+  }
+  .mg-footer, .mg-footer a { color:#8a7a5e !important; }
+  [data-ogsc] body, [data-ogsb] body { background-color:#ede7d9 !important; }
+  [data-ogsc] .mg-container, [data-ogsb] .mg-container {
+    background-color:#ede7d9 !important; color:#5d4632 !important;
+  }
+  [data-ogsc] .mg-container *, [data-ogsb] .mg-container * {
+    color:#5d4632 !important;
+  }
+  [data-ogsc] .mg-footer, [data-ogsc] .mg-footer a,
+  [data-ogsb] .mg-footer, [data-ogsb] .mg-footer a {
+    color:#8a7a5e !important;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background-color:#ede7d9 !important; }
+    .mg-container { background-color:#ede7d9 !important; color:#5d4632 !important; }
+    .mg-container * { color:#5d4632 !important; }
+    .mg-footer, .mg-footer a { color:#8a7a5e !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="mg-container">
+    <img src="https://clientequintamontegrande.com/email-header.png"
+         alt="Monte Grande Restaurante" width="450"
+         style="display:block;margin:0 auto 16px;max-width:100%;height:auto;" />
+    ${bodyHtml}
+    <hr style="border:none;border-top:1px solid #c9bfa8;margin:24px 0 16px;" />
+    <p class="mg-footer" style="font-size:12px;text-align:center;margin:0;">
+      Restaurante Monte Grande, Albergaria, Marinha Grande<br>
+      <a href="#" style="text-decoration:underline;">Deixar de receber estes emails</a>
+    </p>
+  </div>
+</body>
+</html>`;
+
 const TEMPLATES: Record<string, Template> = {
   test: {
     subject: () => "Teste do Monte Grande",
     text: (v) => testMessage(v),
-    html: (v) =>
-      `<div style="${BODY_FONT}color:#5d4632;background:#ede7d9;padding:24px;border-radius:8px">${HEADER_IMG}<p style="${BODY_FONT}">${escapeHtml(testMessage(v))}</p></div>`,
+    html: (v) => wrapEmail(`<p>${escapeHtml(testMessage(v))}</p>`),
   },
   buffet_available: simple(
     (v) => `O teu buffet grátis está à espera, ${nomeOf(v)}!`,
