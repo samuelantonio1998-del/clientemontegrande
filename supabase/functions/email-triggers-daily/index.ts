@@ -36,6 +36,7 @@ Deno.serve(async (req) => {
       const { data, error } = await supabase
         .from("profiles")
         .select("user_id, display_name, total_points, buffet_available, buffet_earned_at, discount_available, discount_earned_at, birth_date, created_at")
+        .eq("email_opted_out", false)
         .range(from, from + 999);
       if (error) throw new Error("profiles: " + error.message);
       profiles.push(...(data ?? []));

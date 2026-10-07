@@ -1,11 +1,23 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { jsonResponse, preflightResponse } from "../_shared/cors.ts";
+import { createHmac } from "node:crypto";
+
+const UNSUB_BASE = "https://pfasftcqkgloxmvgwkfl.supabase.co/functions/v1/unsubscribe?token=";
+const generateUnsubToken = (userId: string): string => {
+  const secret = Deno.env.get("UNSUBSCRIBE_SECRET");
+  if (!secret) throw new Error("UNSUBSCRIBE_SECRET not configured");
+  return `${userId}.${createHmac("sha256", secret).update(userId).digest("hex")}`;
+};
+
+const CTA_HTML = `<div style="text-align:center;margin:24px 0 8px;">
+  <a href="https://quintamontegrande.com" class="mg-cta" style="display:inline-block;background-color:#5d4632;color:#ede7d9 !important;text-decoration:none;padding:14px 36px;border-radius:6px;font-weight:600;font-family:'Aaux Next','Inter','Helvetica Neue',Arial,sans-serif;font-size:15px;letter-spacing:0.3px;">Fazer Reserva</a>
+</div>`;
 
 type Vars = Record<string, unknown>;
 interface Template {
   subject: (v: Vars) => string;
-  html: (v: Vars) => string;
-  text: (v: Vars) => string;
+  html: (v: Vars, unsubscribeUrl: string) => string;
+  text: (v: Vars, unsubscribeUrl: string) => string;
 }
 
 const escapeHtml = (s: string) =>
@@ -28,19 +40,19 @@ const BODY_FONT = "font-family:'Aaux Next','Inter','Helvetica Neue',Arial,sans-s
 const HEADER_IMG =
   `<img src="https://clientequintamontegrande.com/email-header.png" alt="Monte Grande Restaurante" width="450" style="display:block;margin:0 auto 16px;max-width:100%;height:auto;" />`;
 
-const layout = (paragraphs: string[]) =>
-  wrapEmail(paragraphs.map((p) => `<p style="font-size:16px;margin:0 0 14px;">${escapeHtml(p)}</p>`).join("\n    "));
+const layout = (paragraphs: string[], unsubscribeUrl: string) =>
+  wrapEmail(paragraphs.map((p) => `<p style="font-size:16px;margin:0 0 14px;">${escapeHtml(p)}</p>`).join("\n    ") + "\n    " + CTA_HTML, unsubscribeUrl);
 
-const textLayout = (paragraphs: string[]) =>
-  ["MONTE GRANDE RESTAURANTE", "", ...paragraphs.flatMap((p) => [p, ""]), "--", FOOTER_TEXT, "Deixar de receber estes emails: #"].join("\n");
+const textLayout = (paragraphs: string[], unsubscribeUrl: string) =>
+  ["MONTE GRANDE RESTAURANTE", "", ...paragraphs.flatMap((p) => [p, ""]), "Fazer Reserva: https://quintamontegrande.com", "", "--", FOOTER_TEXT, "Deixar de receber estes emails: " + unsubscribeUrl].join("\n");
 
 const simple = (subject: (v: Vars) => string, body: (v: Vars) => string[]): Template => ({
   subject,
-  html: (v) => layout(body(v)),
-  text: (v) => textLayout(body(v)),
+  html: (v, u) => layout(body(v), u),
+  text: (v, u) => textLayout(body(v), u),
 });
 
-const wrapEmail = (bodyHtml: string): string => `<!DOCTYPE html>
+const wrapEmail = (bodyHtml: string, unsubscribeUrl = "#"): string => `<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
 <meta charset="utf-8">
@@ -65,6 +77,9 @@ const wrapEmail = (bodyHtml: string): string => `<!DOCTYPE html>
     color:#5d4632 !important;
   }
   .mg-footer, .mg-footer a { color:#8a7a5e !important; }
+  .mg-cta { background-color:#5d4632 !important; color:#ede7d9 !important; }
+  [data-ogsc] .mg-cta, [data-ogsb] .mg-cta { background-color:#5d4632 !important; color:#ede7d9 !important; }
+  @media (prefers-color-scheme: dark) { .mg-cta { background-color:#5d4632 !important; color:#ede7d9 !important; } }
   [data-ogsc] body, [data-ogsb] body { background-color:#ede7d9 !important; }
   [data-ogsc] .mg-container, [data-ogsb] .mg-container {
     background-color:#ede7d9 !important; color:#5d4632 !important;
@@ -93,7 +108,7 @@ const wrapEmail = (bodyHtml: string): string => `<!DOCTYPE html>
     <hr style="border:none;border-top:1px solid #c9bfa8;margin:24px 0 16px;" />
     <p class="mg-footer" style="font-size:12px;text-align:center;margin:0;">
       Restaurante Monte Grande, Albergaria, Marinha Grande<br>
-      <a href="#" style="text-decoration:underline;">Deixar de receber estes emails</a>
+      <a href="${escapeHtml(unsubscribeUrl)}" style="text-decoration:underline;">Deixar de receber estes emails</a>
     </p>
   </div>
 </body>
@@ -103,7 +118,7 @@ const TEMPLATES: Record<string, Template> = {
   test: {
     subject: () => "Teste do Monte Grande",
     text: (v) => testMessage(v),
-    html: (v) => wrapEmail(`<p>${escapeHtml(testMessage(v))}</p>`),
+    html: (v, u) => wrapEmail(`<p>${escapeHtml(testMessage(v))}</p>`, u),
   },
   buffet_available: simple(
     (v) => `O teu buffet grátis está à espera, ${nomeOf(v)}!`,
@@ -229,6 +244,21 @@ Deno.serve(async (req) => {
     if (!tpl) return jsonResponse(req, { error: "template_not_found" }, 400);
 
     const vars: Vars = variables ?? {};
+    const uuidReU = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    let unsubscribeUrl = "#";
+    if (typeof body?.user_id === "string" && uuidReU.test(body.user_id)) {
+      try {
+        unsubscribeUrl = UNSUB_BASE + encodeURIComponent(generateUnsubToken(body.user_id));
+      } catch (e) {
+        console.error("unsubscribe token generation failed", e);
+      }
+    }
+    const extraHeaders: Record<string, string> = unsubscribeUrl !== "#"
+      ? {
+        "List-Unsubscribe": `<${unsubscribeUrl}>, <mailto:quintamontegrande@hotmail.com?subject=Cancelar%20subscri%C3%A7%C3%A3o>`,
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+      }
+      : {};
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -239,8 +269,9 @@ Deno.serve(async (req) => {
         from: "Monte Grande <noreply@clientequintamontegrande.com>",
         to,
         subject: tpl.subject(vars),
-        html: tpl.html(vars),
-        text: tpl.text(vars),
+        html: tpl.html(vars, unsubscribeUrl),
+        text: tpl.text(vars, unsubscribeUrl),
+        headers: extraHeaders,
       }),
     });
 

@@ -22,6 +22,13 @@
       "when": 1791330558248,
       "tag": "0002_create_email_log",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791403456149,
+      "tag": "0003_profiles_email_opted_out",
+      "breakpoints": true
     }
   ]
 }

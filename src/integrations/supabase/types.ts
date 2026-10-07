@@ -322,6 +322,7 @@ export type Database = {
           discount_available: boolean
           discount_earned_at: string | null
           display_name: string | null
+          email_opted_out: boolean
           id: string
           referral_code: string | null
           total_points: number
@@ -341,6 +342,7 @@ export type Database = {
           discount_available?: boolean
           discount_earned_at?: string | null
           display_name?: string | null
+          email_opted_out?: boolean
           id?: string
           referral_code?: string | null
           total_points?: number
@@ -360,6 +362,7 @@ export type Database = {
           discount_available?: boolean
           discount_earned_at?: string | null
           display_name?: string | null
+          email_opted_out?: boolean
           id?: string
           referral_code?: string | null
           total_points?: number
