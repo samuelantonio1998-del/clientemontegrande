@@ -31,7 +31,7 @@ const page = (title: string, message: string, status = 200) =>
   </div>
 </body>
 </html>`,
-    { status, headers: { "Content-Type": "text/html; charset=utf-8" } },
+    { status, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } },
   );
 
 const invalid = () => page("Link inválido", "Este link de cancelamento não é válido ou está incompleto.", 400);
@@ -45,31 +45,50 @@ function verify(token: string, secret: string): string | null {
   return timingSafeEqual(expected, given) ? userId : null;
 }
 
+const CORS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+};
+const json = (body: unknown) =>
+  new Response(JSON.stringify(body), {
+    status: 200,
+    headers: { ...CORS, "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" },
+  });
+
 Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
+  const isPost = req.method === "POST";
   try {
     if (req.method !== "GET" && req.method !== "POST") return invalid();
     const secret = Deno.env.get("UNSUBSCRIBE_SECRET");
     if (!secret) {
       console.error("unsubscribe: UNSUBSCRIBE_SECRET not configured");
+      if (isPost) return json({ error: "not_configured" });
       return page("Erro temporário", "Não foi possível processar o pedido. Tenta novamente mais tarde.", 500);
     }
-    const token = new URL(req.url).searchParams.get("token") ?? "";
+    let token = new URL(req.url).searchParams.get("token") ?? "";
+    if (isPost && !token) {
+      try { token = String((await req.json())?.token ?? ""); } catch { /* one-click form body */ }
+    }
     const userId = verify(token, secret);
     if (!userId) {
       console.warn("unsubscribe: invalid token");
-      return invalid();
+      return isPost ? json({ error: "invalid_token" }) : invalid();
     }
 
     const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
     const { error } = await supabase.from("profiles").update({ email_opted_out: true }).eq("user_id", userId);
     if (error) {
       console.error("unsubscribe: update failed", error);
+      if (isPost) return json({ error: "update_failed" });
       return page("Erro temporário", "Não foi possível processar o pedido. Tenta novamente mais tarde.", 500);
     }
     console.log("unsubscribe: opted out", userId);
+    if (isPost) return json({ success: true });
     return page("Subscrição cancelada", "Subscrição cancelada. Já não vais receber mais emails do Monte Grande.");
   } catch (e) {
     console.error("unsubscribe failure", e);
-    return invalid();
+    return isPost ? json({ error: "internal_error" }) : invalid();
   }
 });
