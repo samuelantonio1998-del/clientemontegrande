@@ -2,6 +2,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { jsonResponse, preflightResponse } from "../_shared/cors.ts";
 import { createHmac } from "node:crypto";
 
+// Footer link opens the app page (renders HTML); one-click header POSTs straight to the function.
+const UNSUB_PAGE = "https://clientequintamontegrande.com/unsubscribe?token=";
 const UNSUB_BASE = "https://pfasftcqkgloxmvgwkfl.supabase.co/functions/v1/unsubscribe?token=";
 const generateUnsubToken = (userId: string): string => {
   const secret = Deno.env.get("UNSUBSCRIBE_SECRET");
@@ -246,16 +248,19 @@ Deno.serve(async (req) => {
     const vars: Vars = variables ?? {};
     const uuidReU = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     let unsubscribeUrl = "#";
+    let oneClickUrl = "#";
     if (typeof body?.user_id === "string" && uuidReU.test(body.user_id)) {
       try {
-        unsubscribeUrl = UNSUB_BASE + encodeURIComponent(generateUnsubToken(body.user_id));
+        const tok = encodeURIComponent(generateUnsubToken(body.user_id));
+        unsubscribeUrl = UNSUB_PAGE + tok;
+        oneClickUrl = UNSUB_BASE + tok;
       } catch (e) {
         console.error("unsubscribe token generation failed", e);
       }
     }
     const extraHeaders: Record<string, string> = unsubscribeUrl !== "#"
       ? {
-        "List-Unsubscribe": `<${unsubscribeUrl}>, <mailto:quintamontegrande@hotmail.com?subject=Cancelar%20subscri%C3%A7%C3%A3o>`,
+        "List-Unsubscribe": `<${oneClickUrl}>, <mailto:quintamontegrande@hotmail.com?subject=Cancelar%20subscri%C3%A7%C3%A3o>`,
         "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
       }
       : {};
