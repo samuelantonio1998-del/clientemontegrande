@@ -11,3 +11,5 @@ project_id = "pfasftcqkgloxmvgwkfl"
     verify_jwt = true
   [functions.export-emails]
     verify_jwt = false
+  [functions.unsubscribe]
+    verify_jwt = false
