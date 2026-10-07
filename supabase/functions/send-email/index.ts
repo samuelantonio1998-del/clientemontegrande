@@ -80,7 +80,7 @@ const TEMPLATES: Record<string, Template> = {
     (v) => [
       `Olá ${nomeOf(v)},`,
       "Toda a equipa do Monte Grande deseja-te um feliz aniversário!",
-      "Para festejar, oferecemos-te uma sobremesa grátis quando nos visitares este mês.",
+      "Para festejar, faz uma reserva no mínimo de 10 pessoas e oferecemos-te uma garrafa de espumante quando nos visitares este mês.",
       "Vem celebrar connosco!",
     ],
   ),
