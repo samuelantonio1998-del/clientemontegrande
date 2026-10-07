@@ -24,12 +24,16 @@ const numOf = (x: unknown) => {
 
 const FOOTER_TEXT = "Restaurante Monte Grande, Albergaria, Marinha Grande";
 
+const BODY_FONT = "font-family:'Aaux Next','Inter','Helvetica Neue',Arial,sans-serif;line-height:1.6;";
+const HEADER_IMG =
+  `<img src="https://clientequintamontegrande.com/email-header.png" alt="Monte Grande Restaurante" width="450" style="display:block;margin:0 auto 16px;max-width:100%;height:auto;" />`;
+
 const layout = (paragraphs: string[]) =>
-  `<div style="background:#ede7d9;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;color:#5d4632">` +
-  `<div style="max-width:560px;margin:0 auto;background:#ede7d9;border-radius:16px;padding:28px 24px">` +
-  `<div style="text-align:center;font-family:Georgia,'Playfair Display',serif;font-size:20px;letter-spacing:3px;font-weight:bold;color:#5d4632;border-bottom:1px solid #5d463233;padding-bottom:16px;margin-bottom:20px">MONTE GRANDE RESTAURANTE</div>` +
-  paragraphs.map((p) => `<p style="font-size:16px;line-height:1.6;margin:0 0 14px">${escapeHtml(p)}</p>`).join("") +
-  `<div style="border-top:1px solid #5d463233;margin-top:24px;padding-top:14px;text-align:center;font-size:12px;color:#5d4632b3">${escapeHtml(FOOTER_TEXT)}<br/><a href="#" style="color:#5d4632b3">Deixar de receber estes emails</a></div>` +
+  `<div style="background:#ede7d9;padding:24px 12px;${BODY_FONT}color:#5d4632">` +
+  `<div style="max-width:560px;margin:0 auto;background:#ede7d9;border-radius:8px;padding:24px;color:#5d4632;${BODY_FONT}">` +
+  HEADER_IMG +
+  paragraphs.map((p) => `<p style="${BODY_FONT}font-size:16px;margin:0 0 14px;color:#5d4632">${escapeHtml(p)}</p>`).join("") +
+  `<div style="border-top:1px solid #5d463233;margin-top:24px;padding-top:14px;text-align:center;font-size:12px;color:#5d4632b3;${BODY_FONT}">${escapeHtml(FOOTER_TEXT)}<br/><a href="#" style="color:#5d4632b3;${BODY_FONT}">Deixar de receber estes emails</a></div>` +
   `</div></div>`;
 
 const textLayout = (paragraphs: string[]) =>
@@ -46,7 +50,7 @@ const TEMPLATES: Record<string, Template> = {
     subject: () => "Teste do Monte Grande",
     text: (v) => testMessage(v),
     html: (v) =>
-      `<div style='font-family:sans-serif;color:#5d4632;background:#ede7d9;padding:24px;border-radius:8px'><h2>Monte Grande</h2><p>${escapeHtml(testMessage(v))}</p></div>`,
+      `<div style="${BODY_FONT}color:#5d4632;background:#ede7d9;padding:24px;border-radius:8px">${HEADER_IMG}<p style="${BODY_FONT}">${escapeHtml(testMessage(v))}</p></div>`,
   },
   buffet_available: simple(
     (v) => `O teu buffet grátis está à espera, ${nomeOf(v)}!`,
