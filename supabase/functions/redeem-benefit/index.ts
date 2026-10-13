@@ -122,51 +122,55 @@ Deno.serve(async (req) => {
     }
 
     // benefit_type === "buffet"
+    // O flag buffet_available é a fonte de verdade: se está ativo, o buffet pode
+    // ser aplicado mesmo que o saldo tenha descido abaixo de 200 (ex.: expiração).
     if (!profile.buffet_available) {
       return jsonResponse(req, { error: "buffet_not_available" }, 409);
     }
     const currentPoints = Number(profile.total_points) || 0;
-    if (currentPoints < BUFFET_POINTS_COST) {
-      return jsonResponse(req, { error: "insufficient_points" }, 409);
-    }
     if (!(await checkReturnedSince(profile.buffet_earned_at))) {
       return jsonResponse(req, { error: "must_return_first" }, 409);
     }
+    const newPoints = Math.max(currentPoints - BUFFET_POINTS_COST, 0);
+    const pointsDeducted = currentPoints - newPoints;
 
-    const { error: updErr } = await supabase
+    const { data: updated, error: updErr } = await supabase
       .from("profiles")
       .update({
         buffet_available: false,
-        total_points: currentPoints - BUFFET_POINTS_COST,
+        total_points: newPoints,
         buffet_earned_at: null,
       })
-      .eq("user_id", client_user_id);
+      .eq("user_id", client_user_id)
+      .select("total_points, buffet_available");
 
-    if (updErr) {
-      console.error("redeem buffet update error:", updErr);
+    if (updErr || !updated || updated.length === 0) {
+      console.error("redeem buffet update error:", updErr, updated);
       return jsonResponse(req, { error: "update_failed" }, 500);
     }
+    console.log("buffet redeemed", { client_user_id, currentPoints, newPoints, after: updated[0] });
 
-    // Histórico do cliente
-    await supabase.from("transactions").insert({
+    const { error: txErr } = await supabase.from("transactions").insert({
       user_id: client_user_id,
       amount: 0,
-      points_earned: -BUFFET_POINTS_COST,
+      points_earned: -pointsDeducted,
       type: "redeem_buffet",
       description: "Buffet grátis resgatado",
     });
+    if (txErr) console.error("redeem buffet transaction log error:", txErr);
 
-    await supabase.from("admin_actions").insert({
+    const { error: logErr } = await supabase.from("admin_actions").insert({
       admin_id: user.id,
       client_user_id,
       client_name: profile.display_name,
       client_code: profile.client_code,
       action_type: "redeem_buffet",
       description: "Buffet resgatado",
-      points_changed: -BUFFET_POINTS_COST,
+      points_changed: -pointsDeducted,
     });
+    if (logErr) console.error("redeem buffet admin log error:", logErr);
 
-    return jsonResponse(req, { success: true, type: "buffet" }, 200);
+    return jsonResponse(req, { success: true, type: "buffet", points: newPoints }, 200);
   } catch (err) {
     console.error("redeem-benefit error:", err);
     return jsonResponse(req, { error: "Internal server error" }, 500);
