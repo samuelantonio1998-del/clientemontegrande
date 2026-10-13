@@ -8,6 +8,7 @@ import QRScanner from "@/components/QRScanner";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import AdminActionHistory from "@/components/AdminActionHistory";
 import { logger } from "@/lib/logger";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -174,15 +175,19 @@ const Admin = () => {
           : data.error === "Unauthorized" ? "Sessão expirada — faça login novamente"
           : `Erro: ${data.error}`;
         setFeedback(msg);
+        toast.error(msg);
       } else if (data?.success) {
         setFeedback(t.buffetRedeemed as string);
+        toast.success(t.buffetRedeemed as string);
       } else {
         logger.error("redeem-benefit unexpected response:", data);
         setFeedback("Resposta inesperada do servidor");
+        toast.error("Resposta inesperada do servidor");
       }
     } catch (err) {
       logger.error("redeem-benefit exception:", err);
       setFeedback(`Erro inesperado: ${(err as Error)?.message || "desconhecido"}`);
+      toast.error("Erro inesperado ao aplicar buffet");
     }
 
     await refreshClient();
