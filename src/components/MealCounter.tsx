@@ -5,9 +5,10 @@ interface MealCounterProps {
   meals: number;
   discountAvailable: boolean;
   buffetAvailable: boolean;
+  buffetPending?: boolean;
 }
 
-const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterProps) => {
+const MealCounter = ({ meals, discountAvailable, buffetAvailable, buffetPending = false }: MealCounterProps) => {
   const { t } = useLanguage();
 
   return (
@@ -80,7 +81,7 @@ const MealCounter = ({ meals, discountAvailable, buffetAvailable }: MealCounterP
             </h2>
           </div>
           <p className="text-sm text-primary-foreground/70 text-center mt-2 tracking-wide">
-            {t.buffetRedeemHint as string}
+            {buffetPending ? (t.buffetPendingNextVisit as string) : (t.buffetRedeemHint as string)}
           </p>
           <p className="text-xs text-primary-foreground/70 text-center mt-1 italic">
             {t.drinksExcluded as string}

@@ -29,6 +29,13 @@
       "when": 1791403456149,
       "tag": "0003_profiles_email_opted_out",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791909228034,
+      "tag": "0004_buffet_earned_at_on_unlock",
+      "breakpoints": true
     }
   ]
 }

@@ -170,7 +170,7 @@ const Admin = () => {
       } else if (data?.error) {
         const msg = data.error === "buffet_not_available" ? "Buffet não disponível"
           : data.error === "insufficient_points" ? "Pontos insuficientes"
-          : data.error === "must_return_first" ? "O buffet só pode ser usado numa próxima visita"
+          : data.error === "must_return_first" ? "O buffet só pode ser resgatado numa próxima visita (não no mesmo dia em que foi ganho). O cliente ainda não voltou após ganhar o buffet."
           : data.error === "Forbidden" ? "Sem permissão (não é admin)"
           : data.error === "Unauthorized" ? "Sessão expirada — faça login novamente"
           : `Erro: ${data.error}`;

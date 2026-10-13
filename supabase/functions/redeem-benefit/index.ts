@@ -131,7 +131,8 @@ Deno.serve(async (req) => {
     if (!(await checkReturnedSince(profile.buffet_earned_at))) {
       return jsonResponse(req, { error: "must_return_first" }, 409);
     }
-    const newPoints = Math.max(currentPoints - BUFFET_POINTS_COST, 0);
+    // Só desconta 200 se tinha pelo menos 200; caso contrário mantém os pontos.
+    const newPoints = currentPoints >= BUFFET_POINTS_COST ? currentPoints - BUFFET_POINTS_COST : currentPoints;
     const pointsDeducted = currentPoints - newPoints;
 
     const { data: updated, error: updErr } = await supabase

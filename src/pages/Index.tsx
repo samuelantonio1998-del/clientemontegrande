@@ -41,6 +41,7 @@ const Index = () => {
   const [points, setPoints] = useState(0);
   const [discountAvailable, setDiscountAvailable] = useState(false);
   const [buffetAvailable, setBuffetAvailable] = useState(false);
+  const [buffetPending, setBuffetPending] = useState(false);
   const [clientCode, setClientCode] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [referralCode, setReferralCode] = useState("");
@@ -103,6 +104,11 @@ const Index = () => {
       prevDiscountRef.current = newDiscount;
       setDiscountAvailable(newDiscount);
       setBuffetAvailable(profileRes.data.buffet_available);
+      const earnedAt = profileRes.data.buffet_earned_at;
+      setBuffetPending(
+        !!profileRes.data.buffet_available && !!earnedAt &&
+          !(txRes.data || []).some((tx: any) => tx.type === "meal" && tx.created_at > earnedAt)
+      );
       setClientCode(profileRes.data.client_code || "");
       setDisplayName(profileRes.data.display_name || "");
       setReferralCode(profileRes.data.referral_code || "");
