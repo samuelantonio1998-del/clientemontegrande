@@ -215,6 +215,22 @@ const Index = () => {
             Apresente o QR Code ao balcão para ganhar pontos
           </p>
           <ClientQRCode clientCode={clientCode} />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.11, ease: "easeOut" }}
+        >
+          <PointsBalance points={points} transactions={transactions} />
+        </motion.div>
+
+        <motion.div
+          className="mx-4 mt-4 rounded-2xl bg-card shadow-card overflow-hidden"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.12, ease: "easeOut" }}
+        >
           <MealCounter meals={meals} discountAvailable={discountAvailable} buffetAvailable={buffetAvailable} />
         </motion.div>
 
@@ -263,13 +279,6 @@ const Index = () => {
           <GoogleReviewCard />
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.35, ease: "easeOut" }}
-        >
-          <PointsBalance points={points} transactions={transactions} />
-        </motion.div>
 
         {showStamp && <StampOverlay pointsGained={lastPointsGained} />}
 
