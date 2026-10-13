@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MoreHorizontal, CheckCircle, Star } from "lucide-react";
+import { MoreHorizontal, CheckCircle, Star, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import ReviewDialog from "@/components/ReviewDialog";
@@ -12,6 +12,7 @@ interface PointsBalanceProps {
 
 const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
   const [expanded, setExpanded] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const { t } = useLanguage();
   const visible = expanded ? transactions : transactions.slice(0, 4);
   const [reviewedIds, setReviewedIds] = useState<Set<string>>(new Set());
@@ -82,9 +83,26 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
 
 
       <div className="border-t border-border pt-4 mt-5">
-        <h3 className="font-display text-lg text-foreground mb-4">
-          {t.history as string}
-        </h3>
+        <button
+          type="button"
+          onClick={() => setHistoryOpen((open) => !open)}
+          aria-expanded={historyOpen}
+          aria-controls="points-history-list"
+          className="w-full flex items-center justify-between gap-3 py-2 text-left"
+        >
+          <span className="font-display text-lg text-foreground">{t.history as string}</span>
+          <ChevronDown
+            className={`w-5 h-5 shrink-0 text-muted-foreground transition-transform duration-300 ease-out ${historyOpen ? "rotate-180" : ""}`}
+          />
+        </button>
+
+        <div
+          id="points-history-list"
+          className={`grid transition-all duration-300 ease-out ${historyOpen ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"}`}
+        >
+          <div className="overflow-hidden">
+
+
 
         <div className="space-y-0 overflow-hidden">
           {visible.map((tx) => {
@@ -134,15 +152,17 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
           )}
         </div>
 
-        {!expanded && transactions.length > 4 && (
-          <button
-            onClick={() => setExpanded(true)}
-            className="w-full flex justify-center pt-3 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Ver mais"
-          >
-            <MoreHorizontal className="w-5 h-5" />
-          </button>
-        )}
+          {!expanded && transactions.length > 4 && (
+            <button
+              onClick={() => setExpanded(true)}
+              className="w-full flex justify-center pt-3 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Ver mais"
+            >
+              <MoreHorizontal className="w-5 h-5" />
+            </button>
+          )}
+          </div>
+        </div>
       </div>
 
       <ReviewDialog
