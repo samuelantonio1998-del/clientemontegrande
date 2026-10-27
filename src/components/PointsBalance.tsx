@@ -8,9 +8,12 @@ import type { Transaction } from "@/pages/Index";
 interface PointsBalanceProps {
   points: number;
   transactions: Transaction[];
+  section: "summary" | "history";
 }
 
-const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
+const POINTS_GOAL = 200;
+
+const PointsBalance = ({ points, transactions, section }: PointsBalanceProps) => {
   const [expanded, setExpanded] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const { t } = useLanguage();
@@ -60,29 +63,29 @@ const PointsBalance = ({ points, transactions }: PointsBalanceProps) => {
     return desc;
   };
 
+  if (section === "summary") {
+    return (
+      <section className="mt-5 relative">
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <h2 className="font-body text-xs uppercase text-accent">{t.points as string}</h2>
+          <div className="flex items-baseline gap-2">
+            <span className="font-display font-bold text-[44px] leading-none">{points}</span>
+            <span className="text-accent text-sm">{t.pts as string}</span>
+          </div>
+        </div>
+        <div role="progressbar" aria-label={t.points as string} aria-valuenow={points} aria-valuemin={0} aria-valuemax={POINTS_GOAL} className="h-3 rounded-full bg-secondary/25 overflow-hidden">
+          <div className="h-full rounded-full bg-accent transition-[width] duration-500 motion-reduce:transition-none" style={{ width: `${Math.min(points / POINTS_GOAL, 1) * 100}%` }} />
+        </div>
+        <p className="mt-3 text-[10.5px] uppercase tracking-[0.18em] leading-relaxed">
+          {t.pointsGoalMsg as string} <span className="text-accent font-semibold">{t.pointsGoalDiscount as string}</span>
+        </p>
+      </section>
+    );
+  }
+
   return (
     <section className="mx-4 mt-4 rounded-2xl p-6 bg-card shadow-card">
-      <h2 className="font-display text-lg mb-4 text-foreground text-center">
-        {t.points as string}
-      </h2>
-
-      <div className="mb-4 text-center">
-        <span className="font-display text-7xl leading-none text-foreground">
-          {points}
-        </span>
-        <span className="text-sm text-muted-foreground ml-2 tracking-wide">
-          {t.pts as string}
-        </span>
-      </div>
-
-      <div className="px-4 py-3 rounded-xl bg-muted/50 flex items-center gap-2">
-        <span className="text-xs uppercase tracking-widest text-foreground">
-          {t.pointsGoalMsg as string} <span className="text-primary font-semibold">{t.pointsGoalDiscount as string}</span>
-        </span>
-      </div>
-
-
-      <div className="border-t border-border pt-4 mt-5">
+      <div>
         <button
           type="button"
           onClick={() => setHistoryOpen((open) => !open)}
