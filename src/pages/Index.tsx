@@ -212,15 +212,25 @@ const Index = () => {
         <BirthdayBanner birthDate={birthDate} />
 
         <motion.div
-          className="mx-4 mt-4 rounded-2xl bg-card shadow-card overflow-hidden"
+          className="mx-4 mt-4 rounded-[26px] bg-primary text-primary-foreground p-5 relative overflow-hidden shadow-elevated"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
         >
-          <p className="px-5 pt-4 text-center text-sm text-muted-foreground tracking-wide">
-            Apresente o QR Code ao balcão para ganhar pontos
-          </p>
-          <ClientQRCode clientCode={clientCode} />
+          <span aria-hidden="true" className="absolute -top-12 -right-5 font-display font-bold text-[210px] leading-none text-transparent [-webkit-text-stroke:1.5px_hsl(var(--accent)/0.18)] pointer-events-none select-none">MG</span>
+          <div className="relative mb-4">
+            <p className="text-[10.5px] uppercase tracking-[0.18em] text-accent">{t.cardLabel as string}</p>
+            {displayName && <p className="font-display font-bold text-[30px] leading-tight mt-1 break-words">{displayName}</p>}
+          </div>
+          <div className="relative bg-primary-foreground text-foreground rounded-[18px] p-3.5 flex items-center gap-3.5 max-[360px]:flex-col">
+            <ClientQRCode clientCode={clientCode} size={130} showCode={false} />
+            <div className="min-w-0 max-[360px]:text-center">
+              <p className="text-[10.5px] uppercase text-muted-foreground">{t.clientNumber as string}</p>
+              <p className="font-body font-bold text-xl tracking-[0.18em] mt-1">{clientCode}</p>
+              <p className="text-[12.5px] leading-snug mt-2">{t.qrHint as string}</p>
+            </div>
+          </div>
+          <PointsBalance section="summary" points={points} transactions={transactions} />
         </motion.div>
 
         <motion.div
@@ -228,7 +238,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.11, ease: "easeOut" }}
         >
-          <PointsBalance points={points} transactions={transactions} />
+          <PointsBalance section="history" points={points} transactions={transactions} />
         </motion.div>
 
         <motion.div
