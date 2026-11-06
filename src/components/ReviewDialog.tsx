@@ -76,6 +76,14 @@ const ReviewDialog = ({ open, onClose, transactionId, onReviewSubmitted }: Revie
       });
 
       if (error) throw error;
+      if (data?.error === "daily_limit") {
+        toast({
+          title: (t.reviewDailyLimit as string) || "Só podes avaliar 1 refeição por dia. Volta amanhã!",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (data?.error) throw new Error(data.error);
 
       const pts = data?.points_awarded ?? 1.5;
       toast({
