@@ -170,6 +170,7 @@ const translations = {
     confirmReview: "Confirmar Avaliação",
     reviewSubmitted: "Avaliação submetida!",
     reviewError: "Erro ao submeter avaliação",
+    reviewDailyLimit: "Só podes avaliar 1 refeição por dia. Volta amanhã!",
     rate: "Avaliar",
     reviewed: "Avaliado",
 
@@ -436,6 +437,7 @@ const translations = {
     confirmReview: "Confirm Review",
     reviewSubmitted: "Review submitted!",
     reviewError: "Error submitting review",
+    reviewDailyLimit: "You can only review 1 meal per day. Come back tomorrow!",
     rate: "Rate",
     reviewed: "Reviewed",
 

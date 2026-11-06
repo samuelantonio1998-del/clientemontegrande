@@ -41,6 +41,18 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { error: "Already reviewed" }, 409);
     }
 
+    // Limit: 1 review per 24 hours per user
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const { count: recentCount } = await supabase
+      .from("reviews")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .gte("created_at", since);
+
+    if ((recentCount ?? 0) > 0) {
+      return jsonResponse(req, { error: "daily_limit" }, 200);
+    }
+
     // Verify the transaction belongs to the user
     const { data: tx } = await supabase
       .from("transactions")
